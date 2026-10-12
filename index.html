@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#c2410c">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Виселица: кино и музыка</title>
+<style>
+:root{--bg:#f6f4ef;--fg:#1f1d1a;--card:#fff;--accent:#c2410c;--ok:#15803d;--bad:#b91c1c;--mute:#d9d5cc;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171614;--fg:#f1eee8;--card:#24221f;--accent:#fb923c;--ok:#4ade80;--bad:#f87171;--mute:#3a3733}}
+:root[data-theme="dark"]{--bg:#171614;--fg:#f1eee8;--card:#24221f;--accent:#fb923c;--ok:#4ade80;--bad:#f87171;--mute:#3a3733}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:Georgia,"Times New Roman",serif;display:flex;justify-content:center}
+main{width:100%;max-width:480px;padding:20px 16px;text-align:center}
+h1{font-size:1.4rem;margin:0 0 4px}
+.sub{opacity:.7;font-size:.9rem;margin-bottom:12px}
+.card{background:var(--card);border-radius:14px;padding:12px;margin-bottom:12px}
+svg{width:160px;height:160px;stroke:var(--fg);stroke-width:4;fill:none;stroke-linecap:round}
+#word{font-size:2rem;letter-spacing:.35em;font-family:ui-monospace,Menlo,monospace;margin:6px 0;min-height:2.4rem}
+#hint{opacity:.8;margin-bottom:6px}
+#status{min-height:1.5rem;font-weight:bold}
+#kb{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+#kb button{width:38px;height:42px;font-size:1rem;border:0;border-radius:8px;background:var(--mute);color:var(--fg);cursor:pointer;font-family:inherit}
+#kb button.ok{background:var(--ok);color:#fff}
+#kb button.bad{background:var(--bad);color:#fff}
+#kb button:disabled{cursor:default}
+#again{margin-top:12px;padding:10px 22px;font-size:1rem;border:0;border-radius:10px;background:var(--accent);color:#fff;cursor:pointer;font-family:inherit}
+.ctl{display:flex;gap:8px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
+.ctl select{padding:8px 10px;border-radius:8px;border:1px solid var(--mute);background:var(--card);color:var(--fg);font-family:inherit;font-size:.95rem}
+.acts{display:flex;gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.acts button{padding:8px 14px;border:0;border-radius:10px;background:var(--mute);color:var(--fg);font-family:inherit;font-size:.9rem;cursor:pointer}
+.acts button:disabled{opacity:.5;cursor:default}
+#info{font-size:.95rem;margin-top:6px}
+#stats{font-size:.8rem;opacity:.7;margin-top:8px}
+#clock{font-weight:bold;min-height:1.4rem}
+#review{margin-top:14px;font-size:.9rem}
+#review button{margin:4px;padding:8px 14px;border:0;border-radius:10px;background:var(--mute);color:var(--fg);font-family:inherit;cursor:pointer}
+.rvh{font-weight:bold}
+.rvl{opacity:.8;margin:4px 0 8px}
+:root{--bg2:#ebe4d3;--shadow:0 6px 24px rgba(0,0,0,.08)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg2:#0f0e0d;--shadow:0 6px 24px rgba(0,0,0,.5)}}
+:root[data-theme="dark"]{--bg2:#0f0e0d;--shadow:0 6px 24px rgba(0,0,0,.5)}
+body{background:linear-gradient(160deg,var(--bg),var(--bg2));background-attachment:fixed;min-height:100vh}
+h1{font-size:1.5rem;letter-spacing:.02em;margin-bottom:6px}
+.card{border-radius:20px;box-shadow:var(--shadow);padding:16px}
+svg{width:170px;height:170px}
+#word{letter-spacing:0;font-size:1rem}
+.tile{display:inline-block;width:1.5rem;height:2.4rem;line-height:2.4rem;margin:0 3px;border-bottom:3px solid var(--fg);font-size:1.7rem;font-family:ui-monospace,Menlo,monospace}
+#kb{flex-direction:column;flex-wrap:nowrap;align-items:center;gap:6px}
+.krow{display:flex;gap:6px;justify-content:center;width:100%}
+#kb button{width:auto;flex:1 1 0;min-width:0;max-width:42px;height:46px;border-radius:10px;font-weight:600;font-size:1.05rem;box-shadow:0 2px 0 rgba(0,0,0,.15);transition:transform .08s,background .15s}
+#kb button:active:not(:disabled){transform:translateY(2px)}
+@media (hover:hover){#kb button:hover:not(:disabled){background:var(--accent);color:#fff}}
+.typebox{display:flex;gap:8px;margin:0 0 12px}
+.typebox input{flex:1;min-width:0;padding:12px 14px;font-size:16px;border-radius:12px;border:1px solid var(--mute);background:var(--card);color:var(--fg);font-family:inherit}
+.typebox button{padding:0 18px;border:0;border-radius:12px;background:var(--accent);color:#fff;font-size:1rem;cursor:pointer;font-family:inherit}
+#again{box-shadow:var(--shadow)}
+</style>
+</head>
+<body>
+<main>
+<h1>🎬 Виселица: английские слова</h1>
+<div class="sub">Угадай английское слово. Можно нажимать клавиши на клавиатуре.</div>
+<div class="ctl">
+<select id="level" aria-label="Уровень"><option value="all">Все уровни</option><option value="easy">Лёгкий (до 6 букв)</option><option value="mid">Средний (7–8)</option><option value="hard">Сложный (9+)</option></select>
+<select id="timer" aria-label="Режим"><option value="off">Без таймера</option><option value="60">На время: 60 с</option><option value="30">На время: 30 с</option></select>
+<select id="topic" aria-label="Тема"><option value="all">Все темы</option><option value="film">🎬 Кино</option><option value="series">📺 Сериалы</option><option value="music">🎵 Музыка</option><option value="travel">✈️ Путешествия</option><option value="food">🍕 Еда</option><option value="tech">💻 Технологии</option><option value="nature">🌿 Природа</option><option value="sport">⚽ Спорт</option><option value="work">🎓 Работа и учёба</option></select>
+<select id="hintmode" aria-label="Подсказка"><option value="ru">Подсказка по-русски</option><option value="en">Hint in English</option></select>
+</div>
+<div class="card">
+<svg viewBox="0 0 160 160" id="gallows">
+<path d="M20 150H100M40 150V15H110V35" stroke-width="5"/>
+<circle id="p1" cx="110" cy="50" r="15"/>
+<path id="p2" d="M110 65V105"/>
+<path id="p3" d="M110 75L90 95"/>
+<path id="p4" d="M110 75L130 95"/>
+<path id="p5" d="M110 105L92 135"/>
+<path id="p6" d="M110 105L128 135"/>
+</svg>
+<div id="word"></div>
+<div id="hint"></div>
+<div id="status"></div>
+<div id="clock"></div>
+<div id="info"></div>
+<div id="stats"></div>
+</div>
+<div class="typebox"><input id="typed" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Буква или всё слово + Enter"><button id="go">OK</button></div>
+<div id="kb"></div>
+<div class="acts"><button id="hintbtn">💡 Открыть букву (−1 попытка)</button><button id="speak" hidden>🔊 Послушать слово</button></div>
+<button id="again" hidden>Новая игра</button>
+<div id="review"></div>
+</main>
+<script>
+var WORDS=[["soundtrack","саундтрек","music written for a film"],["director","режиссёр","the person who controls how a film is made"],["audience","зрители","people who watch a show or film"],["subtitles","субтитры","text at the bottom of the screen showing the words spoken"],["lyrics","текст песни","the words of a song"],["chorus","припев","the part of a song that repeats"],["rehearsal","репетиция","practice before a performance"],["screenplay","сценарий","the written story and dialogue of a film"],["headphones","наушники","you wear them over your ears to listen to music"],["credits","титры","the list of names shown at the end of a film"],["guitar","гитара","an instrument with six strings"],["melody","мелодия","a series of notes that make a tune"],["cinema","кинотеатр","a place where you go to watch films"],["trailer","трейлер","a short preview of a film"],["episode","серия","one part of a TV series"],["genre","жанр","a type of film or music, like horror or jazz"],["scene","сцена","a part of a film that happens in one place"],["concert","концерт","a live music performance"],["actor","актёр","a person who plays a role in a film"],["album","альбом","a collection of songs released together"],["comedy","комедия","a funny film or show"],["thriller","триллер","an exciting film full of suspense"],["singer","певец","a person who sings"],["drummer","барабанщик","a musician who plays drums"],["camera","камера","the device used to record a film"],["premiere","премьера","the first public showing of a film"],["festival","фестиваль","a big event with many films or bands"],["composer","композитор","a person who writes music"],["orchestra","оркестр","a large group of musicians playing together"],["animation","анимация","a film made from drawings or computer images"],["playlist","плейлист","a list of songs to play one after another"],["sequel","продолжение","a film that continues the story of an earlier one"],["studio","студия","a place where films or music are made"],["ticket","билет","you buy it to enter a cinema or concert"],["review","рецензия","a written opinion about a film or album"],["microphone","микрофон","a device that picks up a voice or sound"],["documentary","документальный фильм","a film about real events and people"],["blockbuster","блокбастер","a very successful, expensive film"]];
+WORDS.push(["sitcom","ситком","a funny TV series with the same characters every week"],["villain","злодей","the bad character in a story"],["stuntman","каскадёр","a person who does dangerous actions instead of an actor"],["cartoon","мультфильм","a film made of drawings, often for children"],["script","сценарий","the written words that actors say"],["remake","ремейк","a new version of an old film"],["cliffhanger","интригующий обрыв","an exciting ending that leaves you waiting for what happens next"],["blooper","неудачный дубль","a funny mistake left in a film"],["dubbing","дубляж","replacing the original voices with voices in another language"],["sidekick","напарник","a hero's helper or best friend"],["spoiler","спойлер","information that ruins the surprise of a story"],["season","сезон","a set of episodes of a TV series"],["audition","проба","a short test performance to get a role"],["costume","костюм","clothes an actor wears to play a character"],["violin","скрипка","a small wooden instrument played with a bow"],["piano","пианино","a big instrument with black and white keys"],["rhythm","ритм","the pattern of beats in music"],["lullaby","колыбельная","a soft song to help a baby sleep"],["ballad","баллада","a slow, emotional song"],["encore","бис","an extra song played after the concert has ended"],["acoustic","акустический","played without electric amplification"],["harmony","гармония","different notes sounding good together"],["headliner","хедлайнер","the main act at a festival or concert"],["remix","ремикс","a new version of a song made by changing the original"],["single","сингл","one song released on its own"],["vinyl","виниловая пластинка","a large black disc that plays music"],["karaoke","караоке","singing along to a song while the words are on a screen"],["rapper","рэпер","a person who performs rap music"],["verse","куплет","a section of a song between the choruses"],["bassist","бас-гитарист","a musician who plays the bass guitar"],["trumpet","труба","a brass instrument with a bright, loud sound"],["saxophone","саксофон","a curved metal instrument often used in jazz"]);
+var MUSIC={lyrics:1,chorus:1,headphones:1,guitar:1,melody:1,concert:1,album:1,singer:1,drummer:1,composer:1,orchestra:1,playlist:1,microphone:1,festival:1,violin:1,piano:1,rhythm:1,lullaby:1,ballad:1,encore:1,acoustic:1,harmony:1,headliner:1,remix:1,single:1,vinyl:1,karaoke:1,rapper:1,verse:1,bassist:1,trumpet:1,saxophone:1,rehearsal:1};
+var EXTRA={};
+var NEW={
+travel:[["passport","паспорт","a document you need to travel to other countries"],["luggage","багаж","the bags and suitcases you take on a trip"],["airport","аэропорт","a place where planes take off and land"],["hotel","отель","a place where you pay to sleep when travelling"],["tourist","турист","a person who visits a place for fun"],["journey","путешествие","a long trip from one place to another"],["souvenir","сувенир","something you buy to remember a trip"],["border","граница","the line between two countries"],["itinerary","маршрут","a detailed plan of a trip"],["departure","отправление","the time when a plane or train leaves"],["suitcase","чемодан","a large bag with a handle for clothes"],["landmark","достопримечательность","a famous building or place that tourists visit"]],
+food:[["breakfast","завтрак","the first meal of the day"],["sandwich","сэндвич","two slices of bread with food between them"],["recipe","рецепт","instructions for cooking a dish"],["kitchen","кухня","the room where you cook"],["dessert","десерт","something sweet eaten after a meal"],["chicken","курица","a bird eaten as meat"],["tomato","помидор","a round red vegetable used in salads"],["cheese","сыр","a food made from milk, often yellow"],["vegetable","овощ","a plant you eat, like a carrot"],["delicious","очень вкусный","tasting very good"],["restaurant","ресторан","a place where you pay to eat a meal"],["pancake","блин","a thin round cake cooked in a pan"]],
+tech:[["laptop","ноутбук","a portable computer"],["keyboard","клавиатура","the keys you press to type"],["battery","батарея","it stores power inside a phone"],["website","сайт","a place on the internet with pages about something"],["password","пароль","a secret word you use to log in"],["software","программа","programs that run on a computer"],["download","скачать","to copy a file from the internet to your device"],["internet","интернет","the global network connecting computers"],["smartphone","смартфон","a mobile phone that works like a small computer"],["screen","экран","the flat part of a device that shows pictures"],["charger","зарядка","a device that gives power to a battery"],["notification","уведомление","a message that appears on your phone"]],
+nature:[["forest","лес","a large area full of trees"],["mountain","гора","a very high piece of land"],["river","река","water that flows to the sea"],["thunder","гром","the loud noise during a storm"],["rainbow","радуга","colourful arc in the sky after rain"],["volcano","вулкан","a mountain that can throw out hot lava"],["desert","пустыня","a dry place with very little rain"],["ocean","океан","a very large area of salt water"],["butterfly","бабочка","an insect with large colourful wings"],["waterfall","водопад","water falling from a high place"],["island","остров","land completely surrounded by water"],["squirrel","белка","a small animal with a bushy tail that eats nuts"]],
+sport:[["football","футбол","a game where two teams kick a ball into a goal"],["tennis","теннис","a game played with rackets and a small ball"],["referee","судья","the person who controls a match"],["stadium","стадион","a big place where people watch sports"],["champion","чемпион","the winner of a competition"],["marathon","марафон","a very long running race"],["goalkeeper","вратарь","the player who stops the ball from entering the goal"],["swimming","плавание","moving through water using your arms and legs"],["coach","тренер","a person who trains a team"],["tournament","турнир","a competition with many matches"],["skating","катание на коньках","moving on ice or wheels with special shoes"],["trophy","кубок","a prize you get for winning"]],
+work:[["meeting","встреча","people coming together to talk about work"],["deadline","крайний срок","the latest time to finish a task"],["colleague","коллега","a person you work with"],["salary","зарплата","money you get every month for your job"],["homework","домашнее задание","school work you do at home"],["teacher","учитель","a person who helps students learn"],["lecture","лекция","a talk given to students at university"],["student","студент","a person who studies at school or university"],["vocabulary","словарный запас","all the words you know in a language"],["grammar","грамматика","the rules of how words are used in a language"],["interview","собеседование","a meeting where you answer questions to get a job"],["manager","руководитель","a person who is in charge of a team"]]
+};
+Object.keys(NEW).forEach(function(t){NEW[t].forEach(function(e){WORDS.push(e);EXTRA[e[0]]=t})});
+var BULK={
+series:"detective=детектив;mystery=тайна;character=персонаж;plot=сюжет;finale=финал;binge=смотреть запоем;pilot=пилотная серия;cast=актёрский состав;showrunner=шоураннер;twist=неожиданный поворот;flashback=флешбэк;narrator=рассказчик;protagonist=главный герой;suspect=подозреваемый;murder=убийство;crime=преступление;victim=жертва;witness=свидетель;evidence=улики;investigation=расследование;lawyer=адвокат;courtroom=зал суда;hospital=больница;surgeon=хирург;patient=пациент;alien=инопланетянин;zombie=зомби;vampire=вампир;wizard=волшебник;dragon=дракон;kingdom=королевство;throne=трон;battle=битва;warrior=воин;prison=тюрьма;escape=побег;secret=секрет;betrayal=предательство;revenge=месть;romance=любовная линия;wedding=свадьба;family=семья;neighbor=сосед;roommate=сосед по комнате",
+film:"producer=продюсер;editor=монтажёр;dialogue=диалог;lighting=освещение;makeup=грим;extras=массовка;superhero=супергерой;western=вестерн;horror=фильм ужасов;fantasy=фэнтези;adventure=приключение;musical=мюзикл;drama=драма;ending=концовка;opening=начало;projector=проектор;popcorn=попкорн;actress=актриса;filmmaker=кинематографист;masterpiece=шедевр;nominee=номинант;award=награда;flop=провал",
+music:"songwriter=автор песен;instrument=инструмент;drums=барабаны;flute=флейта;clarinet=кларнет;cello=виолончель;harp=арфа;accordion=аккордеон;ukulele=укулеле;banjo=банджо;tune=мотив;beat=бит;bass=бас;solo=соло;duet=дуэт;band=группа;jazz=джаз;blues=блюз;rock=рок;folk=фолк;classical=классическая;opera=опера;stage=сцена;volume=громкость;amplifier=усилитель;recording=запись;anthem=гимн;serenade=серенада;tempo=темп;chord=аккорд;note=нота;record=пластинка;tour=гастроли;fan=фанат;applause=аплодисменты;backstage=за кулисами;setlist=список песен;soundcheck=саундчек",
+travel:"flight=рейс;train=поезд;station=вокзал;platform=платформа;reservation=бронирование;booking=бронь;passenger=пассажир;cruise=круиз;resort=курорт;hostel=хостел;guide=гид;map=карта;compass=компас;currency=валюта;trip=поездка;trail=тропа;camping=кемпинг;tent=палатка;sightseeing=осмотр достопримечательностей;museum=музей;gallery=галерея;abroad=за границей;foreign=иностранный;arrival=прибытие;delay=задержка;boarding=посадка;gate=выход на посадку;seat=место;runway=взлётная полоса;highway=шоссе;taxi=такси;subway=метро;ferry=паром;harbor=гавань;bridge=мост;tunnel=туннель",
+food:"lunch=обед;dinner=ужин;snack=перекус;soup=суп;salad=салат;pasta=паста;pizza=пицца;burger=бургер;noodle=лапша;rice=рис;bread=хлеб;butter=масло;cream=сливки;sugar=сахар;honey=мёд;pepper=перец;garlic=чеснок;onion=лук;potato=картофель;carrot=морковь;cabbage=капуста;cucumber=огурец;apple=яблоко;banana=банан;orange=апельсин;lemon=лимон;cherry=вишня;strawberry=клубника;grape=виноград;peach=персик;mushroom=гриб;sausage=колбаса;bacon=бекон;steak=стейк;salmon=лосось;shrimp=креветка;omelette=омлет;waffle=вафля;cookie=печенье;chocolate=шоколад;candy=конфета;coffee=кофе;juice=сок;oven=духовка;kettle=чайник;spoon=ложка;fork=вилка;knife=нож;plate=тарелка;bowl=миска",
+tech:"monitor=монитор;mouse=мышь;printer=принтер;router=роутер;server=сервер;network=сеть;browser=браузер;application=приложение;update=обновление;install=установить;folder=папка;cloud=облако;database=база данных;email=электронная почта;message=сообщение;video=видео;speaker=колонка;bluetooth=блютус;wireless=беспроводной;signal=сигнал;hacker=хакер;virus=вирус;security=безопасность;backup=резервная копия;storage=хранилище;processor=процессор;tablet=планшет;device=устройство;gadget=гаджет;robot=робот;drone=дрон;satellite=спутник;online=онлайн;account=аккаунт;username=имя пользователя;profile=профиль;selfie=селфи;emoji=эмодзи;hashtag=хештег;podcast=подкаст;streaming=стриминг;subscription=подписка",
+nature:"tree=дерево;flower=цветок;grass=трава;leaf=лист;branch=ветка;root=корень;seed=семя;garden=сад;field=поле;meadow=луг;lake=озеро;pond=пруд;stream=ручей;beach=пляж;cliff=утёс;cave=пещера;canyon=каньон;glacier=ледник;snow=снег;storm=буря;lightning=молния;breeze=ветерок;sunrise=рассвет;sunset=закат;moon=луна;sky=небо;wolf=волк;bear=медведь;fox=лиса;rabbit=кролик;deer=олень;eagle=орёл;owl=сова;dolphin=дельфин;whale=кит;shark=акула;turtle=черепаха;frog=лягушка;spider=паук;bee=пчела;tiger=тигр;lion=лев;elephant=слон;giraffe=жираф;monkey=обезьяна;penguin=пингвин;horse=лошадь",
+sport:"basketball=баскетбол;volleyball=волейбол;baseball=бейсбол;hockey=хоккей;golf=гольф;boxing=бокс;wrestling=борьба;cycling=велоспорт;running=бег;jogging=пробежка;gym=спортзал;fitness=фитнес;workout=тренировка;exercise=упражнение;muscle=мышца;team=команда;player=игрок;match=матч;goal=гол;penalty=пенальти;offside=офсайд;defender=защитник;striker=нападающий;captain=капитан;medal=медаль;podium=пьедестал;race=гонка;finish=финиш;sprint=спринт;diving=прыжки в воду;rowing=гребля;sailing=парусный спорт;skiing=катание на лыжах;snowboard=сноуборд;climbing=скалолазание;surfing=сёрфинг;yoga=йога;whistle=свисток;supporter=болельщик;league=лига;injury=травма;training=тренировки",
+work:"office=офис;desk=рабочий стол;boss=начальник;employee=сотрудник;employer=работодатель;career=карьера;profession=профессия;resume=резюме;contract=контракт;project=проект;company=компания;business=бизнес;client=клиент;customer=покупатель;schedule=расписание;appointment=встреча по записи;promotion=повышение;vacation=отпуск;holiday=праздник;overtime=сверхурочные;skill=навык;experience=опыт;degree=степень;diploma=диплом;university=университет;college=колледж;school=школа;classroom=класс;lesson=урок;subject=предмет;exam=экзамен;test=тест;quiz=викторина;essay=сочинение;answer=ответ;question=вопрос;mistake=ошибка;practice=практика;library=библиотека;notebook=тетрадь;textbook=учебник;dictionary=словарь;pronunciation=произношение;translation=перевод;accent=акцент;fluent=свободно владеющий;beginner=начинающий;advanced=продвинутый"
+};
+var SEEN={};WORDS.forEach(function(w){SEEN[w[0]]=1});
+Object.keys(BULK).forEach(function(t){BULK[t].split(";").forEach(function(p){var a=p.split("=");var w=a[0].trim();if(!w||!a[1]||SEEN[w])return;SEEN[w]=1;WORDS.push([w,a[1],"A word with "+w.length+" letters, starts with "+w[0].toUpperCase()]);EXTRA[w]=t})});
+function topicOf(w){return EXTRA[w[0]]||(MUSIC[w[0]]?"music":"film")}
+function topicOk(w){var t=document.getElementById("topic").value;return t==="all"||topicOf(w)===t}
+function pool(){var r=pool0();return r.length?r:WORDS.filter(topicOk)}
+function pool0(){if(practice){var m=WORDS.filter(function(w){return missed.indexOf(w[0])>=0});if(m.length)return m;practice=false}var lv=document.getElementById("level").value;return WORDS.filter(topicOk).filter(function(w){var n=w[0].length;return lv==="all"||(lv==="easy"&&n<=6)||(lv==="mid"&&n>=7&&n<=8)||(lv==="hard"&&n>=9)})}
+var word,hint,guessed,wrong,over,last=-1,cur,stats={w:0,l:0,s:0,b:0};
+var timerId=null,tleft=0,practice=false,missed=[],resetArmed=false;
+try{missed=JSON.parse(localStorage.getItem("hm-missed")||"[]")}catch(err){missed=[]}
+function rowFor(c){var rows=["qwertyuiop","asdfghjkl","zxcvbnm"];var i=rows[0].indexOf(c)>=0?0:rows[1].indexOf(c)>=0?1:2;
+ while(kb.children.length<=i){var d=document.createElement("div");d.className="krow";kb.appendChild(d)}
+ return kb.children[i]}
+function submitTyped(){var inp=document.getElementById("typed");var v=inp.value.trim().toLowerCase();inp.value="";
+ if(over){start();return}
+ if(!/^[a-z]+$/.test(v))return;
+ if(v.length===1){guess(v);return}
+ if(v===word){word.split("").forEach(function(c){if(!guessed[c]){guessed[c]=true;var k=document.getElementById("k"+c);k.disabled=true;k.className="ok"}});render();finish(true)}
+ else{wrong++;render();statusEl.textContent="Нет, это не «"+v+"» (−попытка)";statusEl.style.color="var(--bad)";if(wrong>=6)finish(false)}
+}
+function clearTimer(){if(timerId){clearInterval(timerId);timerId=null}}
+function drawClock(){var c=document.getElementById("clock");c.textContent=timerId?"⏱ "+tleft+" с":"";c.style.color=tleft<=10?"var(--bad)":""}
+function startTimer(){clearTimer();var t=document.getElementById("timer").value;if(t==="off"){drawClock();return}
+ tleft=parseInt(t,10);
+ timerId=setInterval(function(){tleft--;if(tleft<=0&&!over){finish(false);statusEl.textContent="Время вышло! "+statusEl.textContent}else drawClock()},1000);drawClock()}
+function updateMissed(won){var i=missed.indexOf(cur[0]);if(won){if(i>=0)missed.splice(i,1)}else if(i<0)missed.push(cur[0]);try{localStorage.setItem("hm-missed",JSON.stringify(missed))}catch(err){}}
+function renderReview(){var r=document.getElementById("review");r.textContent="";
+ var list=WORDS.filter(function(w){return missed.indexOf(w[0])>=0});
+ if(list.length){
+  var h=document.createElement("div");h.className="rvh";h.textContent="Слова для повторения ("+list.length+")";r.appendChild(h);
+  var p=document.createElement("div");p.className="rvl";p.textContent=list.map(function(w){return w[0]+" — "+w[1]}).join(" · ");r.appendChild(p);
+  var b=document.createElement("button");b.textContent="Тренировать ошибки";b.onclick=function(){practice=true;start()};r.appendChild(b);
+ }
+ var x=document.createElement("button");x.textContent=resetArmed?"Точно сбросить?":"Сбросить статистику";
+ x.onclick=function(){if(!resetArmed){resetArmed=true;renderReview();return}
+  resetArmed=false;stats={w:0,l:0,s:0,b:0};missed=[];saveStats();try{localStorage.setItem("hm-missed","[]")}catch(err){}showStats();renderReview()};
+ r.appendChild(x);
+}
+try{var sv=localStorage.getItem("hm-stats");if(sv)stats=JSON.parse(sv)}catch(err){}
+function saveStats(){try{localStorage.setItem("hm-stats",JSON.stringify(stats))}catch(err){}}
+function showStats(){document.getElementById("stats").textContent="Победы: "+stats.w+" · Поражения: "+stats.l+" · Серия: "+stats.s+" (рекорд "+stats.b+")"}
+function finish(won){
+ over=true;again.hidden=false;document.getElementById("hintbtn").disabled=true;document.getElementById("speak").hidden=false;
+ if(won){stats.w++;stats.s++;if(stats.s>stats.b)stats.b=stats.s;statusEl.textContent="Победа! 🎉";statusEl.style.color="var(--ok)"}
+ else{stats.l++;stats.s=0;statusEl.textContent="Слово: "+word.toUpperCase();statusEl.style.color="var(--bad)";word.split("").forEach(function(c){guessed[c]=true});render()}
+ var inf=document.getElementById("info");inf.textContent="";
+ var b=document.createElement("b");b.textContent=cur[0]+" — "+cur[1];inf.appendChild(b);inf.appendChild(document.createElement("br"));inf.appendChild(document.createTextNode(cur[2]));
+ clearTimer();drawClock();updateMissed(won);saveStats();showStats();renderReview();
+}
+var kb=document.getElementById("kb"),wordEl=document.getElementById("word"),statusEl=document.getElementById("status"),again=document.getElementById("again");
+function start(){
+ var P=pool(),i;do{i=Math.floor(Math.random()*P.length)}while(P.length>1&&P[i][0]===last);last=P[i][0];
+ var e=P[i];cur=e;word=e[0];hint=document.getElementById("hintmode").value==="en"?"Hint: "+e[2]:"Подсказка: "+e[1];guessed={};wrong=0;over=false;
+ document.getElementById("hint").textContent=hint;
+ kb.innerHTML="";
+ "qwertyuiopasdfghjklzxcvbnm".split("").forEach(function(c){
+  var b=document.createElement("button");b.textContent=c.toUpperCase();b.id="k"+c;
+  b.onclick=function(){guess(c)};rowFor(c).appendChild(b);
+ });
+ again.hidden=true;document.getElementById("speak").hidden=true;document.getElementById("info").textContent="";statusEl.textContent="";statusEl.style.color="";showStats();resetArmed=false;document.getElementById("review").textContent="";startTimer();
+ render();
+}
+function render(){document.getElementById("hintbtn").disabled=over||wrong>=5;
+ wordEl.textContent="";word.split("").forEach(function(c){var s=document.createElement("span");s.className="tile";s.textContent=guessed[c]?c.toUpperCase():"";wordEl.appendChild(s)});
+ for(var n=1;n<=6;n++)document.getElementById("p"+n).style.display=n<=wrong?"":"none";
+}
+function guess(c){
+ if(over||guessed[c])return;statusEl.textContent="";
+ guessed[c]=true;
+ var b=document.getElementById("k"+c);b.disabled=true;
+ if(word.indexOf(c)>=0){b.className="ok"}else{b.className="bad";wrong++}
+ render();
+ var won=word.split("").every(function(x){return guessed[x]});
+ if(won){finish(true)}
+ else if(wrong>=6){finish(false)}
+}
+document.addEventListener("keydown",function(e){
+ if(e.ctrlKey||e.metaKey||e.altKey)return;
+ if(e.target&&e.target.tagName==="INPUT")return;
+ var c=e.key.toLowerCase();
+ if(/^[a-z]$/.test(c))guess(c);
+ else if(e.key==="Enter"&&over)start();
+});
+again.onclick=start;
+document.getElementById("hintbtn").onclick=function(){
+ if(over||wrong>=5)return;
+ var left=word.split("").filter(function(c){return !guessed[c]});
+ if(!left.length)return;
+ var c=left[Math.floor(Math.random()*left.length)];
+ guessed[c]=true;wrong++;
+ var kb2=document.getElementById("k"+c);kb2.disabled=true;kb2.className="ok";
+ render();
+ if(word.split("").every(function(x){return guessed[x]}))finish(true);
+};
+document.getElementById("go").onclick=submitTyped;
+document.getElementById("typed").onkeydown=function(e){if(e.key==="Enter"){e.preventDefault();submitTyped()}};
+document.getElementById("speak").onclick=function(){try{var u=new SpeechSynthesisUtterance(word);u.lang="en-US";u.rate=.8;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(err){}};
+["level","hintmode","topic","timer"].forEach(function(id){var s=document.getElementById(id);s.onchange=function(){s.blur();practice=false;start()}});
+start();
+</script>
+<script>
+if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}
+</script>
+</body>
+</html>
