@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Виселица-угадывай слова</title>
+<title>Виселица: кино и музыка</title>
 <style>
 :root{--bg:#f6f4ef;--fg:#1f1d1a;--card:#fff;--accent:#c2410c;--ok:#15803d;--bad:#b91c1c;--mute:#d9d5cc;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -288,7 +288,6 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 <label class="sel"><span>Таймер</span><select id="timer" aria-label="Режим"><option value="off">Выкл</option><option value="60">60 сек</option><option value="30">30 сек</option></select></label>
 <label class="sel wide"><span>Тема</span><select id="topic" aria-label="Тема"><option value="all">Все темы</option><option value="film">🎬 Кино</option><option value="series">📺 Сериалы</option><option value="music">🎵 Музыка</option><option value="travel">✈️ Путешествия</option><option value="food">🍕 Еда</option><option value="tech">💻 Технологии</option><option value="nature">🌿 Природа</option><option value="sport">⚽ Спорт</option><option value="work">🎓 Работа и учёба</option><option value="medieval">🏰 Средневековье</option><option value="home">🏠 Дом и быт</option><option value="body">🩺 Тело и здоровье</option><option value="clothes">👕 Одежда</option><option value="city">🏙️ Город и транспорт</option><option value="feel">💭 Чувства и характер</option><option value="animals">🐾 Животные</option><option value="jobs">💼 Профессии</option><option value="party">🎉 Праздники</option><option value="weather">🌦️ Погода</option><option value="hobby">🎨 Хобби и досуг</option><option value="speech">🔤 Английский и речь</option><option value="verbs">🏃 Глаголы</option><option value="adj">🌈 Цвета и качества</option></select></label>
 <label class="sel"><span>Подсказка</span><select id="hintmode" aria-label="Подсказка"><option value="ru">По-русски</option><option value="en">English</option></select></label>
-<label class="sel"><span>Сцена</span><select id="scene" aria-label="Оформление сцены"><option value="full">Обычная</option><option value="minimal">Минималистичная</option></select></label>
 <button id="sndbtn" type="button">🔊 Звук: вкл</button>
 <button id="resetbtn" type="button">Сбросить статистику</button>
 </div>
@@ -414,7 +413,6 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 <g id="lever"><path d="M160 131L159.3 100.2" stroke="#9aa0a6" stroke-width="4" stroke-linecap="round" fill="none"/><circle cx="159.3" cy="100.2" r="4.6" fill="#facc15" stroke="#a16207" stroke-width=".8"/></g>
 <g id="exarm"><path d="M178 72L159.3 100.2" stroke="#2a2a30" stroke-width="9" stroke-linecap="round" fill="none"/><circle cx="159.3" cy="100.2" r="4.8" fill="#0a0a0a" stroke="none"/></g>
 <g id="confetti"><rect x="6.0" y="-8" width="3" height="2" rx=".4" fill="#facc15" stroke="none" style="--d:0.0s;--dx:-15px;animation-duration:2.0s"/><rect x="15.2" y="-8" width="3" height="2" rx=".4" fill="#ef4444" stroke="none" style="--d:1.7s;--dx:-2px;animation-duration:2.4s"/><rect x="24.4" y="-8" width="3" height="2" rx=".4" fill="#f5f5f4" stroke="none" style="--d:1.4s;--dx:11px;animation-duration:2.8s"/><rect x="33.6" y="-8" width="3" height="2" rx=".4" fill="#60a5fa" stroke="none" style="--d:1.1s;--dx:-6px;animation-duration:3.2s"/><rect x="42.8" y="-8" width="3" height="2" rx=".4" fill="#34d399" stroke="none" style="--d:0.8s;--dx:7px;animation-duration:2.0s"/><rect x="52.0" y="-8" width="3" height="2" rx=".4" fill="#f472b6" stroke="none" style="--d:0.5s;--dx:-10px;animation-duration:2.4s"/><rect x="61.2" y="-8" width="3" height="2" rx=".4" fill="#facc15" stroke="none" style="--d:0.2s;--dx:3px;animation-duration:2.8s"/><rect x="70.4" y="-8" width="3" height="2" rx=".4" fill="#ef4444" stroke="none" style="--d:1.9s;--dx:-14px;animation-duration:3.2s"/><rect x="79.6" y="-8" width="3" height="2" rx=".4" fill="#f5f5f4" stroke="none" style="--d:1.6s;--dx:-1px;animation-duration:2.0s"/><rect x="88.8" y="-8" width="3" height="2" rx=".4" fill="#60a5fa" stroke="none" style="--d:1.3s;--dx:12px;animation-duration:2.4s"/><rect x="98.0" y="-8" width="3" height="2" rx=".4" fill="#34d399" stroke="none" style="--d:1.0s;--dx:-5px;animation-duration:2.8s"/><rect x="107.2" y="-8" width="3" height="2" rx=".4" fill="#f472b6" stroke="none" style="--d:0.7s;--dx:8px;animation-duration:3.2s"/><rect x="116.4" y="-8" width="3" height="2" rx=".4" fill="#facc15" stroke="none" style="--d:0.4s;--dx:-9px;animation-duration:2.0s"/><rect x="125.6" y="-8" width="3" height="2" rx=".4" fill="#ef4444" stroke="none" style="--d:0.1s;--dx:4px;animation-duration:2.4s"/><rect x="134.8" y="-8" width="3" height="2" rx=".4" fill="#f5f5f4" stroke="none" style="--d:1.8s;--dx:-13px;animation-duration:2.8s"/><rect x="144.0" y="-8" width="3" height="2" rx=".4" fill="#60a5fa" stroke="none" style="--d:1.5s;--dx:0px;animation-duration:3.2s"/><rect x="153.2" y="-8" width="3" height="2" rx=".4" fill="#34d399" stroke="none" style="--d:1.2s;--dx:13px;animation-duration:2.0s"/><rect x="162.4" y="-8" width="3" height="2" rx=".4" fill="#f472b6" stroke="none" style="--d:0.9s;--dx:-4px;animation-duration:2.4s"/><rect x="171.6" y="-8" width="3" height="2" rx=".4" fill="#facc15" stroke="none" style="--d:0.6s;--dx:9px;animation-duration:2.8s"/><rect x="180.8" y="-8" width="3" height="2" rx=".4" fill="#ef4444" stroke="none" style="--d:0.3s;--dx:-8px;animation-duration:3.2s"/><rect x="190.0" y="-8" width="3" height="2" rx=".4" fill="#f5f5f4" stroke="none" style="--d:0.0s;--dx:5px;animation-duration:2.0s"/><rect x="199.2" y="-8" width="3" height="2" rx=".4" fill="#60a5fa" stroke="none" style="--d:1.7s;--dx:-12px;animation-duration:2.4s"/><rect x="208.4" y="-8" width="3" height="2" rx=".4" fill="#34d399" stroke="none" style="--d:1.4s;--dx:1px;animation-duration:2.8s"/><rect x="217.6" y="-8" width="3" height="2" rx=".4" fill="#f472b6" stroke="none" style="--d:1.1s;--dx:14px;animation-duration:3.2s"/><rect x="226.8" y="-8" width="3" height="2" rx=".4" fill="#facc15" stroke="none" style="--d:0.8s;--dx:-3px;animation-duration:2.0s"/><rect x="236.0" y="-8" width="3" height="2" rx=".4" fill="#ef4444" stroke="none" style="--d:0.5s;--dx:10px;animation-duration:2.4s"/></g><rect id="glow" width="250" height="176" fill="rgba(250,204,21,.16)" stroke="none" opacity="0" pointer-events="none"/>
-<g id="minimal-scaffold" fill="none" stroke="#facc15" stroke-width="5" stroke-linecap="round"><path d="M58 150H192M82 150V28H160M160 28V47"/><path d="M82 58L112 28" stroke-width="3" opacity=".65"/></g>
 </svg>
 <div id="word"></div>
 <div id="hint"></div>
@@ -426,7 +424,6 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 </div>
 <div id="desktophelp">На клавиатуре: введите букву или слово и нажмите Enter</div>
 <div class="typebox"><input id="typed" type="text" autocomplete="off" enterkeyhint="go" autocapitalize="off" spellcheck="false" placeholder="Введите английское слово" aria-label="Введите букву или слово"><button id="submitguess" type="button" title="Проверить слово" aria-label="Проверить введённое слово">↵</button><button id="hintbtn" type="button" title="Открыть букву (−1 попытка)" aria-label="Открыть букву">💡</button><button id="speak" type="button" hidden title="Послушать слово" aria-label="Послушать слово">🔊</button></div>
-<div id="updatebar" hidden role="status"><span>Доступна новая версия игры.</span><button id="updatebtn" type="button">Обновить</button></div>
 <div id="kb"></div>
 
 <button id="again" hidden>Продолжить</button>
@@ -507,9 +504,9 @@ function sfx(k){
   else if(k==="lose"){tone(220,1,.18,"square",.08);tone(110,1.15,.5,"sawtooth",.12)}
  }catch(err){}
 }
-var SET_IDS=["level","hintmode","topic","timer","scene"];
+var SET_IDS=["level","hintmode","topic","timer"];
 function saveSettings(){try{var o={};SET_IDS.forEach(function(id){o[id]=document.getElementById(id).value});localStorage.setItem("hm-set",JSON.stringify(o))}catch(err){}}
-function setGallowsState(state){document.getElementById("gallows").className.baseVal=[state,document.getElementById("scene").value==="minimal"?"minimal":""].join(" ").trim()}
+function setGallowsState(state){document.getElementById("gallows").className.baseVal=state}
 function rowFor(c){var rows=["qwertyuiop","asdfghjkl","zxcvbnm"];var i=rows[0].indexOf(c)>=0?0:rows[1].indexOf(c)>=0?1:2;
  while(kb.children.length<=i){var d=document.createElement("div");d.className="krow";kb.appendChild(d)}
  return kb.children[i]}
@@ -631,9 +628,11 @@ document.getElementById("speak").onclick=speakWord;
 if(!window.speechSynthesis||typeof SpeechSynthesisUtterance==="undefined")document.body.classList.add("nospeech");
 try{if(window.speechSynthesis&&speechSynthesis.getVoices)speechSynthesis.getVoices()}catch(err){}
 document.getElementById("setbtn").onclick=function(){var c=document.getElementById("settings");c.hidden=!c.hidden};
-["level","hintmode","topic","timer","scene"].forEach(function(id){var s=document.getElementById(id);s.onchange=function(){s.blur();practice=false;if(!(window.matchMedia&&matchMedia("(min-width:900px)").matches))document.getElementById("settings").hidden=true;saveSettings();start()}});
+["level","hintmode","topic","timer"].forEach(function(id){var s=document.getElementById(id);s.onchange=function(){s.blur();practice=false;if(!(window.matchMedia&&matchMedia("(min-width:900px)").matches))document.getElementById("settings").hidden=true;saveSettings();start()}});
 start();
 </script>
-<script src="app.js"></script>
+<script>
+if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}
+</script>
 </body>
 </html>
