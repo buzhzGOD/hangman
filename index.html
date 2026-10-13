@@ -4,8 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#c2410c">
+<meta name="theme-color" content="#0b0b0c">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>Виселица: кино и музыка</title>
@@ -60,39 +61,319 @@ svg{width:170px;height:170px}
 .typebox input{flex:1;min-width:0;padding:12px 14px;font-size:16px;border-radius:12px;border:1px solid var(--mute);background:var(--card);color:var(--fg);font-family:inherit}
 .typebox button{padding:0 18px;border:0;border-radius:12px;background:var(--accent);color:#fff;font-size:1rem;cursor:pointer;font-family:inherit}
 #again{box-shadow:var(--shadow)}
+svg{width:190px;height:190px}
+#gallows{overflow:visible}
+#man{transform-box:view-box;transform-origin:110px 18px;animation:idle 4s ease-in-out infinite}
+@keyframes idle{0%,100%{transform:rotate(-1.2deg)}50%{transform:rotate(1.2deg)}}
+#gallows.lost #man{animation:swing 2.2s ease-in-out infinite}
+@keyframes swing{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+@keyframes hop{0%,100%{transform:translateY(0)}40%{transform:translateY(-8px)}}
+.part{opacity:0;transform:translateY(-10px) scale(.5);transform-box:fill-box;transform-origin:50% 0;transition:opacity .3s,transform .5s cubic-bezier(.3,1.7,.5,1)}
+.part.on{opacity:1;transform:none}
+.face-dead{display:none}
+#gallows.lost .face-ok{display:none}
+#gallows.lost .face-dead{display:inline}
+#gallows.shake{animation:shk .4s}
+@keyframes shk{0%,100%{transform:translateX(0)}20%{transform:translateX(-4px)}40%{transform:translateX(4px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
+@media (prefers-reduced-motion:reduce){#man,#gallows.lost #man,#gallows.win #man{animation:none}.part{transition:none}#gallows.shake{animation:none}}
+:root{--bg:#f3f5fb;--bg2:#e4e9f7;--card:rgba(255,255,255,.72);--card2:rgba(255,255,255,.95);--line:rgba(30,41,90,.1);--accent:#6d5efc;--fg:#0f172a;--mute:#e6eaf5;--ok:#10b981;--bad:#ef4444;--shadow:0 10px 40px rgba(60,70,140,.15)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a0f1f;--bg2:#151b36;--card:rgba(255,255,255,.06);--card2:rgba(255,255,255,.1);--line:rgba(255,255,255,.1);--accent:#8b7bff;--fg:#eef1ff;--mute:rgba(255,255,255,.1);--ok:#34d399;--bad:#f87171;--shadow:0 10px 40px rgba(0,0,0,.5)}}
+:root[data-theme="dark"]{--bg:#0a0f1f;--bg2:#151b36;--card:rgba(255,255,255,.06);--card2:rgba(255,255,255,.1);--line:rgba(255,255,255,.1);--accent:#8b7bff;--fg:#eef1ff;--mute:rgba(255,255,255,.1);--ok:#34d399;--bad:#f87171;--shadow:0 10px 40px rgba(0,0,0,.5)}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:radial-gradient(60% 40% at 10% 0%,rgba(109,94,252,.25),transparent 70%),radial-gradient(50% 40% at 100% 8%,rgba(34,211,238,.2),transparent 70%),linear-gradient(180deg,var(--bg),var(--bg2));background-attachment:fixed}
+main{padding:20px 16px 40px}
+h1{font-size:1.6rem;font-weight:800;background:linear-gradient(90deg,var(--accent),#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{font-size:.85rem;opacity:.65}
+.ctl select{border-radius:999px;padding:8px 14px;background:var(--card);border:1px solid var(--line);font-size:.85rem;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.card{background:var(--card);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);padding:18px 14px}
+#hint{display:inline-block;padding:6px 14px;border-radius:999px;background:var(--mute);font-size:.9rem;opacity:1;margin:8px 0 4px}
+#word{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:10px 0 4px;min-height:2.6rem}
+.tile{width:clamp(20px,6.6vw,30px);height:2.6rem;line-height:2.6rem;margin:0;border:none;border-radius:10px;border-bottom:3px solid var(--accent);background:var(--card2);box-shadow:0 2px 8px rgba(0,0,0,.08);font-family:inherit;font-weight:700;font-size:1.3rem}
+#status{font-size:1.05rem;font-weight:700}
+#info{background:var(--mute);border-radius:14px;padding:10px 12px;margin-top:8px;text-align:left;font-size:.9rem}
+#info:empty{display:none}
+#clock{display:inline-block;padding:2px 12px;border-radius:999px;background:var(--mute);font-size:.9rem}
+#clock:empty{display:none}
+#stats{font-size:.78rem;opacity:.7;margin-top:10px}
+.typebox input{border-radius:999px;padding:13px 18px;background:var(--card);border:1px solid var(--line);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.typebox input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(109,94,252,.25)}
+.typebox button{border-radius:999px;padding:0 22px;font-weight:700;background:linear-gradient(135deg,var(--accent),#22d3ee)}
+#kb button{border:1px solid var(--line);background:var(--card2);color:var(--fg);box-shadow:0 2px 0 var(--line);height:48px;border-radius:12px;font-weight:700;font-family:inherit}
+#kb button.ok{background:linear-gradient(180deg,var(--ok),#059669);color:#fff;border-color:transparent;box-shadow:none}
+#kb button.bad{background:var(--mute);color:var(--bad);opacity:.55;text-decoration:line-through;box-shadow:none}
+.acts button{border-radius:999px;border:1px solid var(--line);background:var(--card);padding:9px 16px}
+#again{background:linear-gradient(135deg,var(--accent),#22d3ee);border-radius:999px;padding:13px 34px;font-weight:700;box-shadow:0 8px 24px rgba(109,94,252,.4)}
+#review{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px}
+#review:empty{display:none}
+#review button{border-radius:999px;border:1px solid var(--line);background:var(--card2)}
+body{font-family:"Manrope",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;letter-spacing:-.005em}
+h1{letter-spacing:-.02em}
+.tile{font-weight:800}
+#kb button{font-weight:800}
+:root,:root:not([data-theme="light"]),:root[data-theme="dark"],:root[data-theme="light"]{color-scheme:dark;--bg:#0b0b0c;--bg2:#1a1708;--card:rgba(255,255,255,.05);--card2:rgba(255,255,255,.09);--line:rgba(250,204,21,.2);--accent:#facc15;--fg:#f5f5f4;--mute:rgba(255,255,255,.08);--ok:#facc15;--bad:#f87171;--shadow:0 10px 40px rgba(0,0,0,.6)}
+body{background:radial-gradient(60% 40% at 10% 0%,rgba(250,204,21,.16),transparent 70%),radial-gradient(50% 40% at 100% 10%,rgba(250,204,21,.08),transparent 70%),linear-gradient(180deg,var(--bg),var(--bg2));background-attachment:fixed}
+.ctl select option{background:#161616;color:#f5f5f4}
+#hint{background:rgba(250,204,21,.12);color:#fde68a}
+.typebox input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(250,204,21,.28)}
+#kb button{background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.06));border:1px solid rgba(255,255,255,.12);color:var(--fg);box-shadow:0 3px 0 rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.12);transition:transform .08s,box-shadow .08s,background .15s}
+#kb button:active:not(:disabled){transform:translateY(3px);box-shadow:0 0 0 rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.12)}
+@media (hover:hover){#kb button:hover:not(:disabled){background:linear-gradient(180deg,#fde047,#eab308);color:#111;border-color:transparent}}
+#kb button.ok{background:linear-gradient(180deg,#fde047,#eab308);color:#111;border-color:transparent;box-shadow:0 3px 0 #a16207}
+#kb button.bad{background:rgba(255,255,255,.04);color:rgba(255,255,255,.3);border-color:transparent;box-shadow:none;opacity:1;text-decoration:line-through}
+.typebox button,#again{background:linear-gradient(180deg,#fde047,#eab308);color:#111;font-weight:800;border:0;box-shadow:0 6px 18px rgba(250,204,21,.3),inset 0 1px 0 rgba(255,255,255,.5);transition:transform .1s,box-shadow .1s}
+.typebox button:active,#again:active{transform:translateY(2px);box-shadow:0 2px 8px rgba(250,204,21,.25),inset 0 1px 0 rgba(255,255,255,.5)}
+.acts button,#review button{background:rgba(250,204,21,.08);color:var(--accent);border:1px solid var(--line);font-weight:700;transition:background .15s,transform .1s}
+.acts button:hover:not(:disabled),#review button:hover{background:rgba(250,204,21,.18)}
+.acts button:active:not(:disabled),#review button:active{transform:translateY(1px)}
+.ctl{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.sel{position:relative;display:block;background:var(--card);border:1px solid var(--line);border-radius:16px;transition:border-color .15s,box-shadow .15s}
+.sel span{position:absolute;top:8px;left:14px;font-size:.62rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);opacity:.85;pointer-events:none}
+.sel::after{content:"";position:absolute;right:15px;top:50%;width:7px;height:7px;margin-top:-5px;border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(45deg);pointer-events:none}
+.ctl .sel select{-webkit-appearance:none;appearance:none;display:block;width:100%;box-sizing:border-box;padding:23px 32px 9px 14px;border:0;border-radius:16px;background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none;color:var(--fg);font-family:inherit;font-size:.92rem;font-weight:700;text-overflow:ellipsis;cursor:pointer;outline:none}
+.sel:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(250,204,21,.2)}
+@media (hover:hover){.sel:hover{border-color:rgba(250,204,21,.45)}}
+#gallows{width:min(100%,320px);height:auto}
+#exec{opacity:0;transition:opacity .6s}
+#gallows.near #exec,#gallows.near #exarm,#gallows.lost #exec,#gallows.lost #exarm{opacity:1}
+#lever{transform-box:view-box;transform-origin:160px 131px;transition:transform .4s cubic-bezier(.4,0,.2,1) .35s}
+#exarm{opacity:0;transform-box:view-box;transform-origin:178px 72px;transition:opacity .6s,transform .4s cubic-bezier(.4,0,.2,1) .35s}
+#gallows.lost #lever{transform:rotate(37.1deg)}
+#gallows.lost #exarm{transform:rotate(-33.5deg)}
+#trapdoor{transform-box:fill-box;transform-origin:50% 50%;transition:transform .5s ease-in .85s,opacity .4s .95s}
+#gallows.lost #trapdoor{transform:translateY(30px) rotate(14deg);opacity:0}
+#rope{transform-box:view-box;transform-origin:110px 22px}
+#gallows.lost #body{animation:drop .6s ease-in 1s both}
+#gallows.lost #rope{animation:ropedrop .6s ease-in 1s both}
+@keyframes drop{0%{transform:translateY(0)}55%{transform:translateY(22px)}75%{transform:translateY(15px)}100%{transform:translateY(18px)}}
+@keyframes ropedrop{0%{transform:scaleY(1)}55%{transform:scaleY(2.375)}75%{transform:scaleY(1.94)}100%{transform:scaleY(2.125)}}
+#gallows.lost #man{animation:swing2 2.2s ease-in-out 1.7s infinite}
+@keyframes swing2{0%,100%{transform:rotate(0)}25%{transform:rotate(5deg)}75%{transform:rotate(-5deg)}}
+@media (prefers-reduced-motion:reduce){#exec,#exarm,#lever,#trapdoor{transition:none}#gallows.lost #man,#gallows.lost #body,#gallows.lost #rope{animation:none}#gallows.lost #body{transform:translateY(18px)}#gallows.lost #rope{transform:scaleY(2.125)}}
+#gallows{overflow:hidden;border-radius:18px;width:min(100%,340px);height:auto}
+#crowd .cp,.torch{transform-box:fill-box;transform-origin:50% 100%}
+#confetti{opacity:0}
+#confetti rect{transform-box:fill-box;transform-origin:center}
+#gallows.win #confetti{opacity:1}
+#gallows.win #confetti rect{animation:fall 2.4s linear infinite;animation-delay:var(--d)}
+@keyframes fall{0%{transform:translate(0,-12px) rotate(0)}100%{transform:translate(var(--dx),190px) rotate(540deg)}}
+#gallows.win #crowd .cp{animation:cheer .5s ease-in-out infinite;animation-delay:var(--d)}
+@keyframes cheer{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+#gallows.win #glow{animation:glow 1.4s ease-in-out 2}
+@keyframes glow{0%,100%{opacity:0}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){#confetti{display:none}#gallows.win #crowd .cp,#gallows.win .torch,#gallows.win #body,#gallows.win #rope,#gallows.win #glow{animation:none}}
+#resetbtn{display:block;margin:8px auto 0;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:rgba(245,245,244,.6);font-family:inherit;font-size:.75rem;cursor:pointer;transition:color .15s,border-color .15s,background .15s}
+#resetbtn.armed{color:var(--bad);border-color:var(--bad);background:rgba(248,113,113,.1)}
+#kb button{flex:0 0 calc((100% - 54px)/10);max-width:none}
+main{padding:8px 12px 12px;max-width:440px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+#stats{margin:0;font-size:.78rem;opacity:.85;text-align:left}
+#setbtn{width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:var(--card);font-size:1rem;cursor:pointer;color:var(--fg)}
+.ctl[hidden]{display:none}
+.ctl{margin-bottom:8px;gap:6px}
+.ctl .sel select{padding:19px 28px 6px 12px;font-size:.85rem}
+#resetbtn{grid-column:1/-1;margin:2px auto 0}
+.card{padding:8px 8px 10px;border-radius:20px;margin-bottom:8px}
+#gallows{height:min(30vh,210px);width:auto;max-width:100%;display:block;margin:0 auto}
+#word{margin:6px 0 2px;min-height:2.2rem;gap:4px}
+.tile{height:2.2rem;line-height:2.2rem;font-size:1.15rem;width:clamp(18px,6.2vw,28px)}
+#hint{margin:4px 0 0;padding:4px 12px;font-size:.82rem}
+#status{font-size:.95rem;min-height:0}
+#info{font-size:.78rem;padding:6px 10px;margin-top:6px}
+.typebox{margin:0 0 8px;gap:6px}
+.typebox input{padding:9px 14px;font-size:16px}
+.typebox button{width:42px;height:42px;padding:0;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:1.1rem;box-shadow:none}
+.typebox button:disabled{opacity:.4}
+#kb,.krow{gap:5px}
+#kb button{flex:0 0 calc((100% - 45px)/10);height:40px;font-size:.95rem}
+body.over #kb{display:none}
+#again{width:100%;padding:14px;font-size:1.05rem;margin:0}
+#review{margin-top:8px;padding:8px 10px;font-size:.8rem}
+.rvl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:2px 0 6px}
+#stats{display:flex;gap:6px;opacity:1}
+.st{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:54px;padding:4px 8px 3px;border-radius:12px;background:var(--card);border:1px solid var(--line);line-height:1.1}
+.st b{font-size:1.05rem;font-weight:800;color:var(--fg)}
+.st span{font-size:.54rem;letter-spacing:.07em;text-transform:uppercase;opacity:.65;margin-top:1px}
+.st-win b{color:#4ade80}
+.st-loss b{color:var(--bad)}
+.st-streak b{color:#fb923c}
+.st-streak b::before{content:"🔥";font-size:.7rem;margin-right:2px}
+.st-best b{color:var(--accent)}
+.st-best b::before{content:"★";font-size:.7rem;margin-right:2px}
+.ctl{grid-template-columns:repeat(3,1fr)}
+.sel.wide{grid-column:1/-1;order:-1}
+.ctl .sel select{padding:19px 22px 6px 10px;font-size:.84rem;line-height:1.3;min-height:42px;white-space:nowrap}
+.sel span{left:10px}
+.sel::after{right:10px}
+button{white-space:nowrap}
+#rope{transition:transform .5s ease-in}
+.noose{transition:opacity .4s}
+#gallows.win .part{opacity:1;transform:none}
+#gallows.win #man{animation-play-state:paused}
+#gallows.win #rope{transform:scaleY(.35)}
+#gallows.win .noose{opacity:0}
+.nospeech #speak{display:none!important}
+.part{transform:none;transition:opacity .35s}
+#p3,#p4,#p5,#p6{transform-box:view-box;transition:opacity .35s,transform .6s cubic-bezier(.3,1.3,.5,1)}
+#p3{transform-origin:100px 74px}
+#p4{transform-origin:120px 74px}
+#p5{transform-origin:104px 110px}
+#p6{transform-origin:116px 110px}
+#gallows.win #p3{transform:rotate(140deg)}
+#gallows.win #p4{transform:rotate(-140deg)}
+#gallows.lost #p5{transform:rotate(-12deg);transition:opacity .35s,transform .6s ease-out 1.3s}
+#gallows.lost #p6{transform:rotate(12deg);transition:opacity .35s,transform .6s ease-out 1.3s}
+#sndbtn{display:block;grid-column:1/-1;margin:2px auto 0;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:rgba(245,245,244,.75);font-family:inherit;font-size:.75rem;cursor:pointer}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 <main>
-<h1>🎬 Виселица: английские слова</h1>
-<div class="sub">Угадай английское слово. Можно нажимать клавиши на клавиатуре.</div>
-<div class="ctl">
-<select id="level" aria-label="Уровень"><option value="all">Все уровни</option><option value="easy">Лёгкий (до 6 букв)</option><option value="mid">Средний (7–8)</option><option value="hard">Сложный (9+)</option></select>
-<select id="timer" aria-label="Режим"><option value="off">Без таймера</option><option value="60">На время: 60 с</option><option value="30">На время: 30 с</option></select>
-<select id="topic" aria-label="Тема"><option value="all">Все темы</option><option value="film">🎬 Кино</option><option value="series">📺 Сериалы</option><option value="music">🎵 Музыка</option><option value="travel">✈️ Путешествия</option><option value="food">🍕 Еда</option><option value="tech">💻 Технологии</option><option value="nature">🌿 Природа</option><option value="sport">⚽ Спорт</option><option value="work">🎓 Работа и учёба</option></select>
-<select id="hintmode" aria-label="Подсказка"><option value="ru">Подсказка по-русски</option><option value="en">Hint in English</option></select>
+
+
+<div class="topbar"><div id="stats"></div><button id="setbtn" type="button" aria-label="Настройки" title="Настройки">⚙️</button></div>
+<div class="ctl" id="settings" hidden>
+<label class="sel"><span>Сложность</span><select id="level" aria-label="Уровень"><option value="all">Все</option><option value="easy">Лёгкий</option><option value="mid">Средний</option><option value="hard">Сложный</option></select></label>
+<label class="sel"><span>Таймер</span><select id="timer" aria-label="Режим"><option value="off">Выкл</option><option value="60">60 сек</option><option value="30">30 сек</option></select></label>
+<label class="sel wide"><span>Тема</span><select id="topic" aria-label="Тема"><option value="all">Все темы</option><option value="film">🎬 Кино</option><option value="series">📺 Сериалы</option><option value="music">🎵 Музыка</option><option value="travel">✈️ Путешествия</option><option value="food">🍕 Еда</option><option value="tech">💻 Технологии</option><option value="nature">🌿 Природа</option><option value="sport">⚽ Спорт</option><option value="work">🎓 Работа и учёба</option><option value="medieval">🏰 Средневековье</option><option value="home">🏠 Дом и быт</option><option value="body">🩺 Тело и здоровье</option><option value="clothes">👕 Одежда</option><option value="city">🏙️ Город и транспорт</option><option value="feel">💭 Чувства и характер</option><option value="animals">🐾 Животные</option><option value="jobs">💼 Профессии</option><option value="party">🎉 Праздники</option><option value="weather">🌦️ Погода</option><option value="hobby">🎨 Хобби и досуг</option><option value="speech">🔤 Английский и речь</option><option value="verbs">🏃 Глаголы</option><option value="adj">🌈 Цвета и качества</option></select></label>
+<label class="sel"><span>Подсказка</span><select id="hintmode" aria-label="Подсказка"><option value="ru">По-русски</option><option value="en">English</option></select></label>
+<button id="sndbtn" type="button">🔊 Звук: вкл</button>
+<button id="resetbtn" type="button">Сбросить статистику</button>
 </div>
 <div class="card">
-<svg viewBox="0 0 160 160" id="gallows">
-<path d="M20 150H100M40 150V15H110V35" stroke-width="5"/>
-<circle id="p1" cx="110" cy="50" r="15"/>
-<path id="p2" d="M110 65V105"/>
-<path id="p3" d="M110 75L90 95"/>
-<path id="p4" d="M110 75L130 95"/>
-<path id="p5" d="M110 105L92 135"/>
-<path id="p6" d="M110 105L128 135"/>
+<svg viewBox="0 0 250 176" id="gallows">
+<defs><linearGradient id="wd" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b0835a"/><stop offset=".5" stop-color="#8b5e34"/><stop offset="1" stop-color="#6a4322"/></linearGradient><linearGradient id="st" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e5e9ee"/><stop offset=".5" stop-color="#9aa3ad"/><stop offset="1" stop-color="#5d646c"/></linearGradient><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16132a"/><stop offset=".5" stop-color="#3d2a40"/><stop offset=".73" stop-color="#b9783f"/><stop offset="1" stop-color="#d89a5a"/></linearGradient>
+<pattern id="cb" width="10" height="5" patternUnits="userSpaceOnUse"><rect width="10" height="5" fill="#4b4136"/><path d="M0 .3H10M2 .3V5M7 2.8V5M0 2.8H10" stroke="#271f18" stroke-width=".6" fill="none"/></pattern>
+<linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(0,0,0,0)"/><stop offset="1" stop-color="rgba(0,0,0,.5)"/></linearGradient>
+<radialGradient id="vg" cx=".5" cy=".5" r=".75"><stop offset=".55" stop-color="rgba(0,0,0,0)"/><stop offset="1" stop-color="rgba(0,0,0,.55)"/></radialGradient>
+</defs>
+<rect width="250" height="176" fill="url(#sky)" stroke="none"/>
+<circle cx="28" cy="24" r="6" fill="#f3e9c8" stroke="none"/><circle cx="30" cy="22.5" r="5.2" fill="#16132a" stroke="none" opacity=".35"/>
+<circle cx="60" cy="14" r=".8" fill="#fff" opacity=".7" stroke="none"/>
+<circle cx="92" cy="28" r=".8" fill="#fff" opacity=".7" stroke="none"/>
+<circle cx="130" cy="12" r=".8" fill="#fff" opacity=".7" stroke="none"/>
+<circle cx="170" cy="26" r=".8" fill="#fff" opacity=".7" stroke="none"/>
+<circle cx="205" cy="16" r=".8" fill="#fff" opacity=".7" stroke="none"/>
+<circle cx="238" cy="30" r=".8" fill="#fff" opacity=".7" stroke="none"/>
+<circle cx="12" cy="52" r=".8" fill="#fff" opacity=".7" stroke="none"/>
+<circle cx="110" cy="44" r=".8" fill="#fff" opacity=".7" stroke="none"/>
+<circle cx="150" cy="50" r=".8" fill="#fff" opacity=".7" stroke="none"/>
+<path d="M150 128V98H156V93H162V98H168V106H178V86H182V81H188V86H192V106H204V98H210V93H216V98H222V128Z" fill="#2a2338" stroke="none"/>
+<path d="M180 81V74L186 78V81Z" fill="#7a2a2a" stroke="none"/>
+<path d="M54 128V92H74V128Z" fill="#2e2740" stroke="none"/><path d="M52 92L64 60L76 92Z" fill="#2e2740" stroke="none"/><path d="M64 60V52M61 55H67" stroke="#2e2740" stroke-width="1.5" fill="none"/><path d="M61 108Q64 100 67 108V118H61Z" fill="#f1b84a" opacity=".8" stroke="none"/>
+<rect x="0" y="96" width="34" height="32" fill="#5a4a3a" stroke="#1d150e" stroke-width="1"/><polygon points="-2,96 17.0,78 36,96" fill="#4a2420" stroke="#1d150e" stroke-width="1"/><path d="M0 110.4H34M11.22 96V128M22.44 96V128M0 96L11.22 110.4M34 96L22.44 110.4" stroke="#2a1c10" stroke-width="1.2" fill="none"/><rect x="13.600000000000001" y="101" width="6.800000000000001" height="7" fill="#f6c453" opacity=".85" stroke="#2a1c10" stroke-width=".6"/><rect x="13.600000000000001" y="116" width="6.800000000000001" height="12" rx="3" fill="#2a1c10" stroke="none"/>
+<rect x="76" y="100" width="30" height="28" fill="#4f4234" stroke="#1d150e" stroke-width="1"/><polygon points="74,100 91.0,84 108,100" fill="#4a2420" stroke="#1d150e" stroke-width="1"/><path d="M76 112.6H106M85.9 100V128M95.8 100V128M76 100L85.9 112.6M106 100L95.8 112.6" stroke="#2a1c10" stroke-width="1.2" fill="none"/><rect x="88.0" y="105" width="6.0" height="7" fill="#f6c453" opacity=".85" stroke="#2a1c10" stroke-width=".6"/><rect x="88.0" y="116" width="6.0" height="12" rx="3" fill="#2a1c10" stroke="none"/>
+<rect x="118" y="92" width="34" height="36" fill="#5c4b3b" stroke="#1d150e" stroke-width="1"/><polygon points="116,92 135.0,72 154,92" fill="#4a2420" stroke="#1d150e" stroke-width="1"/><path d="M118 108.2H152M129.22 92V128M140.44 92V128M118 92L129.22 108.2M152 92L140.44 108.2" stroke="#2a1c10" stroke-width="1.2" fill="none"/><rect x="131.6" y="97" width="6.800000000000001" height="7" fill="#f6c453" opacity=".85" stroke="#2a1c10" stroke-width=".6"/><rect x="131.6" y="116" width="6.800000000000001" height="12" rx="3" fill="#2a1c10" stroke="none"/>
+<rect x="214" y="98" width="36" height="30" fill="#4f4234" stroke="#1d150e" stroke-width="1"/><polygon points="212,98 232.0,81 252,98" fill="#4a2420" stroke="#1d150e" stroke-width="1"/><path d="M214 111.5H250M225.88 98V128M237.76 98V128M214 98L225.88 111.5M250 98L237.76 111.5" stroke="#2a1c10" stroke-width="1.2" fill="none"/><rect x="228.4" y="103" width="7.2" height="7" fill="#f6c453" opacity=".85" stroke="#2a1c10" stroke-width=".6"/><rect x="228.4" y="116" width="7.2" height="12" rx="3" fill="#2a1c10" stroke="none"/>
+<rect x="0" y="128" width="250" height="48" fill="url(#cb)" stroke="none"/><rect x="0" y="128" width="250" height="48" fill="url(#gr)" stroke="none"/>
+<g class="torch"><rect x="150" y="118" width="2" height="12" fill="#3a2714" stroke="none"/><path d="M148 118Q151 108 154 118Z" fill="#ff9a2e" stroke="none"/><path d="M149.5 118Q151 112 152.5 118Z" fill="#ffe08a" stroke="none"/><circle cx="151" cy="115" r="9" fill="#ff9a2e" opacity=".12" stroke="none"/></g>
+<g class="torch"><rect x="226" y="118" width="2" height="12" fill="#3a2714" stroke="none"/><path d="M224 118Q227 108 230 118Z" fill="#ff9a2e" stroke="none"/><path d="M225.5 118Q227 112 228.5 118Z" fill="#ffe08a" stroke="none"/><circle cx="227" cy="115" r="9" fill="#ff9a2e" opacity=".12" stroke="none"/></g>
+<g id="crowd"><g class="cp" style="--d:0.00s"><path d="M3.4000000000000004 138Q3.4000000000000004 125 8 124.6Q12.6 125 12.6 138Z" fill="#2e2924" stroke="none"/><circle cx="8" cy="121" r="3.2" fill="#b88a62" stroke="none"/>
+<path d="M4 119.8L8 114L12 119.8Z" fill="#26303a" stroke="none"/>
+</g><g class="cp" style="--d:0.13s"><path d="M12.4 138Q12.4 127 17 126.6Q21.6 127 21.6 138Z" fill="#3b2f26" stroke="none"/><circle cx="17" cy="123" r="3.2" fill="#c99a72" stroke="none"/>
+<path d="M13.6 122Q17 117.5 20.4 122Z" fill="#20160e" stroke="none"/>
+</g><g class="cp" style="--d:0.26s"><path d="M21.4 138Q21.4 129 26 128.6Q30.6 129 30.6 138Z" fill="#26303a" stroke="none"/><circle cx="26" cy="125" r="3.2" fill="#a67c58" stroke="none"/>
+</g><g class="cp" style="--d:0.39s"><path d="M30.4 138Q30.4 126 35 125.6Q39.6 126 39.6 138Z" fill="#3a2630" stroke="none"/><circle cx="35" cy="122" r="3.2" fill="#d1a77f" stroke="none"/>
+<path d="M31 120.8L35 115L39 120.8Z" fill="#4a3a24" stroke="none"/>
+</g><g class="cp" style="--d:0.52s"><path d="M39.4 138Q39.4 128 44 127.6Q48.6 128 48.6 138Z" fill="#2b3a2c" stroke="none"/><circle cx="44" cy="124" r="3.2" fill="#b88a62" stroke="none"/>
+<path d="M40.6 123Q44 118.5 47.4 123Z" fill="#20160e" stroke="none"/>
+</g><g class="cp" style="--d:0.05s"><path d="M48.4 138Q48.4 125 53 124.6Q57.6 125 57.6 138Z" fill="#4a3a24" stroke="none"/><circle cx="53" cy="121" r="3.2" fill="#c99a72" stroke="none"/>
+</g><g class="cp" style="--d:0.18s"><path d="M57.4 138Q57.4 127 62 126.6Q66.6 127 66.6 138Z" fill="#2e2924" stroke="none"/><circle cx="62" cy="123" r="3.2" fill="#a67c58" stroke="none"/>
+<path d="M58 121.8L62 116L66 121.8Z" fill="#26303a" stroke="none"/>
+</g><g class="cp" style="--d:0.31s"><path d="M66.4 138Q66.4 129 71 128.6Q75.6 129 75.6 138Z" fill="#3b2f26" stroke="none"/><circle cx="71" cy="125" r="3.2" fill="#d1a77f" stroke="none"/>
+<path d="M67.6 124Q71 119.5 74.4 124Z" fill="#20160e" stroke="none"/>
+</g><g class="cp" style="--d:0.44s"><path d="M75.4 138Q75.4 126 80 125.6Q84.6 126 84.6 138Z" fill="#26303a" stroke="none"/><circle cx="80" cy="122" r="3.2" fill="#b88a62" stroke="none"/>
+</g><g class="cp" style="--d:0.57s"><path d="M84.4 138Q84.4 128 89 127.6Q93.6 128 93.6 138Z" fill="#3a2630" stroke="none"/><circle cx="89" cy="124" r="3.2" fill="#c99a72" stroke="none"/>
+<path d="M85 122.8L89 117L93 122.8Z" fill="#4a3a24" stroke="none"/>
+</g><g class="cp" style="--d:0.10s"><path d="M93.4 138Q93.4 125 98 124.6Q102.6 125 102.6 138Z" fill="#2b3a2c" stroke="none"/><circle cx="98" cy="121" r="3.2" fill="#a67c58" stroke="none"/>
+<path d="M94.6 120Q98 115.5 101.4 120Z" fill="#20160e" stroke="none"/>
+</g><g class="cp" style="--d:0.23s"><path d="M102.4 138Q102.4 127 107 126.6Q111.6 127 111.6 138Z" fill="#4a3a24" stroke="none"/><circle cx="107" cy="123" r="3.2" fill="#d1a77f" stroke="none"/>
+</g><g class="cp" style="--d:0.36s"><path d="M111.4 138Q111.4 129 116 128.6Q120.6 129 120.6 138Z" fill="#2e2924" stroke="none"/><circle cx="116" cy="125" r="3.2" fill="#b88a62" stroke="none"/>
+<path d="M112 123.8L116 118L120 123.8Z" fill="#26303a" stroke="none"/>
+</g><g class="cp" style="--d:0.49s"><path d="M120.4 138Q120.4 126 125 125.6Q129.6 126 129.6 138Z" fill="#3b2f26" stroke="none"/><circle cx="125" cy="122" r="3.2" fill="#c99a72" stroke="none"/>
+<path d="M121.6 121Q125 116.5 128.4 121Z" fill="#20160e" stroke="none"/>
+</g><g class="cp" style="--d:0.02s"><path d="M129.4 138Q129.4 128 134 127.6Q138.6 128 138.6 138Z" fill="#26303a" stroke="none"/><circle cx="134" cy="124" r="3.2" fill="#a67c58" stroke="none"/>
+</g><g class="cp" style="--d:0.15s"><path d="M138.4 138Q138.4 125 143 124.6Q147.6 125 147.6 138Z" fill="#3a2630" stroke="none"/><circle cx="143" cy="121" r="3.2" fill="#d1a77f" stroke="none"/>
+<path d="M139 119.8L143 114L147 119.8Z" fill="#4a3a24" stroke="none"/>
+</g><g class="cp" style="--d:0.28s"><path d="M147.4 138Q147.4 127 152 126.6Q156.6 127 156.6 138Z" fill="#2b3a2c" stroke="none"/><circle cx="152" cy="123" r="3.2" fill="#b88a62" stroke="none"/>
+<path d="M148.6 122Q152 117.5 155.4 122Z" fill="#20160e" stroke="none"/>
+</g><g class="cp" style="--d:0.41s"><path d="M156.4 138Q156.4 129 161 128.6Q165.6 129 165.6 138Z" fill="#4a3a24" stroke="none"/><circle cx="161" cy="125" r="3.2" fill="#c99a72" stroke="none"/>
+</g><g class="cp" style="--d:0.54s"><path d="M165.4 138Q165.4 126 170 125.6Q174.6 126 174.6 138Z" fill="#2e2924" stroke="none"/><circle cx="170" cy="122" r="3.2" fill="#a67c58" stroke="none"/>
+<path d="M166 120.8L170 115L174 120.8Z" fill="#26303a" stroke="none"/>
+</g><g class="cp" style="--d:0.07s"><path d="M174.4 138Q174.4 128 179 127.6Q183.6 128 183.6 138Z" fill="#3b2f26" stroke="none"/><circle cx="179" cy="124" r="3.2" fill="#d1a77f" stroke="none"/>
+<path d="M175.6 123Q179 118.5 182.4 123Z" fill="#20160e" stroke="none"/>
+</g><g class="cp" style="--d:0.20s"><path d="M183.4 138Q183.4 125 188 124.6Q192.6 125 192.6 138Z" fill="#26303a" stroke="none"/><circle cx="188" cy="121" r="3.2" fill="#b88a62" stroke="none"/>
+</g><g class="cp" style="--d:0.33s"><path d="M192.4 138Q192.4 127 197 126.6Q201.6 127 201.6 138Z" fill="#3a2630" stroke="none"/><circle cx="197" cy="123" r="3.2" fill="#c99a72" stroke="none"/>
+<path d="M193 121.8L197 116L201 121.8Z" fill="#4a3a24" stroke="none"/>
+</g><g class="cp" style="--d:0.46s"><path d="M201.4 138Q201.4 129 206 128.6Q210.6 129 210.6 138Z" fill="#2b3a2c" stroke="none"/><circle cx="206" cy="125" r="3.2" fill="#a67c58" stroke="none"/>
+<path d="M202.6 124Q206 119.5 209.4 124Z" fill="#20160e" stroke="none"/>
+</g><g class="cp" style="--d:0.59s"><path d="M210.4 138Q210.4 126 215 125.6Q219.6 126 219.6 138Z" fill="#4a3a24" stroke="none"/><circle cx="215" cy="122" r="3.2" fill="#d1a77f" stroke="none"/>
+</g><g class="cp" style="--d:0.12s"><path d="M219.4 138Q219.4 128 224 127.6Q228.6 128 228.6 138Z" fill="#2e2924" stroke="none"/><circle cx="224" cy="124" r="3.2" fill="#b88a62" stroke="none"/>
+<path d="M220 122.8L224 117L228 122.8Z" fill="#26303a" stroke="none"/>
+</g><g class="cp" style="--d:0.25s"><path d="M228.4 138Q228.4 125 233 124.6Q237.6 125 237.6 138Z" fill="#3b2f26" stroke="none"/><circle cx="233" cy="121" r="3.2" fill="#c99a72" stroke="none"/>
+<path d="M229.6 120Q233 115.5 236.4 120Z" fill="#20160e" stroke="none"/>
+</g><g class="cp" style="--d:0.38s"><path d="M237.4 138Q237.4 127 242 126.6Q246.6 127 246.6 138Z" fill="#26303a" stroke="none"/><circle cx="242" cy="123" r="3.2" fill="#a67c58" stroke="none"/>
+</g></g>
+<rect width="250" height="176" fill="url(#vg)" stroke="none"/>
+<ellipse cx="128" cy="174" rx="118" ry="4" fill="rgba(0,0,0,.35)" stroke="none"/>
+<rect x="20" y="145" width="6" height="27" fill="url(#wd)" stroke="#3b2412" stroke-width="1"/><rect x="76" y="145" width="6" height="27" fill="url(#wd)" stroke="#3b2412" stroke-width="1"/><rect x="140" y="145" width="6" height="27" fill="url(#wd)" stroke="#3b2412" stroke-width="1"/><rect x="230" y="145" width="6" height="27" fill="url(#wd)" stroke="#3b2412" stroke-width="1"/>
+<path d="M26 150L76 168M76 150L26 168M146 150L230 168M230 150L146 168" stroke="#6a4322" stroke-width="2" fill="none"/>
+<rect x="14" y="138" width="228" height="7" rx="1" fill="url(#wd)" stroke="#3b2412" stroke-width="1"/>
+<path d="M60 138V145M150 138V145M190 138V145M222 138V145" stroke="#3b2412" stroke-width=".7" opacity=".6" fill="none"/>
+<rect x="94" y="138" width="36" height="7" fill="#0a0604" stroke="none"/><g id="trapdoor"><rect x="94" y="138" width="36" height="7" fill="url(#wd)" stroke="#3b2412" stroke-width="1"/><path d="M112 138V145" stroke="#3b2412" stroke-width=".7" opacity=".6" fill="none"/></g>
+<rect x="38" y="12" width="9" height="160" rx="1" fill="url(#wd)" stroke="#3b2412" stroke-width="1"/>
+<path d="M41 22Q42 60 41 100T42 170M44.5 26V168" stroke="#3b2412" stroke-width=".6" opacity=".4" fill="none"/>
+<polygon points="47,62 47,50 77,20 89,20" fill="url(#wd)" stroke="#3b2412" stroke-width="1" stroke-linejoin="round"/>
+<rect x="38" y="12" width="82" height="9" rx="1" fill="url(#wd)" stroke="#3b2412" stroke-width="1"/>
+<path d="M44 14.5H116M48 18H112" stroke="#3b2412" stroke-width=".6" opacity=".4" fill="none"/>
+<circle cx="42.5" cy="16.5" r="1.2" fill="#2a1a0c" stroke="none"/><circle cx="115" cy="16.5" r="1.2" fill="#2a1a0c" stroke="none"/><circle cx="42.5" cy="134" r="1.2" fill="#2a1a0c" stroke="none"/>
+<rect x="106.5" y="10.5" width="7" height="12" rx="2.5" fill="#b79c6a" stroke="#6b5636" stroke-width=".8"/>
+<path d="M106.5 13.5l7 2.5M106.5 17l7 2.5" stroke="#6b5636" stroke-width=".7" fill="none"/>
+<g id="man"><g id="rope"><path d="M110 22V38" stroke="#b79c6a" stroke-width="3.2" stroke-linecap="round" fill="none"/><path d="M110 22V38" stroke="#6b5636" stroke-width="3.2" stroke-dasharray="1 3" fill="none"/></g><g id="body">
+<g id="p1" class="part"><ellipse cx="96.6" cy="53" rx="2.2" ry="3.4" fill="#d9a066" stroke="#7a4a22" stroke-width=".6"/><ellipse cx="123.4" cy="53" rx="2.2" ry="3.4" fill="#d9a066" stroke="#7a4a22" stroke-width=".6"/><path d="M97.5 50Q97 38 110 37Q123 38 122.5 50Q123 62 110 67Q97 62 97.5 50Z" fill="#e0ac76" stroke="#7a4a22" stroke-width="1"/><path d="M97.5 48Q96 33 110 33.5Q124 33 122.5 48Q119 41 110 41Q101 41 97.5 48Z" fill="#3b2a1d" stroke="none"/><path d="M97.3 47Q95.5 55 98 62Q100 55 100 50Z M122.7 47Q124.5 55 122 62Q120 55 120 50Z" fill="#3b2a1d" stroke="none"/><path d="M98 57Q99 69 110 70Q121 69 122 57Q118 64 110 64Q102 64 98 57Z" fill="#4a3426" stroke="none"/><path d="M99 44L103 46M121 44L117 46" stroke="#3b2a1d" stroke-width="1" fill="none"/><g class="face-ok"><path d="M101.5 47.6Q105 45.8 108.5 47.6M111.5 47.6Q115 45.8 118.5 47.6" stroke="#3b2a1d" stroke-width="1.4" fill="none"/><ellipse cx="105" cy="51" rx="2.1" ry="1.3" fill="#fff" stroke="none"/><ellipse cx="115" cy="51" rx="2.1" ry="1.3" fill="#fff" stroke="none"/><circle cx="105" cy="51" r="1" fill="#2a1a10" stroke="none"/><circle cx="115" cy="51" r="1" fill="#2a1a10" stroke="none"/><path d="M110 51V56.5Q108.3 58 110.4 58.2" stroke="#a8693a" stroke-width="1" fill="none"/><path d="M106.5 61.5Q110 63 113.5 61.5" stroke="#5a2a20" stroke-width="1.2" fill="none"/></g><g class="face-dead"><path d="M102.5 49l5 5M107.5 49l-5 5M112.5 49l5 5M117.5 49l-5 5" stroke="#2a1a10" stroke-width="1.4" fill="none"/><path d="M101.5 46.5L108 45M118.5 46.5L112 45" stroke="#3b2a1d" stroke-width="1.4" fill="none"/><ellipse cx="110" cy="62" rx="2.4" ry="2" fill="#3a1410" stroke="none"/></g></g>
+<g id="p2" class="part"><rect x="107" y="64" width="6" height="6" fill="#e0ac76" stroke="none"/><path d="M96 74Q96 66 104 66H116Q124 66 124 74L126 112H94Z" fill="#7b5b3b" stroke="#3a2714" stroke-width="1"/><path d="M116 66Q124 66 124 74L126 112H116Z" fill="rgba(0,0,0,.2)" stroke="none"/><path d="M105 66L110 77L115 66Z" fill="#e0ac76" stroke="none"/><path d="M107 69L113 69M108 72L112 72" stroke="#3a2714" stroke-width=".8" fill="none"/><path d="M95 95Q110 99 125 95" stroke="#c2a46a" stroke-width="3" fill="none"/><path d="M95 95Q110 99 125 95" stroke="#6b5636" stroke-width="3" stroke-dasharray="1 2.5" fill="none"/><path d="M118 97l2 6M120 97l3 5" stroke="#c2a46a" stroke-width="1.6" stroke-linecap="round" fill="none"/><path d="M94 112l3-3 3 3 3-3 3 3 3-3 3 3 3-3 3 3 3-3 3 3 3-3 3 3 3-3 3 3" stroke="#3a2714" stroke-width=".8" fill="none"/><path class="noose" d="M102 63Q110 74 118 63" stroke="#b79c6a" stroke-width="3" stroke-linecap="round" fill="none"/><path class="noose" d="M102 63Q110 74 118 63" stroke="#6b5636" stroke-width="3" stroke-dasharray="1 3" fill="none"/><circle class="noose" cx="110" cy="72" r="2.4" fill="#b79c6a" stroke="#6b5636" stroke-width=".7"/></g>
+<g id="p3" class="part"><path d="M100 74Q92 86 92 97" stroke="#7b5b3b" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M89 96.5H95" stroke="#3a2714" stroke-width="1.2" fill="none"/><circle cx="92" cy="101.5" r="3.4" fill="#e0ac76" stroke="#7a4a22" stroke-width=".6"/></g>
+<g id="p4" class="part"><path d="M120 74Q128 86 128 97" stroke="#7b5b3b" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M125 96.5H131" stroke="#3a2714" stroke-width="1.2" fill="none"/><circle cx="128" cy="101.5" r="3.4" fill="#e0ac76" stroke="#7a4a22" stroke-width=".6"/></g>
+<g id="p5" class="part"><path d="M104 110L99 133" stroke="#55584a" stroke-width="8" stroke-linecap="round" fill="none"/><path d="M101 110L97 130" stroke="rgba(0,0,0,.25)" stroke-width="2" fill="none"/><path d="M100 132L104 133V138H86Q85 136.5 88 135.5Q94 135 97 132Z" fill="#4a2f1a" stroke="#20120a" stroke-width=".8"/></g>
+<g id="p6" class="part"><path d="M116 110L121 133" stroke="#55584a" stroke-width="8" stroke-linecap="round" fill="none"/><path d="M119 110L123 130" stroke="rgba(0,0,0,.25)" stroke-width="2" fill="none"/><path d="M120 132L116 133V138H134Q135 136.5 132 135.5Q126 135 123 132Z" fill="#4a2f1a" stroke="#20120a" stroke-width=".8"/></g>
+</g></g>
+<g id="exec">
+<path d="M187 106V132M207 106V132" stroke="#1b1b1f" stroke-width="12" stroke-linecap="round" fill="none"/>
+<path d="M179 138H194Q196 130 190 130H183Q179 131 179 138ZM200 138H215Q217 130 211 130H204Q200 131 200 138Z" fill="#0b0b0c" stroke="#000" stroke-width="1"/>
+<path d="M176 70Q176 62 186 62H208Q218 62 218 70L215 118H179Z" fill="#17171a" stroke="#000" stroke-width="1"/>
+<path d="M181 64L212 106M213 64L183 106" stroke="#3a2a1a" stroke-width="3" fill="none"/>
+<rect x="178" y="104" width="38" height="7" fill="#5a3d1c" stroke="#000" stroke-width=".6"/><rect x="193" y="103.5" width="8" height="8" rx="1" fill="#facc15" stroke="#7a5a00" stroke-width=".8"/>
+<circle cx="178" cy="68" r="8" fill="#1f1f23" stroke="#000" stroke-width="1"/><circle cx="217" cy="68" r="8" fill="#1f1f23" stroke="#000" stroke-width="1"/>
+<path d="M184 58Q180 40 189 31Q197 25 205 31Q214 40 210 58Q210 67 197 68Q184 67 184 58Z" fill="#a98558" stroke="#3a2714" stroke-width="1"/>
+<path d="M200 31Q214 40 210 58Q210 67 197 68Q205 62 205 50Q205 38 200 31Z" fill="rgba(0,0,0,.2)" stroke="none"/>
+<path d="M187 36L194 40M190 53L186 50M206 44L201 46M202 62L208 60M193 30L197 34" stroke="#7a5a35" stroke-width=".8" fill="none"/>
+<path d="M185 64Q197 71 209 64" stroke="#5a3d1c" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+<path d="M185 64Q197 71 209 64" stroke="#2e1d0a" stroke-width="3.2" stroke-dasharray="1 2.5" fill="none"/>
+<path d="M196 68L194 74M198 68L201 73" stroke="#5a3d1c" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+<ellipse cx="190.5" cy="47" rx="3.4" ry="2.6" fill="#0a0604" stroke="#3a2714" stroke-width=".6"/><ellipse cx="203.5" cy="47" rx="3.4" ry="2.6" fill="#0a0604" stroke="#3a2714" stroke-width=".6"/>
+<circle cx="191" cy="47" r=".9" fill="#d94a3a" stroke="none"/><circle cx="204" cy="47" r=".9" fill="#d94a3a" stroke="none"/>
+<path d="M190 58H204M191.5 56V60M194.5 56V60M197.5 56V60M200.5 56V60M203.5 56V60" stroke="#3a2714" stroke-width=".9" fill="none"/>
+<rect x="220.3" y="60" width="3.4" height="78" fill="#6b4a24" stroke="#2e1d0a" stroke-width=".6"/>
+<path d="M223.7 62L244 57Q249 78 244 99L223.7 94Z" fill="url(#st)" stroke="#333" stroke-width="1"/>
+<rect x="219.3" y="58" width="5.4" height="4" rx="1" fill="#555" stroke="#222" stroke-width=".6"/>
+<path d="M217 70L222 99" stroke="#2a2a30" stroke-width="9" stroke-linecap="round" fill="none"/><circle cx="222" cy="100" r="4.6" fill="#0a0a0a" stroke="none"/>
+</g>
+<rect x="153" y="131" width="14" height="7" rx="1.5" fill="#3a3a3d" stroke="#111" stroke-width="1"/>
+<g id="lever"><path d="M160 131L159.3 100.2" stroke="#9aa0a6" stroke-width="4" stroke-linecap="round" fill="none"/><circle cx="159.3" cy="100.2" r="4.6" fill="#facc15" stroke="#a16207" stroke-width=".8"/></g>
+<g id="exarm"><path d="M178 72L159.3 100.2" stroke="#2a2a30" stroke-width="9" stroke-linecap="round" fill="none"/><circle cx="159.3" cy="100.2" r="4.8" fill="#0a0a0a" stroke="none"/></g>
+<g id="confetti"><rect x="6.0" y="-8" width="3" height="2" rx=".4" fill="#facc15" stroke="none" style="--d:0.0s;--dx:-15px;animation-duration:2.0s"/><rect x="15.2" y="-8" width="3" height="2" rx=".4" fill="#ef4444" stroke="none" style="--d:1.7s;--dx:-2px;animation-duration:2.4s"/><rect x="24.4" y="-8" width="3" height="2" rx=".4" fill="#f5f5f4" stroke="none" style="--d:1.4s;--dx:11px;animation-duration:2.8s"/><rect x="33.6" y="-8" width="3" height="2" rx=".4" fill="#60a5fa" stroke="none" style="--d:1.1s;--dx:-6px;animation-duration:3.2s"/><rect x="42.8" y="-8" width="3" height="2" rx=".4" fill="#34d399" stroke="none" style="--d:0.8s;--dx:7px;animation-duration:2.0s"/><rect x="52.0" y="-8" width="3" height="2" rx=".4" fill="#f472b6" stroke="none" style="--d:0.5s;--dx:-10px;animation-duration:2.4s"/><rect x="61.2" y="-8" width="3" height="2" rx=".4" fill="#facc15" stroke="none" style="--d:0.2s;--dx:3px;animation-duration:2.8s"/><rect x="70.4" y="-8" width="3" height="2" rx=".4" fill="#ef4444" stroke="none" style="--d:1.9s;--dx:-14px;animation-duration:3.2s"/><rect x="79.6" y="-8" width="3" height="2" rx=".4" fill="#f5f5f4" stroke="none" style="--d:1.6s;--dx:-1px;animation-duration:2.0s"/><rect x="88.8" y="-8" width="3" height="2" rx=".4" fill="#60a5fa" stroke="none" style="--d:1.3s;--dx:12px;animation-duration:2.4s"/><rect x="98.0" y="-8" width="3" height="2" rx=".4" fill="#34d399" stroke="none" style="--d:1.0s;--dx:-5px;animation-duration:2.8s"/><rect x="107.2" y="-8" width="3" height="2" rx=".4" fill="#f472b6" stroke="none" style="--d:0.7s;--dx:8px;animation-duration:3.2s"/><rect x="116.4" y="-8" width="3" height="2" rx=".4" fill="#facc15" stroke="none" style="--d:0.4s;--dx:-9px;animation-duration:2.0s"/><rect x="125.6" y="-8" width="3" height="2" rx=".4" fill="#ef4444" stroke="none" style="--d:0.1s;--dx:4px;animation-duration:2.4s"/><rect x="134.8" y="-8" width="3" height="2" rx=".4" fill="#f5f5f4" stroke="none" style="--d:1.8s;--dx:-13px;animation-duration:2.8s"/><rect x="144.0" y="-8" width="3" height="2" rx=".4" fill="#60a5fa" stroke="none" style="--d:1.5s;--dx:0px;animation-duration:3.2s"/><rect x="153.2" y="-8" width="3" height="2" rx=".4" fill="#34d399" stroke="none" style="--d:1.2s;--dx:13px;animation-duration:2.0s"/><rect x="162.4" y="-8" width="3" height="2" rx=".4" fill="#f472b6" stroke="none" style="--d:0.9s;--dx:-4px;animation-duration:2.4s"/><rect x="171.6" y="-8" width="3" height="2" rx=".4" fill="#facc15" stroke="none" style="--d:0.6s;--dx:9px;animation-duration:2.8s"/><rect x="180.8" y="-8" width="3" height="2" rx=".4" fill="#ef4444" stroke="none" style="--d:0.3s;--dx:-8px;animation-duration:3.2s"/><rect x="190.0" y="-8" width="3" height="2" rx=".4" fill="#f5f5f4" stroke="none" style="--d:0.0s;--dx:5px;animation-duration:2.0s"/><rect x="199.2" y="-8" width="3" height="2" rx=".4" fill="#60a5fa" stroke="none" style="--d:1.7s;--dx:-12px;animation-duration:2.4s"/><rect x="208.4" y="-8" width="3" height="2" rx=".4" fill="#34d399" stroke="none" style="--d:1.4s;--dx:1px;animation-duration:2.8s"/><rect x="217.6" y="-8" width="3" height="2" rx=".4" fill="#f472b6" stroke="none" style="--d:1.1s;--dx:14px;animation-duration:3.2s"/><rect x="226.8" y="-8" width="3" height="2" rx=".4" fill="#facc15" stroke="none" style="--d:0.8s;--dx:-3px;animation-duration:2.0s"/><rect x="236.0" y="-8" width="3" height="2" rx=".4" fill="#ef4444" stroke="none" style="--d:0.5s;--dx:10px;animation-duration:2.4s"/></g><rect id="glow" width="250" height="176" fill="rgba(250,204,21,.16)" stroke="none" opacity="0" pointer-events="none"/>
 </svg>
 <div id="word"></div>
 <div id="hint"></div>
 <div id="status"></div>
 <div id="clock"></div>
 <div id="info"></div>
-<div id="stats"></div>
+
 </div>
-<div class="typebox"><input id="typed" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Буква или всё слово + Enter"><button id="go">OK</button></div>
+<div class="typebox"><input id="typed" type="text" autocomplete="off" enterkeyhint="go" autocapitalize="off" spellcheck="false" aria-label="Ввод буквы или слова"><button id="hintbtn" type="button" title="Открыть букву (−1 попытка)" aria-label="Открыть букву">💡</button><button id="speak" type="button" hidden title="Послушать слово" aria-label="Послушать слово">🔊</button></div>
 <div id="kb"></div>
-<div class="acts"><button id="hintbtn">💡 Открыть букву (−1 попытка)</button><button id="speak" hidden>🔊 Послушать слово</button></div>
-<button id="again" hidden>Новая игра</button>
+
+<button id="again" hidden>Продолжить</button>
 <div id="review"></div>
 </main>
 <script>
@@ -122,13 +403,56 @@ work:"office=офис;desk=рабочий стол;boss=начальник;emplo
 };
 var SEEN={};WORDS.forEach(function(w){SEEN[w[0]]=1});
 Object.keys(BULK).forEach(function(t){BULK[t].split(";").forEach(function(p){var a=p.split("=");var w=a[0].trim();if(!w||!a[1]||SEEN[w])return;SEEN[w]=1;WORDS.push([w,a[1],"A word with "+w.length+" letters, starts with "+w[0].toUpperCase()]);EXTRA[w]=t})});
+var BULK2={
+medieval:"knight=рыцарь;castle=замок;sword=меч;shield=щит;armor=доспехи;helmet=шлем;king=король;queen=королева;prince=принц;princess=принцесса;peasant=крестьянин;blacksmith=кузнец;archer=лучник;arrow=стрела;bow=лук;dagger=кинжал;spear=копьё;dungeon=подземелье;tower=башня;moat=ров с водой;drawbridge=подъёмный мост;banner=знамя;crown=корона;scepter=скипетр;noble=дворянин;lord=лорд;servant=слуга;merchant=торговец;market=рынок;tavern=таверна;monk=монах;monastery=монастырь;plague=чума;feast=пир;jester=шут;cathedral=собор;torch=факел;rope=верёвка;gallows=виселица;executioner=палач;crowd=толпа;treasure=сокровище;legend=легенда",
+home:"house=дом;apartment=квартира;bedroom=спальня;bathroom=ванная;roof=крыша;window=окно;door=дверь;floor=пол;ceiling=потолок;wall=стена;stairs=лестница;garage=гараж;balcony=балкон;carpet=ковёр;curtain=штора;pillow=подушка;blanket=одеяло;mattress=матрас;mirror=зеркало;lamp=лампа;candle=свеча;table=стол;chair=стул;sofa=диван;shelf=полка;cupboard=шкаф;fridge=холодильник;towel=полотенце;soap=мыло;shower=душ;key=ключ;lock=замок (на двери);basket=корзина;bucket=ведро;broom=мётла;laundry=стирка",
+body:"head=голова;face=лицо;hair=волосы;nose=нос;mouth=рот;tooth=зуб;tongue=язык;neck=шея;shoulder=плечо;elbow=локоть;finger=палец;thumb=большой палец;chest=грудь;stomach=живот;back=спина;knee=колено;ankle=лодыжка;heart=сердце;brain=мозг;bone=кость;skin=кожа;blood=кровь;fever=температура;cough=кашель;headache=головная боль;medicine=лекарство;pill=таблетка;bandage=бинт;dentist=стоматолог;nurse=медсестра;doctor=врач;ambulance=скорая помощь;health=здоровье;healthy=здоровый;sick=больной;tired=усталый;sleep=сон",
+clothes:"shirt=рубашка;jacket=куртка;coat=пальто;sweater=свитер;jeans=джинсы;dress=платье;skirt=юбка;trousers=брюки;shorts=шорты;socks=носки;shoes=обувь;boots=ботинки;sneakers=кроссовки;sandals=сандалии;scarf=шарф;gloves=перчатки;hat=шляпа;cap=кепка;belt=ремень;tie=галстук;suit=костюм;uniform=форма;pajamas=пижама;umbrella=зонт;pocket=карман;button=пуговица;zipper=молния;sleeve=рукав;collar=воротник;wallet=кошелёк;handbag=сумка;backpack=рюкзак;glasses=очки;ring=кольцо;necklace=ожерелье;bracelet=браслет;watch=часы;fashion=мода",
+city:"street=улица;road=дорога;square=площадь;corner=угол;sidewalk=тротуар;traffic=движение;bus=автобус;tram=трамвай;bicycle=велосипед;motorcycle=мотоцикл;truck=грузовик;car=машина;engine=двигатель;wheel=колесо;parking=парковка;fountain=фонтан;statue=статуя;monument=памятник;church=церковь;bank=банк;pharmacy=аптека;bakery=пекарня;supermarket=супермаркет;cafe=кафе;theatre=театр;park=парк;skyscraper=небоскрёб;suburb=пригород;village=деревня;countryside=сельская местность;neighborhood=район;police=полиция;firefighter=пожарный;mayor=мэр;citizen=житель;passerby=прохожий;crossroads=перекрёсток",
+feel:"happy=счастливый;sad=грустный;angry=злой;scared=испуганный;brave=смелый;proud=гордый;lonely=одинокий;jealous=ревнивый;nervous=нервный;excited=взволнованный;bored=скучающий;surprised=удивлённый;confused=растерянный;curious=любопытный;kind=добрый;cruel=жестокий;honest=честный;lazy=ленивый;clever=умный;foolish=глупый;shy=застенчивый;polite=вежливый;rude=грубый;generous=щедрый;greedy=жадный;stubborn=упрямый;cheerful=весёлый;gloomy=мрачный;calm=спокойный;worried=обеспокоенный;hope=надежда;fear=страх;joy=радость;anger=гнев;trust=доверие;courage=мужество;wisdom=мудрость;mercy=милосердие;guilt=вина;pride=гордость"
+};
+Object.keys(BULK2).forEach(function(t){BULK2[t].split(";").forEach(function(p){var a=p.split("=");var w=a[0].trim();if(!w||!a[1]||SEEN[w])return;SEEN[w]=1;WORDS.push([w,a[1],"A word with "+w.length+" letters, starts with "+w[0].toUpperCase()]);EXTRA[w]=t})});
+var BULK3={
+animals:"cat=кот;dog=собака;cow=корова;pig=свинья;sheep=овца;goat=коза;duck=утка;goose=гусь;parrot=попугай;hamster=хомяк;camel=верблюд;zebra=зебра;kangaroo=кенгуру;crocodile=крокодил;snake=змея;lizard=ящерица;bat=летучая мышь;hedgehog=ёж;raccoon=енот;bull=бык;donkey=осёл;pigeon=голубь;swan=лебедь;seal=тюлень;octopus=осьминог;jellyfish=медуза;crab=краб;worm=червь;mosquito=комар;ant=муравей;kitten=котёнок;puppy=щенок;bird=птица;fish=рыба;insect=насекомое;wildlife=дикая природа;rooster=петух;peacock=павлин",
+jobs:"engineer=инженер;chef=шеф-повар;cook=повар;farmer=фермер;fisherman=рыбак;driver=водитель;painter=художник;writer=писатель;journalist=журналист;photographer=фотограф;architect=архитектор;electrician=электрик;plumber=сантехник;carpenter=плотник;mechanic=механик;scientist=учёный;soldier=солдат;sailor=моряк;waiter=официант;cashier=кассир;barber=парикмахер;baker=пекарь;butcher=мясник;tailor=портной;librarian=библиотекарь;accountant=бухгалтер;programmer=программист;designer=дизайнер;secretary=секретарь;judge=судья;pharmacist=фармацевт;veterinarian=ветеринар;guard=охранник;janitor=уборщик;artist=артист;poet=поэт",
+party:"birthday=день рождения;present=подарок;gift=подарок;balloon=воздушный шар;party=вечеринка;invitation=приглашение;anniversary=годовщина;celebration=празднование;fireworks=фейерверк;decoration=украшение;ribbon=лента;cake=торт;greeting=приветствие;parade=парад;carnival=карнавал;christmas=рождество;easter=пасха;halloween=хэллоуин;pumpkin=тыква;snowman=снеговик;surprise=сюрприз;toast=тост;champagne=шампанское;guest=гость;host=хозяин;picnic=пикник;barbecue=барбекю;bonfire=костёр;lantern=фонарь;confetti=конфетти;wish=желание;tradition=традиция",
+weather:"weather=погода;sunny=солнечный;cloudy=облачный;rainy=дождливый;windy=ветреный;foggy=туманный;snowy=снежный;stormy=штормовой;frost=мороз;drizzle=морось;hail=град;flood=наводнение;drought=засуха;hurricane=ураган;tornado=торнадо;earthquake=землетрясение;temperature=температура;forecast=прогноз;climate=климат;spring=весна;summer=лето;autumn=осень;winter=зима;puddle=лужа;icicle=сосулька;snowflake=снежинка;blizzard=метель;heatwave=жара;sunshine=солнечный свет;shadow=тень;horizon=горизонт;thermometer=термометр;rain=дождь;wind=ветер;fog=туман;ice=лёд;mud=грязь",
+hobby:"painting=живопись;drawing=рисование;knitting=вязание;sewing=шитьё;gardening=садоводство;fishing=рыбалка;hiking=поход;photography=фотография;reading=чтение;cooking=готовка;baking=выпечка;dancing=танцы;singing=пение;collecting=коллекционирование;chess=шахматы;puzzle=головоломка;cards=карты;boardgame=настольная игра;videogame=видеоигра;gaming=игры;skateboard=скейтборд;juggling=жонглирование;origami=оригами;pottery=гончарное дело;calligraphy=каллиграфия;magic=фокус;trick=трюк;hobby=хобби;leisure=досуг;weekend=выходные",
+speech:"language=язык;country=страна;nation=нация;capital=столица;flag=флаг;continent=континент;nationality=национальность;native=родной;translate=переводить;speak=говорить;listen=слушать;repeat=повторять;understand=понимать;remember=помнить;forget=забывать;explain=объяснять;whisper=шептать;shout=кричать;ask=спрашивать;reply=отвечать;argue=спорить;agree=соглашаться;promise=обещать;apologize=извиняться;thank=благодарить;dialect=диалект;alphabet=алфавит;letter=буква;sentence=предложение;paragraph=абзац;punctuation=пунктуация;meaning=значение;spelling=правописание;phrase=фраза;idiom=идиома;slang=сленг;proverb=пословица;conversation=разговор;pronounce=произносить",
+verbs:"run=бежать;jump=прыгать;climb=лезть;throw=бросать;catch=ловить;carry=нести;push=толкать;pull=тянуть;build=строить;break=ломать;cut=резать;open=открывать;close=закрывать;wash=мыть;clean=убирать;write=писать;paint=красить;wait=ждать;follow=следовать;search=искать;find=находить;lose=терять;borrow=занимать;lend=одалживать;choose=выбирать;decide=решать;fall=падать;rise=подниматься;drop=ронять;hide=прятаться;knock=стучать;swing=качаться;hang=вешать;kiss=целовать;smile=улыбаться;laugh=смеяться;cry=плакать;dream=мечтать;believe=верить;miss=скучать",
+adj:"red=красный;blue=синий;green=зелёный;yellow=жёлтый;black=чёрный;white=белый;purple=фиолетовый;pink=розовый;brown=коричневый;grey=серый;golden=золотой;silver=серебряный;bright=яркий;dark=тёмный;heavy=тяжёлый;sharp=острый;soft=мягкий;smooth=гладкий;rough=шероховатый;wet=мокрый;dry=сухой;empty=пустой;full=полный;narrow=узкий;wide=широкий;thick=толстый;thin=тонкий;strong=сильный;weak=слабый;fast=быстрый;slow=медленный;quiet=тихий;loud=громкий;dirty=грязный;rich=богатый;poor=бедный;young=молодой;ancient=древний;modern=современный;famous=знаменитый;dangerous=опасный;beautiful=красивый;ugly=уродливый"
+};
+Object.keys(BULK3).forEach(function(t){BULK3[t].split(";").forEach(function(p){var a=p.split("=");var w=a[0].trim();if(!w||!a[1]||SEEN[w])return;SEEN[w]=1;WORDS.push([w,a[1],"A word with "+w.length+" letters, starts with "+w[0].toUpperCase()]);EXTRA[w]=t})});
 function topicOf(w){return EXTRA[w[0]]||(MUSIC[w[0]]?"music":"film")}
+var DEFSTR="knight=a soldier on horseback who wore armor;castle=a large stone building with thick walls;sword=a long metal blade used for fighting;shield=you hold it to block attacks;armor=metal clothes that protect a fighter;helmet=a hard hat that protects the head;king=the male ruler of a country;queen=the female ruler of a country;prince=the son of a king;princess=the daughter of a king;peasant=a poor person who worked on the land;blacksmith=a person who makes things from hot iron;archer=a person who shoots with a bow;arrow=it is shot from a bow;bow=a curved weapon that shoots arrows;dagger=a short knife used as a weapon;spear=a long stick with a sharp point;dungeon=a dark prison under a castle;tower=a tall narrow part of a building;moat=a deep ditch of water around a castle;drawbridge=a bridge that can be lifted up;banner=a large flag;crown=a king wears it on his head;scepter=a decorated stick held by a ruler;noble=a person from a high social class;lord=a man of high rank who owned land;servant=a person who works in someone's house;merchant=a person who buys and sells goods;market=a place where people buy and sell things outdoors;tavern=an old word for a pub;monk=a man who lives in a religious community;monastery=a building where monks live;plague=a deadly disease that spreads fast;feast=a big special meal;jester=a funny entertainer at a royal court;cathedral=a very large and important church;torch=a stick with fire on top;rope=a thick strong cord;gallows=a wooden frame used for hanging people;executioner=a person who carries out a death sentence;crowd=a large group of people together;treasure=a collection of gold and jewels;legend=an old story passed down for ages;happy=feeling joy and pleasure;sad=feeling unhappy;angry=feeling strong displeasure;scared=feeling afraid;brave=not afraid of danger;proud=pleased about what you have done;lonely=unhappy because you are alone;jealous=unhappy because someone has what you want;nervous=worried and a little afraid;excited=very happy about something coming;bored=tired because nothing is interesting;surprised=shocked by something unexpected;confused=not able to understand clearly;curious=wanting to know more;kind=friendly and caring;cruel=causing pain on purpose;honest=always telling the truth;lazy=not wanting to work;clever=quick at learning and thinking;foolish=not wise or sensible;shy=nervous around other people;polite=having good manners;rude=not polite;generous=happy to give more than needed;greedy=wanting more than you need;stubborn=refusing to change your mind;cheerful=full of good mood;gloomy=dark and sad;calm=quiet and not worried;worried=thinking about bad things that may happen;hope=a wish that something good will happen;fear=the feeling you have when in danger;joy=great happiness;anger=a strong feeling of being upset;trust=belief that someone is honest;courage=being able to face danger;wisdom=good judgment from experience;mercy=kindness to someone you could punish;guilt=the feeling of having done wrong;pride=a feeling of being pleased with yourself;engineer=a person who designs machines or buildings;chef=a professional cook in a restaurant;cook=a person who prepares food;farmer=a person who grows crops or keeps animals;fisherman=a person who catches fish;driver=a person who controls a car or bus;painter=an artist who uses colours on canvas;writer=a person who writes books or stories;journalist=a person who writes news reports;photographer=a person who takes pictures;architect=a person who designs buildings;electrician=a person who fixes wires and lights;plumber=a person who fixes water pipes;carpenter=a person who works with wood;mechanic=a person who repairs cars;scientist=a person who studies the world by experiments;soldier=a person in an army;sailor=a person who works on a ship;waiter=a person who brings food to your table;cashier=a person who takes your money in a shop;barber=a person who cuts men's hair;baker=a person who makes bread;butcher=a person who sells meat;tailor=a person who makes clothes to measure;librarian=a person who works with books in a library;accountant=a person who keeps financial records;programmer=a person who writes computer code;designer=a person who plans how things look;secretary=a person who does office paperwork for a boss;judge=a person who decides cases in court;pharmacist=a person who prepares medicine;veterinarian=a doctor for animals;guard=a person who protects a place;janitor=a person who cleans a building;artist=a person who creates paintings or music;poet=a person who writes poems;head=the top part of your body;face=the front of your head;hair=it grows on your head;nose=you smell with it;mouth=you eat and speak with it;tooth=you bite food with it;tongue=it helps you taste and speak;neck=it joins your head to your body;shoulder=the part between your neck and arm;elbow=the middle joint of your arm;finger=one of the five parts at the end of a hand;thumb=the short, thick finger;chest=the front of your body above the stomach;stomach=where food goes after you eat;back=the rear part of your body;knee=the joint in the middle of your leg;ankle=the joint between your foot and leg;heart=it pumps blood around the body;brain=you think with it;bone=a hard part of the skeleton;skin=it covers your body;blood=the red liquid in your body;fever=a high body temperature when you are ill;cough=a sudden noise from your throat;headache=a pain in your head;medicine=you take it to get better;pill=a small tablet of medicine;bandage=a strip of cloth for a wound;dentist=a doctor for teeth;nurse=a person who cares for patients;doctor=a person who treats ill people;ambulance=a vehicle that takes sick people to hospital;health=the condition of your body;healthy=strong and not ill;sick=not well;tired=needing rest or sleep;sleep=what you do at night in bed",DEFS={},TEN={film:"movies",series:"TV series",music:"music",travel:"travel",food:"food and drink",tech:"technology",nature:"nature",sport:"sports",work:"work and school",medieval:"the Middle Ages",home:"home life",body:"the body and health",clothes:"clothes",city:"cities and transport",feel:"feelings and character",animals:"animals",jobs:"jobs",party:"holidays and parties",weather:"weather and seasons",hobby:"hobbies",speech:"language and speaking",verbs:"actions",adj:"colours and descriptions"};
+DEFSTR.split(";").forEach(function(p){var a=p.split("=");if(a[0]&&a[1])DEFS[a[0]]=a[1]});
+var DEFSTR2="cat=a small pet that says meow;dog=a pet that barks;cow=a farm animal that gives milk;pig=a pink farm animal;sheep=a farm animal with wool;goat=a farm animal with horns that eats grass;duck=a water bird that quacks;goose=a large bird like a big duck;parrot=a colourful bird that can copy speech;hamster=a small pet with round cheeks;camel=a desert animal with humps;zebra=a horse-like animal with black and white stripes;kangaroo=an Australian animal that jumps and has a pouch;crocodile=a large reptile with sharp teeth that lives in rivers;snake=a long animal with no legs;lizard=a small reptile with four legs and a tail;bat=a flying mammal that sleeps upside down;hedgehog=a small animal covered in spines;raccoon=a grey animal with a mask-like face;bull=a male cow;donkey=a grey animal like a small horse with long ears;pigeon=a grey bird common in city squares;swan=a large white bird with a long neck;seal=a sea animal with flippers that eats fish;octopus=a sea animal with eight arms;jellyfish=a soft see-through sea animal that can sting;crab=a sea animal with a hard shell and claws;worm=a long thin soft animal that lives in soil;mosquito=a small insect that bites and sucks blood;ant=a tiny insect that lives in a colony;kitten=a baby cat;puppy=a baby dog;bird=an animal with feathers and wings;fish=an animal that lives and breathes in water;insect=a small animal with six legs;wildlife=animals and plants living in nature;rooster=a male chicken;peacock=a bird with a huge colourful tail;shirt=clothing for the top half of the body with a collar;jacket=a short coat;coat=warm clothing you wear over other clothes outside;sweater=a warm knitted top;jeans=blue trousers made of denim;dress=a piece of clothing for women that covers the body and legs;skirt=clothing that hangs from the waist with no legs;trousers=clothing that covers each leg separately;shorts=short trousers that end above the knee;socks=you wear them on your feet inside shoes;shoes=you wear them on your feet outside;boots=strong shoes that cover the ankle;sneakers=soft shoes for sport;sandals=open shoes for hot weather;scarf=a long piece of cloth worn around the neck;gloves=you wear them on your hands to keep warm;hat=you wear it on your head;cap=a soft hat with a flat front part;belt=a strip worn around the waist;tie=a long strip of cloth worn with a shirt;suit=a jacket and trousers made from the same cloth;uniform=special clothes worn by a group like soldiers;pajamas=clothes you wear in bed;umbrella=it protects you from rain;pocket=a small bag sewn into clothes;button=a small round thing used to close clothes;zipper=a fastener with two rows of teeth;sleeve=the part of a shirt that covers your arm;collar=the part of a shirt around your neck;wallet=a small case for money and cards;handbag=a bag women carry for personal things;backpack=a bag you carry on your back;glasses=you wear them to see better;ring=a circle of metal worn on a finger;necklace=jewellery worn around the neck;bracelet=jewellery worn around the wrist;watch=a small clock worn on the wrist;fashion=the style of clothes that is popular now;house=a building where a family lives;apartment=a set of rooms on one floor of a building;bedroom=the room where you sleep;bathroom=the room with a bath or shower;roof=the top covering of a building;window=glass in a wall that lets in light;door=you open it to enter a room;floor=the surface you walk on inside;ceiling=the surface above your head in a room;wall=a side of a room;stairs=steps that lead up to another floor;garage=a place to keep a car;balcony=a small platform outside an upper floor;carpet=thick soft material covering a floor;curtain=cloth that hangs over a window;pillow=a soft cushion for your head in bed;blanket=a warm cover for a bed;mattress=the soft part of a bed you lie on;mirror=glass that shows your reflection;lamp=a device that gives light;candle=a stick of wax with a flame;table=furniture with a flat top and legs;chair=you sit on it;sofa=a long soft seat for several people;shelf=a flat board on a wall for books;cupboard=a piece of furniture with doors for storing things;fridge=a cold box that keeps food fresh;towel=a cloth for drying your body;soap=you wash with it;shower=water falling from above to wash yourself;key=you use it to open a lock;lock=it keeps a door closed;basket=a container made of woven strips;bucket=a round container with a handle for water;broom=a brush with a long handle for sweeping;laundry=clothes that need washing;street=a road in a town with buildings;road=a hard path for cars;square=an open area in the middle of a town;corner=the place where two streets meet;sidewalk=the path beside a road for walking;traffic=cars moving along a road;bus=a big vehicle that carries many passengers;tram=an electric vehicle that runs on rails in a city;bicycle=a vehicle with two wheels and pedals;motorcycle=a two-wheeled vehicle with an engine;truck=a big vehicle for carrying goods;car=a vehicle with four wheels and an engine;engine=the machine that makes a vehicle move;wheel=a round part that turns;parking=a place to leave your car;fountain=water shooting up in a park or square;statue=a figure made of stone or metal;monument=a building or statue built to remember something;church=a building for Christian worship;bank=a place that keeps your money;pharmacy=a shop that sells medicine;bakery=a shop that sells bread;supermarket=a big shop that sells food and many things;cafe=a small place to drink coffee;theatre=a building where plays are performed;park=a green public place with trees;skyscraper=a very tall building;suburb=an area on the edge of a city;village=a very small town in the countryside;countryside=land outside towns with fields and farms;neighborhood=the area around where you live;police=officers who catch criminals;firefighter=a person who puts out fires;mayor=the leader of a city;citizen=a person who lives in a city or country;passerby=a person who walks past;crossroads=a place where two roads cross;lunch=the meal in the middle of the day;dinner=the main evening meal;snack=a small amount of food between meals;soup=a hot liquid food;salad=a cold dish of raw vegetables;pasta=Italian food made from dough, like spaghetti;pizza=a flat round bread with cheese and tomato;burger=a meat patty in a bun;noodle=a long thin strip of pasta;rice=small white grains cooked as food;bread=a baked food made from flour;butter=a soft yellow fat spread on bread;cream=the thick part of milk;sugar=a sweet white powder;honey=a sweet food made by bees;pepper=a spicy powder for flavouring;garlic=a strong-smelling white bulb used in cooking;onion=a round vegetable that makes you cry;potato=a vegetable that grows underground and is used for chips;carrot=a long orange vegetable;cabbage=a large round green vegetable;cucumber=a long green vegetable used in salads;apple=a round red or green fruit;banana=a long yellow fruit;orange=a round citrus fruit with thick skin;lemon=a sour yellow fruit;cherry=a small round red fruit with a stone;strawberry=a small red fruit with seeds outside;grape=a small fruit that wine is made from;peach=a soft round fruit with fuzzy skin;mushroom=a fungus you can eat;sausage=meat pressed into a long tube;bacon=thin salty slices of pig meat;steak=a thick slice of beef;salmon=a pink fish;shrimp=a small sea animal eaten as seafood;omelette=eggs cooked flat in a pan;waffle=a crispy cake with a square pattern;cookie=a small sweet baked treat;chocolate=a sweet brown food made from cocoa;candy=a small sweet treat made of sugar;coffee=a hot dark drink made from beans;juice=a drink made from fruit;oven=you bake food in it;kettle=you boil water in it;spoon=you eat soup with it;fork=a tool with points for eating;knife=a tool with a blade for cutting;plate=a flat dish you eat from;bowl=a deep round dish";
+DEFSTR2.split(";").forEach(function(p){var a=p.split("=");if(a[0]&&a[1])DEFS[a[0]]=a[1]});
+var DEFSTR3="monitor=a screen connected to a computer;mouse=a small device you move to control the cursor;printer=a machine that puts text on paper;router=a device that shares the internet in your home;server=a powerful computer that stores websites;network=a group of connected computers;browser=a program for visiting websites;application=a program on your phone;update=a new version of a program;install=to put a program on a device;folder=a place on a computer to keep files;cloud=online storage on the internet;database=an organized collection of data;email=a message sent by computer;message=a short text you send to someone;video=moving pictures with sound;speaker=a device that plays sound loudly;bluetooth=a way to connect devices without wires;wireless=without wires;signal=a wave that carries phone or radio data;hacker=a person who breaks into computer systems;virus=a harmful program that spreads between computers;security=protection from danger or theft;backup=an extra copy of your files;storage=space for keeping files;processor=the brain of a computer;tablet=a flat touchscreen computer;device=a machine such as a phone or laptop;gadget=a small useful machine;robot=a machine that can do tasks by itself;drone=a flying machine without a pilot;satellite=a machine that circles the Earth;online=connected to the internet;account=your personal access to a service;username=the name you use to log in;profile=a page with information about you;selfie=a photo you take of yourself;emoji=a small picture used in messages;hashtag=a word with a hash sign used on social media;podcast=an audio show you can download;streaming=watching or listening online without downloading;subscription=regular payment for a service;tree=a tall plant with a trunk and branches;flower=the colourful part of a plant;grass=green plants that cover fields;leaf=a flat green part of a plant;branch=a part of a tree that grows from the trunk;root=the part of a plant under the ground;seed=a small thing a plant grows from;garden=a place where flowers and vegetables grow;field=a large open area of land;meadow=a field of wild grass and flowers;lake=a large area of water surrounded by land;pond=a small area of still water;stream=a small narrow river;beach=sand beside the sea;cliff=a steep high edge of rock;cave=a large hole in a hill or mountain;canyon=a deep valley with steep sides;glacier=a huge river of ice;snow=white frozen rain;storm=very bad weather with strong wind;lightning=a bright flash in the sky during a storm;breeze=a gentle wind;sunrise=when the sun comes up;sunset=when the sun goes down;moon=it shines in the night sky;sky=what you see above you;wolf=a wild animal like a large dog;bear=a big strong furry animal;fox=a wild animal with a red furry tail;rabbit=a small animal with long ears;deer=a wild animal with antlers;eagle=a large bird of prey;owl=a night bird with big eyes;dolphin=an intelligent sea animal that jumps;whale=the largest sea animal;shark=a large fish with sharp teeth;turtle=a reptile with a hard shell;frog=a small green animal that jumps and croaks;spider=a small animal with eight legs that makes webs;bee=an insect that makes honey;tiger=a large wild cat with stripes;lion=a large wild cat with a mane;elephant=a huge animal with a trunk;giraffe=the tallest animal with a very long neck;monkey=an animal that climbs trees;penguin=a black and white bird that cannot fly;horse=an animal you can ride;basketball=a game where you throw a ball through a hoop;volleyball=a game where you hit a ball over a net;baseball=a game with a bat and a small hard ball;hockey=a game played with sticks and a puck;golf=a game where you hit a small ball into holes;boxing=a sport where two people fight with gloves;wrestling=a sport where two people try to throw each other down;cycling=riding a bike as a sport;running=moving fast on foot;jogging=running slowly for exercise;gym=a place with equipment for exercise;fitness=being strong and healthy;workout=a session of physical exercise;exercise=physical activity to keep fit;muscle=body tissue that makes you strong;team=a group that plays together;player=a person who takes part in a game;match=a game between two teams;goal=where you score in football;penalty=a free shot as a punishment in football;offside=a football rule about standing ahead of the ball;defender=a player who stops the other team from scoring;striker=a player whose job is to score;captain=the leader of a team;medal=a small metal prize;podium=the stand where winners stand;race=a competition to be the fastest;finish=the end of a race;sprint=a very fast short run;diving=jumping into water headfirst;rowing=moving a boat with oars;sailing=travelling on a boat with sails;skiing=sliding on snow with long boards;snowboard=a single board for sliding on snow;climbing=going up a wall or mountain;surfing=riding waves on a board;yoga=gentle exercise with stretching and breathing;whistle=a referee blows it;supporter=a person who cheers for a team;league=a group of teams that play each other;injury=physical harm to the body;training=practice to improve your skills;office=a place where people work at desks;desk=a table for working or studying;boss=the person in charge at work;employee=a person who works for a company;employer=a person or company that pays workers;career=your long-term work life;profession=a job that needs special training;resume=a document about your work history;contract=a legal agreement;project=a planned piece of work;company=a business organization;business=the work of buying and selling;client=a person who pays for a service;customer=a person who buys from a shop;schedule=a plan of times for things;appointment=an arranged time to meet someone;promotion=a move to a higher job;vacation=a long break from work;holiday=a day or period of rest from work;overtime=extra hours of work;skill=the ability to do something well;experience=knowledge you get from doing something;degree=a university qualification;diploma=a certificate you get after finishing studies;university=a place for higher education;college=a school for study after high school;school=a place where children learn;classroom=a room where lessons happen;lesson=a period of teaching;subject=something you study, like history;exam=a formal test of knowledge;test=a short check of what you know;quiz=a short game of questions;essay=a short piece of writing on a topic;answer=what you say when asked a question;question=something you ask to get information;mistake=something done wrongly;practice=repeating something to improve;library=a place where you borrow books;notebook=a book with blank pages for writing;textbook=a book used for studying a subject;dictionary=a book that explains words;pronunciation=the way a word is said;translation=a text changed into another language;accent=the way a person's speech sounds;fluent=able to speak a language easily;beginner=a person who has just started;advanced=at a high level of skill;detective=a person who solves crimes;mystery=something strange that is hard to explain;character=a person in a story;plot=the main story of a film or book;finale=the last episode of a season;binge=to watch many episodes in a row;pilot=the first episode of a series;cast=all the actors in a show;showrunner=the person who runs a TV series;twist=a surprising change in a story;flashback=a scene showing the past;narrator=the voice that tells the story;protagonist=the main character;suspect=a person police think did a crime;murder=the crime of killing someone;crime=an illegal act;victim=a person who is harmed by a crime;witness=a person who sees a crime happen;evidence=facts that prove something;investigation=a careful search for the truth;lawyer=a person who gives legal advice;courtroom=the room where a trial happens;hospital=a place where sick people are treated;surgeon=a doctor who operates on patients;patient=a person who receives medical care;alien=a creature from another planet;zombie=a dead person who walks again;vampire=a creature that drinks blood;wizard=a man with magic powers;dragon=a huge fire-breathing creature;kingdom=a country ruled by a king or queen;throne=a royal chair;battle=a fight between armies;warrior=a brave fighter;prison=a place where criminals are kept;escape=to get away from danger;secret=something nobody should know;betrayal=breaking someone's trust;revenge=hurting someone who hurt you;romance=a love story;wedding=a ceremony where two people marry;family=parents, children and relatives;neighbor=a person who lives next to you;roommate=a person who shares your room;producer=the person who finances a film;editor=a person who cuts and joins film scenes;dialogue=the words characters say to each other;lighting=how a scene is lit;makeup=colour put on an actor's face;extras=actors in the background of a scene;superhero=a hero with special powers;western=a film about cowboys;horror=a scary film;fantasy=a story with magic;adventure=an exciting journey;musical=a film with songs and dancing;drama=a serious film about people;ending=the last part of a story;opening=the first part of a film;projector=a machine that shows a film on a screen;popcorn=a snack eaten at the cinema;actress=a woman who plays roles;filmmaker=a person who makes films;masterpiece=a work of great skill;nominee=a person chosen for a prize;award=a prize for excellent work;flop=a film that fails;songwriter=a person who writes songs;instrument=something you play to make music;drums=you hit them with sticks;flute=a thin wind instrument;clarinet=a wooden wind instrument with a reed;cello=a large string instrument played sitting down;harp=a big instrument with many strings you pluck;accordion=an instrument you squeeze;ukulele=a small guitar from Hawaii;banjo=a string instrument with a round body;tune=a short melody;beat=the steady pulse of music;bass=the lowest sounds in music;solo=a performance by one person;duet=a song for two people;band=a group of musicians;jazz=music with improvised rhythms;blues=sad music from the American South;rock=loud music with electric guitars;folk=traditional music of a people;classical=serious music from composers like Mozart;opera=a play where the actors sing;stage=the raised platform for performers;volume=how loud a sound is;amplifier=a device that makes sound louder;recording=a saved performance;anthem=the official song of a country;serenade=a song sung to someone you love;tempo=the speed of music;chord=several notes played together;note=a single musical sound;record=a vinyl disc with music;tour=a series of concerts in different places;fan=a person who loves a singer;applause=the sound of clapping hands;backstage=the area behind the stage;setlist=the list of songs for a concert;soundcheck=testing the sound before a show;flight=a journey by plane;train=a vehicle that runs on rails;station=a place where trains stop;platform=the place where you wait for a train;reservation=a booking made in advance;booking=arranging a room or ticket in advance;passenger=a person travelling in a vehicle;cruise=a holiday on a big ship;resort=a place for holidays with hotels;hostel=a cheap place to stay with shared rooms;guide=a person who shows tourists around;map=a drawing of an area;compass=it shows you which way is north;currency=the money used in a country;trip=a short journey;trail=a path through the countryside;camping=sleeping outdoors in a tent;tent=a shelter made of cloth;sightseeing=visiting famous places;museum=a place showing old or important objects;gallery=a place that shows paintings;abroad=in another country;foreign=from another country;arrival=the moment you reach a place;delay=when something happens later than planned;boarding=getting on a plane;gate=where you wait to board a plane;seat=the place where you sit;runway=the strip where planes take off;highway=a wide main road;taxi=a car with a driver you pay;subway=an underground train;ferry=a boat that carries people and cars;harbor=a place where ships stay;bridge=a structure that crosses a river;tunnel=a passage under a hill or river;birthday=the day you were born each year;present=something you give to someone;gift=something given to show love;balloon=a rubber bag filled with air;party=a social event with food and music;invitation=a request to come to an event;anniversary=a yearly celebration of an event;celebration=a happy event for something special;fireworks=bright explosions in the night sky;decoration=something that makes a place pretty;ribbon=a thin strip of cloth for gifts;cake=a sweet baked dessert;greeting=a friendly word when meeting;parade=a march through the streets;carnival=a street festival with costumes;christmas=a winter holiday on December twenty-fifth;easter=a spring holiday with eggs;halloween=a holiday with costumes in October;pumpkin=a big orange vegetable;snowman=a figure made of snow;surprise=something unexpected;toast=a short speech before drinking;champagne=a sparkling wine;guest=a person invited to your home;host=the person who invites guests;picnic=a meal eaten outdoors;barbecue=food cooked outdoors on a grill;bonfire=a large outdoor fire;lantern=a light with a case around the flame;confetti=small coloured paper pieces;wish=something you hope for;tradition=a custom passed down for years;weather=what it is like outside;sunny=full of sunshine;cloudy=covered with clouds;rainy=with a lot of rain;windy=with strong wind;foggy=covered with thick mist;snowy=with a lot of snow;stormy=with strong wind and rain;frost=thin ice on cold mornings;drizzle=very light rain;hail=balls of ice falling from the sky;flood=too much water covering land;drought=a long time without rain;hurricane=a very strong storm with wind;tornado=a spinning column of wind;earthquake=when the ground shakes;temperature=how hot or cold it is;forecast=a prediction of the weather;climate=the usual weather in a region;spring=the season after winter;summer=the hottest season;autumn=the season when leaves fall;winter=the coldest season;puddle=a small pool of rainwater;icicle=a hanging spike of ice;snowflake=a single piece of snow;blizzard=a heavy snowstorm;heatwave=a period of very hot weather;sunshine=light from the sun;shadow=a dark shape made by blocking light;horizon=the line where sky meets earth;thermometer=a tool that measures temperature;rain=water falling from clouds;wind=moving air;fog=thick low cloud near the ground;ice=frozen water;mud=wet soft earth;painting=making pictures with colours;drawing=making pictures with a pencil;knitting=making clothes from wool with needles;sewing=joining cloth with needle and thread;gardening=growing plants as a hobby;fishing=catching fish with a rod;hiking=a long walk in nature;photography=taking pictures as an art;reading=looking at words in a book;cooking=preparing food;baking=making bread or cakes;dancing=moving to music;singing=making music with your voice;collecting=gathering things you like;chess=a board game with kings and pawns;puzzle=a game with pieces to put together;cards=a set of pieces for games like poker;boardgame=a game played on a table;videogame=a game played on a screen;gaming=playing games;skateboard=a board with wheels you ride;juggling=keeping several objects in the air;origami=the art of folding paper;pottery=making things from clay;calligraphy=beautiful handwriting;magic=tricks that seem impossible;trick=something clever to fool people;hobby=an activity you enjoy in free time;leisure=free time;weekend=Saturday and Sunday;language=the words people use to communicate;country=a nation with its own government;nation=a large group of people with a shared country;capital=the main city of a country;flag=a piece of cloth with a country's colours;continent=a huge area of land like Europe;nationality=the country you belong to;native=belonging to the place where you were born;translate=to change words into another language;speak=to say words;listen=to pay attention to sound;repeat=to say again;understand=to know the meaning;remember=to keep in your memory;forget=to not remember;explain=to make something clear;whisper=to speak very quietly;shout=to speak very loudly;ask=to put a question;reply=to answer;argue=to disagree angrily;agree=to have the same opinion;promise=to say you will definitely do something;apologize=to say sorry;thank=to say you are grateful;dialect=a local way of speaking;alphabet=all the letters of a language;letter=a character like A or B;sentence=a group of words with a full meaning;paragraph=a part of a text with several sentences;punctuation=marks like commas and full stops;meaning=what a word expresses;spelling=the correct order of letters in a word;phrase=a short group of words;idiom=an expression with a special meaning;slang=very informal words;proverb=a short wise saying;conversation=a talk between people;pronounce=to say a word aloud correctly;run=to move fast on your feet;jump=to push yourself up into the air;climb=to go up using hands and feet;throw=to send something through the air;catch=to take hold of something moving;carry=to hold and move something;push=to move something away from you;pull=to move something toward you;build=to make a house or wall;break=to damage something into pieces;cut=to divide with a knife;open=to move a door so it is not closed;close=to shut;wash=to clean with water;clean=to remove dirt;write=to put words on paper;paint=to cover with colour;wait=to stay until something happens;follow=to go behind someone;search=to look for something;find=to discover something lost;lose=to be unable to find something;borrow=to take something and return it later;lend=to give something for a short time;choose=to pick one thing;decide=to make up your mind;fall=to drop down;rise=to go up;drop=to let something fall;hide=to go where nobody can see you;knock=to hit a door to be heard;swing=to move back and forth;hang=to attach something from above;kiss=to touch with your lips;smile=to show happiness with your mouth;laugh=to make a happy sound;cry=to have tears;dream=to see pictures while sleeping;believe=to think something is true;miss=to feel sad because someone is absent;red=the colour of blood;blue=the colour of the sky;green=the colour of grass;yellow=the colour of lemons;black=the darkest colour;white=the colour of snow;purple=a colour between red and blue;pink=a pale red colour;brown=the colour of chocolate;grey=a colour between black and white;golden=made of or like gold;silver=a shiny grey-white metal colour;bright=giving a lot of light;dark=with little or no light;heavy=weighing a lot;sharp=able to cut easily;soft=not hard to touch;smooth=with a flat even surface;rough=not smooth;wet=covered with water;dry=not wet;empty=with nothing inside;full=with no space left;narrow=small from side to side;wide=large from side to side;thick=large from one side to the other;thin=not thick;strong=having great power;weak=not strong;fast=moving at high speed;slow=not fast;quiet=making little noise;loud=making a lot of noise;dirty=not clean;rich=having a lot of money;poor=having very little money;young=not old;ancient=very very old;modern=of the present time;famous=known by many people;dangerous=likely to cause harm;beautiful=very pleasing to look at;ugly=not pleasing to look at";
+DEFSTR3.split(";").forEach(function(p){var a=p.split("=");if(a[0]&&a[1])DEFS[a[0]]=a[1]});
+WORDS.forEach(function(w){if(DEFS[w[0]])w[2]=DEFS[w[0]];else if(/^A word with/.test(w[2]))w[2]="A word about "+(TEN[topicOf(w)]||"everyday life")+", "+w[0].length+" letters, starts with "+w[0].charAt(0).toUpperCase()});
 function topicOk(w){var t=document.getElementById("topic").value;return t==="all"||topicOf(w)===t}
 function pool(){var r=pool0();return r.length?r:WORDS.filter(topicOk)}
 function pool0(){if(practice){var m=WORDS.filter(function(w){return missed.indexOf(w[0])>=0});if(m.length)return m;practice=false}var lv=document.getElementById("level").value;return WORDS.filter(topicOk).filter(function(w){var n=w[0].length;return lv==="all"||(lv==="easy"&&n<=6)||(lv==="mid"&&n>=7&&n<=8)||(lv==="hard"&&n>=9)})}
 var word,hint,guessed,wrong,over,last=-1,cur,stats={w:0,l:0,s:0,b:0};
 var timerId=null,tleft=0,practice=false,missed=[],resetArmed=false;
 try{missed=JSON.parse(localStorage.getItem("hm-missed")||"[]")}catch(err){missed=[]}
+function shake(){var g=document.getElementById("gallows");g.classList.remove("shake");void g.getBoundingClientRect();g.classList.add("shake")}
+var usedWords={},soundOn=true,AC=null;
+try{soundOn=localStorage.getItem("hm-snd")!=="0"}catch(err){}
+function tone(f,t0,d,type,vol){var n=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();o.type=type||"sine";o.frequency.value=f;g.gain.setValueAtTime(0.0001,n+t0);g.gain.linearRampToValueAtTime(vol||.15,n+t0+.01);g.gain.exponentialRampToValueAtTime(.0001,n+t0+d);o.connect(g);g.connect(AC.destination);o.start(n+t0);o.stop(n+t0+d+.02)}
+function sfx(k){
+ if(k==="bad"&&navigator.vibrate){try{navigator.vibrate(40)}catch(err){}}
+ if(!soundOn)return;
+ try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();
+  if(k==="ok"){tone(660,0,.12,"triangle");tone(880,.08,.14,"triangle")}
+  else if(k==="bad"){tone(180,0,.22,"sawtooth",.1)}
+  else if(k==="win"){[523,659,784,1047].forEach(function(f,i){tone(f,i*.12,.25,"triangle")})}
+  else if(k==="lose"){tone(220,1,.18,"square",.08);tone(110,1.15,.5,"sawtooth",.12)}
+ }catch(err){}
+}
+var SET_IDS=["level","hintmode","topic","timer"];
+function saveSettings(){try{var o={};SET_IDS.forEach(function(id){o[id]=document.getElementById(id).value});localStorage.setItem("hm-set",JSON.stringify(o))}catch(err){}}
 function rowFor(c){var rows=["qwertyuiop","asdfghjkl","zxcvbnm"];var i=rows[0].indexOf(c)>=0?0:rows[1].indexOf(c)>=0?1:2;
  while(kb.children.length<=i){var d=document.createElement("div");d.className="krow";kb.appendChild(d)}
  return kb.children[i]}
@@ -152,25 +476,28 @@ function renderReview(){var r=document.getElementById("review");r.textContent=""
   var p=document.createElement("div");p.className="rvl";p.textContent=list.map(function(w){return w[0]+" — "+w[1]}).join(" · ");r.appendChild(p);
   var b=document.createElement("button");b.textContent="Тренировать ошибки";b.onclick=function(){practice=true;start()};r.appendChild(b);
  }
- var x=document.createElement("button");x.textContent=resetArmed?"Точно сбросить?":"Сбросить статистику";
- x.onclick=function(){if(!resetArmed){resetArmed=true;renderReview();return}
-  resetArmed=false;stats={w:0,l:0,s:0,b:0};missed=[];saveStats();try{localStorage.setItem("hm-missed","[]")}catch(err){}showStats();renderReview()};
- r.appendChild(x);
+ 
 }
 try{var sv=localStorage.getItem("hm-stats");if(sv)stats=JSON.parse(sv)}catch(err){}
 function saveStats(){try{localStorage.setItem("hm-stats",JSON.stringify(stats))}catch(err){}}
-function showStats(){document.getElementById("stats").textContent="Победы: "+stats.w+" · Поражения: "+stats.l+" · Серия: "+stats.s+" (рекорд "+stats.b+")"}
+function showStats(){var el=document.getElementById("stats");el.textContent="";
+ [["Победы",stats.w,"win"],["Поражения",stats.l,"loss"],["Серия",stats.s,"streak"],["Рекорд",stats.b,"best"]].forEach(function(c){
+  var d=document.createElement("div");d.className="st st-"+c[2];
+  var n=document.createElement("b");n.textContent=c[1];
+  var t=document.createElement("span");t.textContent=c[0];
+  d.appendChild(n);d.appendChild(t);el.appendChild(d)})}
 function finish(won){
- over=true;again.hidden=false;document.getElementById("hintbtn").disabled=true;document.getElementById("speak").hidden=false;
+ over=true;again.hidden=false;document.body.classList.add("over");sfx(won?"win":"lose");document.getElementById("gallows").setAttribute("class",won?"win":"lost");document.getElementById("hintbtn").disabled=true;document.getElementById("speak").hidden=false;
  if(won){stats.w++;stats.s++;if(stats.s>stats.b)stats.b=stats.s;statusEl.textContent="Победа! 🎉";statusEl.style.color="var(--ok)"}
- else{stats.l++;stats.s=0;statusEl.textContent="Слово: "+word.toUpperCase();statusEl.style.color="var(--bad)";word.split("").forEach(function(c){guessed[c]=true});render()}
+ else{stats.l++;stats.s=0;wrong=6;statusEl.textContent="Слово: "+word.toUpperCase();statusEl.style.color="var(--bad)";word.split("").forEach(function(c){guessed[c]=true});render()}
  var inf=document.getElementById("info");inf.textContent="";
  var b=document.createElement("b");b.textContent=cur[0]+" — "+cur[1];inf.appendChild(b);inf.appendChild(document.createElement("br"));inf.appendChild(document.createTextNode(cur[2]));
  clearTimer();drawClock();updateMissed(won);saveStats();showStats();renderReview();
 }
 var kb=document.getElementById("kb"),wordEl=document.getElementById("word"),statusEl=document.getElementById("status"),again=document.getElementById("again");
 function start(){
- var P=pool(),i;do{i=Math.floor(Math.random()*P.length)}while(P.length>1&&P[i][0]===last);last=P[i][0];
+ var P=pool(),i;var fresh=P.filter(function(w){return !usedWords[w[0]]});if(!fresh.length){P.forEach(function(w){delete usedWords[w[0]]});fresh=P.slice()}
+ var pick=fresh[Math.floor(Math.random()*fresh.length)];i=P.indexOf(pick);usedWords[pick[0]]=1;last=pick[0];
  var e=P[i];cur=e;word=e[0];hint=document.getElementById("hintmode").value==="en"?"Hint: "+e[2]:"Подсказка: "+e[1];guessed={};wrong=0;over=false;
  document.getElementById("hint").textContent=hint;
  kb.innerHTML="";
@@ -178,18 +505,18 @@ function start(){
   var b=document.createElement("button");b.textContent=c.toUpperCase();b.id="k"+c;
   b.onclick=function(){guess(c)};rowFor(c).appendChild(b);
  });
- again.hidden=true;document.getElementById("speak").hidden=true;document.getElementById("info").textContent="";statusEl.textContent="";statusEl.style.color="";showStats();resetArmed=false;document.getElementById("review").textContent="";startTimer();
+ again.hidden=true;document.body.classList.remove("over");document.getElementById("speak").hidden=true;document.getElementById("info").textContent="";statusEl.textContent="";statusEl.style.color="";showStats();resetArmed=false;document.getElementById("gallows").setAttribute("class","");document.getElementById("review").textContent="";startTimer();
  render();
 }
 function render(){document.getElementById("hintbtn").disabled=over||wrong>=5;
  wordEl.textContent="";word.split("").forEach(function(c){var s=document.createElement("span");s.className="tile";s.textContent=guessed[c]?c.toUpperCase():"";wordEl.appendChild(s)});
- for(var n=1;n<=6;n++)document.getElementById("p"+n).style.display=n<=wrong?"":"none";
+ for(var n=1;n<=6;n++)document.getElementById("p"+n).classList.toggle("on",n<=wrong);document.getElementById("gallows").classList.toggle("near",wrong>=4);
 }
 function guess(c){
  if(over||guessed[c])return;statusEl.textContent="";
  guessed[c]=true;
  var b=document.getElementById("k"+c);b.disabled=true;
- if(word.indexOf(c)>=0){b.className="ok"}else{b.className="bad";wrong++}
+ if(word.indexOf(c)>=0){b.className="ok";sfx("ok")}else{b.className="bad";wrong++;shake();sfx("bad")}
  render();
  var won=word.split("").every(function(x){return guessed[x]});
  if(won){finish(true)}
@@ -203,6 +530,9 @@ document.addEventListener("keydown",function(e){
  else if(e.key==="Enter"&&over)start();
 });
 again.onclick=start;
+var sb=document.getElementById("sndbtn");function updSnd(){sb.textContent=soundOn?"🔊 Звук: вкл":"🔇 Звук: выкл"}updSnd();
+sb.onclick=function(){soundOn=!soundOn;try{localStorage.setItem("hm-snd",soundOn?"1":"0")}catch(err){}updSnd();if(soundOn)sfx("ok")};
+try{var sv2=JSON.parse(localStorage.getItem("hm-set")||"{}");SET_IDS.forEach(function(id){var el=document.getElementById(id);if(sv2[id]&&[].some.call(el.options,function(op){return op.value===sv2[id]}))el.value=sv2[id]})}catch(err){}
 document.getElementById("hintbtn").onclick=function(){
  if(over||wrong>=5)return;
  var left=word.split("").filter(function(c){return !guessed[c]});
@@ -213,10 +543,35 @@ document.getElementById("hintbtn").onclick=function(){
  render();
  if(word.split("").every(function(x){return guessed[x]}))finish(true);
 };
-document.getElementById("go").onclick=submitTyped;
+var rbtn=document.getElementById("resetbtn"),rtimer=null;
+rbtn.onclick=function(){
+ if(!rbtn.classList.contains("armed")){rbtn.classList.add("armed");rbtn.textContent="Нажми ещё раз для сброса";clearTimeout(rtimer);rtimer=setTimeout(function(){rbtn.classList.remove("armed");rbtn.textContent="Сбросить статистику"},3000);return}
+ clearTimeout(rtimer);rbtn.classList.remove("armed");rbtn.textContent="Сбросить статистику";
+ stats={w:0,l:0,s:0,b:0};missed=[];saveStats();try{localStorage.setItem("hm-missed","[]")}catch(err){}showStats();document.getElementById("review").textContent="";
+};
+
 document.getElementById("typed").onkeydown=function(e){if(e.key==="Enter"){e.preventDefault();submitTyped()}};
-document.getElementById("speak").onclick=function(){try{var u=new SpeechSynthesisUtterance(word);u.lang="en-US";u.rate=.8;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(err){}};
-["level","hintmode","topic","timer"].forEach(function(id){var s=document.getElementById(id);s.onchange=function(){s.blur();practice=false;start()}});
+function speakWord(){
+ var ss=window.speechSynthesis,hl=document.getElementById("hint");
+ if(!ss||typeof SpeechSynthesisUtterance==="undefined"){hl.textContent="Озвучка не поддерживается в этом браузере";return}
+ try{
+  var u=new SpeechSynthesisUtterance(word),started=false;
+  u.lang="en-US";u.rate=.85;
+  var vs=ss.getVoices?ss.getVoices():[];
+  var v=vs.filter(function(x){return x.lang&&x.lang.toLowerCase().replace("_","-")==="en-us"})[0]||vs.filter(function(x){return x.lang&&/^en/i.test(x.lang)})[0];
+  if(v)u.voice=v;
+  u.onstart=function(){started=true};
+  u.onerror=function(){hl.textContent="Не удалось озвучить: нет английского голоса"};
+  if(ss.speaking||ss.pending)ss.cancel();
+  setTimeout(function(){ss.speak(u)},60);
+  setTimeout(function(){if(!started&&!ss.speaking)hl.textContent="Озвучка недоступна: проверь звук и голоса телефона"},1500);
+ }catch(err){hl.textContent="Озвучка недоступна"}
+}
+document.getElementById("speak").onclick=speakWord;
+if(!window.speechSynthesis||typeof SpeechSynthesisUtterance==="undefined")document.body.classList.add("nospeech");
+try{if(window.speechSynthesis&&speechSynthesis.getVoices)speechSynthesis.getVoices()}catch(err){}
+document.getElementById("setbtn").onclick=function(){var c=document.getElementById("settings");c.hidden=!c.hidden};
+["level","hintmode","topic","timer"].forEach(function(id){var s=document.getElementById(id);s.onchange=function(){s.blur();practice=false;document.getElementById("settings").hidden=true;saveSettings();start()}});
 start();
 </script>
 <script>
