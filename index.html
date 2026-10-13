@@ -290,6 +290,68 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 #themebtn{padding:9px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--fg);font:700 .82rem system-ui,-apple-system,"Segoe UI",sans-serif;cursor:pointer;white-space:nowrap}
 #themebtn:active{transform:translateY(1px)}
 @media(max-width:360px){#themebtn{padding:8px 10px;font-size:.75rem}}
+
+/* Responsive layout guard: prevent horizontal overflow on phones and desktop. */
+*,*::before,*::after{box-sizing:border-box}
+html,body{width:100%;max-width:100%;min-width:0;overflow-x:clip}
+body{margin:0}
+main{width:100%;max-width:760px;min-width:0;margin-inline:auto;padding:clamp(8px,2.5vw,24px) clamp(8px,3vw,24px) 32px}
+.topbar{width:100%;min-width:0;gap:8px;flex-wrap:wrap;justify-content:center}
+#stats{flex:1 1 100%;min-width:0;width:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(4px,1vw,8px);text-align:center}
+.st{min-width:0;width:100%;padding:5px 3px;overflow:hidden}
+.st span{font-size:clamp(.48rem,1.5vw,.65rem);letter-spacing:0;white-space:normal}
+.st b{font-size:clamp(.9rem,2.6vw,1.2rem)}
+#themebtn{max-width:100%;min-width:0;white-space:normal;line-height:1.2}
+.card{min-width:0;width:100%}
+#gallows{display:block;width:min(100%,520px);height:auto;max-height: min(38vh,340px);margin-inline:auto;object-fit:contain}
+#word{max-width:100%;gap:clamp(2px,.8vw,5px)}
+.tile{width:clamp(18px,4.2vw,30px);max-width:100%}
+.typebox{width:100%;min-width:0}
+.typebox input{width:0;min-width:0;flex:1 1 auto}
+.typebox button{flex:0 0 42px}
+#kb{width:100%;min-width:0}
+.krow{width:100%;min-width:0;gap:clamp(3px,1vw,7px)}
+#kb button{flex:1 1 0;min-width:0;max-width:none;padding:0 1px;font-size:clamp(.78rem,2.5vw,1rem)}
+@media(min-width:700px){
+ main{max-width:980px;padding:24px 28px 48px}
+ .topbar{flex-wrap:nowrap;justify-content:space-between}
+ #stats{flex:1 1 auto;width:auto;grid-template-columns:repeat(4,minmax(0,1fr))}
+ #themebtn{flex:0 0 auto}
+ .card{padding:clamp(16px,2vw,28px)}
+ #gallows{max-height:42vh;width:min(100%,620px)}
+ #kb{max-width:620px;margin-inline:auto}
+ #kb button{height:clamp(42px,5vw,54px);font-size:1rem}
+}
+@media(max-width:380px){
+ main{padding-inline:6px}
+ .topbar{gap:5px}
+ .st{padding:4px 1px}
+ .st span{font-size:.46rem}
+ #hint{max-width:100%;white-space:normal}
+}
+
+/* Responsive layout fix */
+*,*::before,*::after{box-sizing:border-box}
+html,body{width:100%;max-width:100%;min-width:0;overflow-x:clip}
+main{width:100%;max-width:760px;min-width:0;margin-inline:auto;padding:clamp(8px,2.5vw,24px) clamp(8px,3vw,24px) 32px}
+.topbar{width:100%;min-width:0;gap:8px;flex-wrap:wrap;justify-content:center}
+#stats{flex:1 1 100%;min-width:0;width:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(4px,1vw,8px);text-align:center}
+.st{min-width:0;width:100%;padding:5px 3px;overflow:hidden}
+.st span{font-size:clamp(.48rem,1.5vw,.65rem);letter-spacing:0;white-space:normal}
+.st b{font-size:clamp(.9rem,2.6vw,1.2rem)}
+#themebtn{max-width:100%;min-width:0;white-space:normal;line-height:1.2}
+.card{min-width:0;width:100%}
+#gallows{display:block;width:min(100%,520px);height:auto;max-height:min(38vh,340px);margin-inline:auto;object-fit:contain}
+#word{max-width:100%;gap:clamp(2px,.8vw,5px)}
+.tile{width:clamp(18px,4.2vw,30px);max-width:100%}
+.typebox{width:100%;min-width:0}
+.typebox input{width:0;min-width:0;flex:1 1 auto}
+.typebox button{flex:0 0 42px}
+#kb,#kb .krow{width:100%;min-width:0}
+.krow{gap:clamp(3px,1vw,7px)}
+#kb button{flex:1 1 0;min-width:0;max-width:none;padding:0 1px;font-size:clamp(.78rem,2.5vw,1rem)}
+@media(min-width:700px){main{max-width:980px;padding:24px 28px 48px}.topbar{flex-wrap:nowrap;justify-content:space-between}#stats{flex:1 1 auto;width:auto;grid-template-columns:repeat(4,minmax(0,1fr))}#themebtn{flex:0 0 auto}.card{padding:clamp(16px,2vw,28px)}#gallows{max-height:42vh;width:min(100%,620px)}#kb{max-width:620px;margin-inline:auto}#kb button{height:clamp(42px,5vw,54px);font-size:1rem}}
+@media(max-width:380px){main{padding-inline:6px}.topbar{gap:5px}.st{padding:4px 1px}.st span{font-size:.46rem}#hint{max-width:100%;white-space:normal}}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
