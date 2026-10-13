@@ -17,7 +17,7 @@ for (const required of ["index.html", "sw.js", "manifest.webmanifest"]) {
 if (process.exitCode) process.exit();
 
 const html = read("index.html");
-const scriptBlocks = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi)]
+const scriptBlocks = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script(?:\s+[^>]*)?>/gi)]
   .filter((match) => !/\bsrc\s*=/.test(match[1]))
   .map((match) => match[2])
   .filter((body) => body.trim());
