@@ -272,6 +272,24 @@ main{max-width:1040px;width:100%;display:grid;grid-template-columns:minmax(0,1.2
 }
 @media (min-width:1500px){html{font-size:18px}}
 button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Explicit theme switch: override the default dark palette when light mode is selected. */
+:root[data-theme="light"]{color-scheme:light;--bg:#f3f5fb;--bg2:#e4e9f7;--card:rgba(255,255,255,.82);--card2:rgba(255,255,255,.98);--line:rgba(30,41,90,.14);--accent:#5b4bf5;--fg:#172033;--mute:#e6eaf5;--ok:#059669;--bad:#dc2626;--shadow:0 10px 40px rgba(60,70,140,.15)}
+:root[data-theme="light"] body{background:radial-gradient(60% 40% at 10% 0%,rgba(109,94,252,.12),transparent 70%),radial-gradient(50% 40% at 100% 8%,rgba(34,211,238,.12),transparent 70%),linear-gradient(180deg,var(--bg),var(--bg2));color:var(--fg)}
+:root[data-theme="light"] .card,:root[data-theme="light"] #review{background:var(--card);border-color:var(--line)}
+:root[data-theme="light"] .ctl .sel,:root[data-theme="light"] .typebox input,:root[data-theme="light"] .acts button,:root[data-theme="light"] #review button{background:var(--card);color:var(--fg);border-color:var(--line)}
+:root[data-theme="light"] .ctl .sel select{color:var(--fg)}
+:root[data-theme="light"] .ctl .sel select option{background:#fff;color:#172033}
+:root[data-theme="light"] #hint,:root[data-theme="light"] #info,:root[data-theme="light"] #clock{background:var(--mute);color:var(--fg)}
+:root[data-theme="light"] #kb button{background:var(--card2);color:var(--fg);border-color:var(--line);box-shadow:0 2px 0 var(--line)}
+:root[data-theme="light"] #kb button.ok{background:#059669;color:#fff}
+:root[data-theme="light"] #kb button.bad{background:#f3f4f6;color:#b91c1c;opacity:.75}
+:root[data-theme="light"] .typebox button,:root[data-theme="light"] #again{background:linear-gradient(135deg,#6556ee,#0891b2);color:#fff;box-shadow:0 6px 18px rgba(91,75,245,.2)}
+:root[data-theme="light"] .acts button,:root[data-theme="light"] #review button{color:var(--accent)}
+.top-actions{display:flex;align-items:center;gap:8px}
+#themebtn{padding:9px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--fg);font:700 .82rem system-ui,-apple-system,"Segoe UI",sans-serif;cursor:pointer;white-space:nowrap}
+#themebtn:active{transform:translateY(1px)}
+@media(max-width:360px){#themebtn{padding:8px 10px;font-size:.75rem}}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -282,7 +300,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 <main>
 
 
-<div class="topbar"><div id="stats"></div><button id="setbtn" type="button" aria-label="Настройки" title="Настройки">⚙️</button></div>
+<div class="topbar"><div id="stats"></div><div class="top-actions"><button id="themebtn" type="button" aria-label="Включить светлую тему" title="Переключить тему">☀️ Светлая тема</button><button id="setbtn" type="button" aria-label="Настройки" title="Настройки">⚙️</button></div></div>
 <div class="ctl" id="settings" hidden>
 <label class="sel"><span>Сложность</span><select id="level" aria-label="Уровень"><option value="all">Все</option><option value="easy">Лёгкий</option><option value="mid">Средний</option><option value="hard">Сложный</option></select></label>
 <label class="sel"><span>Таймер</span><select id="timer" aria-label="Режим"><option value="off">Выкл</option><option value="60">60 сек</option><option value="30">30 сек</option></select></label>
@@ -430,6 +448,20 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 <div id="review"></div>
 </main>
 <script>
+
+var themeBtn=document.getElementById("themebtn");
+function applyTheme(theme){
+ var chosen=theme==="light"?"light":"dark";
+ document.documentElement.setAttribute("data-theme",chosen);
+ themeBtn.textContent=chosen==="dark"?"☀️ Светлая тема":"🌙 Тёмная тема";
+ themeBtn.setAttribute("aria-label",chosen==="dark"?"Включить светлую тему":"Включить тёмную тему");
+ themeBtn.title=chosen==="dark"?"Переключить на светлую тему":"Переключить на тёмную тему";
+ try{localStorage.setItem("hm-theme",chosen)}catch(err){}
+}
+var savedTheme="dark";
+try{savedTheme=localStorage.getItem("hm-theme")||"dark"}catch(err){}
+applyTheme(savedTheme);
+themeBtn.addEventListener("click",function(){applyTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark")});
 var WORDS=[["soundtrack","саундтрек","music written for a film"],["director","режиссёр","the person who controls how a film is made"],["audience","зрители","people who watch a show or film"],["subtitles","субтитры","text at the bottom of the screen showing the words spoken"],["lyrics","текст песни","the words of a song"],["chorus","припев","the part of a song that repeats"],["rehearsal","репетиция","practice before a performance"],["screenplay","киносценарий","the written story and dialogue of a film"],["headphones","наушники","you wear them over your ears to listen to music"],["credits","титры","the list of names shown at the end of a film"],["guitar","гитара","an instrument with six strings"],["melody","мелодия","a series of notes that make a tune"],["cinema","кинотеатр","a place where you go to watch films"],["trailer","трейлер","a short preview of a film"],["episode","серия","one part of a TV series"],["genre","жанр","a type of film or music, like horror or jazz"],["scene","сцена (эпизод)","a part of a film that happens in one place"],["concert","концерт","a live music performance"],["actor","актёр","a person who plays a role in a film"],["album","альбом","a collection of songs released together"],["comedy","комедия","a funny film or show"],["thriller","триллер","an exciting film full of suspense"],["singer","певец","a person who sings"],["drummer","барабанщик","a musician who plays drums"],["camera","камера","the device used to record a film"],["premiere","премьера","the first public showing of a film"],["festival","фестиваль","a big event with many films or bands"],["composer","композитор","a person who writes music"],["orchestra","оркестр","a large group of musicians playing together"],["animation","анимация","a film made from drawings or computer images"],["playlist","плейлист","a list of songs to play one after another"],["sequel","продолжение","a film that continues the story of an earlier one"],["studio","студия","a place where films or music are made"],["ticket","билет","you buy it to enter a cinema or concert"],["review","рецензия","a written opinion about a film or album"],["microphone","микрофон","a device that picks up a voice or sound"],["documentary","документальный фильм","a film about real events and people"],["blockbuster","блокбастер","a very successful, expensive film"]];
 WORDS.push(["sitcom","ситком","a funny TV series with the same characters every week"],["villain","злодей","the bad character in a story"],["stuntman","каскадёр","a person who does dangerous actions instead of an actor"],["cartoon","мультфильм","a film made of drawings, often for children"],["script","сценарий","the written words that actors say"],["remake","ремейк","a new version of an old film"],["cliffhanger","интригующий обрыв","an exciting ending that leaves you waiting for what happens next"],["blooper","неудачный дубль","a funny mistake left in a film"],["dubbing","дубляж","replacing the original voices with voices in another language"],["sidekick","напарник","a hero's helper or best friend"],["spoiler","спойлер","information that ruins the surprise of a story"],["season","сезон","a set of episodes of a TV series"],["audition","проба","a short test performance to get a role"],["costume","костюм (театральный)","clothes an actor wears to play a character"],["violin","скрипка","a small wooden instrument played with a bow"],["piano","пианино","a big instrument with black and white keys"],["rhythm","ритм","the pattern of beats in music"],["lullaby","колыбельная","a soft song to help a baby sleep"],["ballad","баллада","a slow, emotional song"],["encore","бис","an extra song played after the concert has ended"],["acoustic","акустический","played without electric amplification"],["harmony","гармония","different notes sounding good together"],["headliner","хедлайнер","the main act at a festival or concert"],["remix","ремикс","a new version of a song made by changing the original"],["single","сингл","one song released on its own"],["vinyl","виниловая пластинка","a large black disc that plays music"],["karaoke","караоке","singing along to a song while the words are on a screen"],["rapper","рэпер","a person who performs rap music"],["verse","куплет","a section of a song between the choruses"],["bassist","бас-гитарист","a musician who plays the bass guitar"],["trumpet","труба","a brass instrument with a bright, loud sound"],["saxophone","саксофон","a curved metal instrument often used in jazz"]);
 var MUSIC={lyrics:1,chorus:1,headphones:1,guitar:1,melody:1,concert:1,album:1,singer:1,drummer:1,composer:1,orchestra:1,playlist:1,microphone:1,festival:1,violin:1,piano:1,rhythm:1,lullaby:1,ballad:1,encore:1,acoustic:1,harmony:1,headliner:1,remix:1,single:1,vinyl:1,karaoke:1,rapper:1,verse:1,bassist:1,trumpet:1,saxophone:1,rehearsal:1};
