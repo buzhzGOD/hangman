@@ -357,6 +357,67 @@ main{width:100%;max-width:760px;min-width:0;margin-inline:auto;padding:clamp(8px
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="enhancements.css">
+<style>
+
+/* Responsive polish: phone, tablet and desktop */
+*,*::before,*::after{box-sizing:border-box}
+html{width:100%;max-width:100%;overflow-x:hidden}
+body{width:100%;max-width:100%;min-width:0;overflow-x:hidden}
+main{width:100%;min-width:0;max-width:480px;margin-inline:auto;padding:clamp(8px,2.5vw,20px) clamp(8px,3vw,16px) max(20px,env(safe-area-inset-bottom))}
+.topbar{width:100%;min-width:0;gap:8px}
+#stats{min-width:0;max-width:100%;gap:clamp(3px,1vw,6px)}
+.st{flex:1 1 0;min-width:0;padding:4px 2px}
+.st b{font-size:clamp(.85rem,3vw,1.05rem)}
+.st span{font-size:clamp(.43rem,1.7vw,.54rem);letter-spacing:0;white-space:normal;text-align:center}
+#themebtn{max-width:100%;min-width:0;white-space:normal;overflow-wrap:anywhere}
+.ctl{width:100%;min-width:0;grid-template-columns:repeat(2,minmax(0,1fr))}
+.ctl .sel{min-width:0}
+.ctl .sel select{min-width:0;max-width:100%;text-overflow:ellipsis}
+.card{width:100%;min-width:0;padding:clamp(10px,3vw,18px)}
+#gallows{display:block;width:min(100%,340px);height:auto;max-height:32vh;aspect-ratio:1/1;object-fit:contain;margin-inline:auto}
+#word{width:100%;min-width:0;gap:clamp(2px,.8vw,5px)}
+.tile{width:clamp(17px,6vw,30px);max-width:100%;margin:0}
+.typebox{display:flex;width:100%;min-width:0;gap:6px}
+.typebox input{flex:1 1 auto;width:0;min-width:0;font-size:16px}
+.typebox button{flex:0 0 42px;min-width:42px;padding:0}
+#kb{width:100%;min-width:0}
+.krow{width:100%;min-width:0;gap:clamp(3px,1vw,6px)}
+#kb button{flex:1 1 0;min-width:0;max-width:none;padding:0 1px;font-size:clamp(.78rem,3vw,1rem);touch-action:manipulation}
+button,select,input{max-width:100%}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media(min-width:600px){
+ main{max-width:680px;padding:24px 24px 40px}
+ #gallows{width:min(100%,390px);max-height:38vh}
+ #kb{max-width:520px;margin-inline:auto}
+ #kb button{height:46px}
+}
+@media(min-width:900px){
+ main{max-width:920px;padding:28px 32px 48px}
+ .topbar{gap:16px}
+ #stats{flex:1 1 auto}
+ .st{padding:8px 10px}
+ .st b{font-size:1.15rem}
+ .st span{font-size:.65rem}
+ .ctl{grid-template-columns:repeat(4,minmax(0,1fr));max-width:760px;margin-inline:auto}
+ .card{padding:22px}
+ #gallows{width:min(100%,440px);max-height:42vh}
+ #word{gap:6px}
+ .tile{width:30px}
+ #kb{max-width:620px}
+ #kb button{height:50px;font-size:1rem}
+ .typebox{max-width:620px;margin-inline:auto}
+ #review{max-width:760px;margin-inline:auto}
+}
+@media(max-width:360px){
+ main{padding-inline:6px}
+ .topbar{gap:5px}
+ .st span{font-size:.4rem}
+ .ctl .sel select{padding-left:8px;padding-right:22px;font-size:.78rem}
+ .tile{width:clamp(16px,5.7vw,21px)}
+ #kb button{height:36px;border-radius:9px}
+}
+
+</style>
 </head>
 <body>
 <main>
