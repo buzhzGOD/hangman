@@ -84,6 +84,34 @@ if (!precache) {
   }
 }
 
+
+/* Responsive UI regression checks (static; not a substitute for browser tests). */
+const ids = [...html.matchAll(/\bid=["']([^"']+)["']/g)].map((match) => match[1]);
+const seenIds = new Set();
+const duplicateIds = new Set();
+for (const id of ids) {
+  if (seenIds.has(id)) duplicateIds.add(id);
+  seenIds.add(id);
+}
+if (duplicateIds.size) fail(`Duplicate HTML id(s): ${[...duplicateIds].join(", ")}`);
+else pass(`HTML ids are unique: ${ids.length} id(s)`);
+
+const responsiveChecks = [
+  ["mobile/tablet breakpoint", /@media\s*\(min-width:\s*600px\)/],
+  ["desktop breakpoint", /@media\s*\(min-width:\s*900px\)/],
+  ["small-screen breakpoint", /@media\s*\(max-width:\s*360px\)/],
+  ["horizontal overflow guard", /html\s*\{[^}]*overflow-x:\s*hidden/s],
+  ["fluid main container", /main\s*\{[^}]*width:\s*100%/s],
+  ["responsive keyboard keys", /#kb\s+button\s*\{[^}]*min-width:\s*0/s],
+  ["visible keyboard focus", /:focus-visible\s*\{[^}]*outline/s],
+  ["theme toggle", /id=["']themebtn["']/],
+  ["theme preference persistence", /hm-theme/],
+];
+for (const [label, pattern] of responsiveChecks) {
+  if (pattern.test(html)) pass(`Responsive UI: ${label}`);
+  else fail(`Responsive UI check missing: ${label}`);
+}
+
 if (process.exitCode) {
   console.error("Smoke tests failed.");
   process.exit(1);
