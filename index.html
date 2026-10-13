@@ -109,7 +109,7 @@ body{font-family:"Manrope",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,A
 h1{letter-spacing:-.02em}
 .tile{font-weight:800}
 #kb button{font-weight:800}
-:root,:root:not([data-theme="light"]),:root[data-theme="dark"],:root[data-theme="light"]{color-scheme:dark;--bg:#0b0b0c;--bg2:#1a1708;--card:rgba(255,255,255,.05);--card2:rgba(255,255,255,.09);--line:rgba(250,204,21,.2);--accent:#facc15;--fg:#f5f5f4;--mute:rgba(255,255,255,.08);--ok:#facc15;--bad:#f87171;--shadow:0 10px 40px rgba(0,0,0,.6)}
+:root,:root:not([data-theme="light"]),:root[data-theme="dark"]{color-scheme:dark;--bg:#0b0b0c;--bg2:#1a1708;--card:rgba(255,255,255,.05);--card2:rgba(255,255,255,.09);--line:rgba(250,204,21,.2);--accent:#facc15;--fg:#f5f5f4;--mute:rgba(255,255,255,.08);--ok:#facc15;--bad:#f87171;--shadow:0 10px 40px rgba(0,0,0,.6)}
 body{background:radial-gradient(60% 40% at 10% 0%,rgba(250,204,21,.16),transparent 70%),radial-gradient(50% 40% at 100% 10%,rgba(250,204,21,.08),transparent 70%),linear-gradient(180deg,var(--bg),var(--bg2));background-attachment:fixed}
 .ctl select option{background:#161616;color:#f5f5f4}
 #hint{background:rgba(250,204,21,.12);color:#fde68a}
@@ -487,7 +487,7 @@ WORDS.forEach(function(w){if(DEFS[w[0]])w[2]=DEFS[w[0]];else if(/^A word with/.t
 function topicOk(w){var t=document.getElementById("topic").value;return t==="all"||topicOf(w)===t}
 function pool(){var r=pool0();return r.length?r:WORDS.filter(topicOk)}
 function pool0(){if(practice){var m=WORDS.filter(function(w){return missed[w[0]]});if(m.length){var top=Math.max.apply(null,m.map(function(w){return missed[w[0]].attempts}));return m.filter(function(w){return missed[w[0]].attempts===top})}practice=false}var lv=document.getElementById("level").value;return WORDS.filter(topicOk).filter(function(w){var n=w[0].length;return lv==="all"||(lv==="easy"&&n<=6)||(lv==="mid"&&n>=7&&n<=8)||(lv==="hard"&&n>=9)})}
-var MAX_WRONG=6,word,hint,guessed,wrong,over,last=-1,cur,stats={w:0,l:0,s:0,b:0};
+var MAX_WRONG=6,word,hint,guessed,wrong,over,last=-1,cur,wrongWords={},stats={w:0,l:0,s:0,b:0};
 var timerId=null,tleft=0,practice=false,missed={},resetArmed=false;
 try{var storedMissed=JSON.parse(localStorage.getItem("hm-missed")||"{}");if(Array.isArray(storedMissed)){storedMissed.forEach(function(w){if(typeof w==="string")missed[w]={attempts:1}})}else if(storedMissed&&typeof storedMissed==="object"){Object.keys(storedMissed).forEach(function(w){var item=storedMissed[w],count=item&&Number(item.attempts);if(Number.isFinite(count)&&count>0)missed[w]={attempts:Math.floor(count)}})}}catch(err){missed={}}
 function shake(){if(window.matchMedia&&(matchMedia("(prefers-reduced-motion: reduce)").matches||matchMedia("(min-width:900px)").matches))return;var g=document.getElementById("gallows");if(g.animate){g.getAnimations().forEach(function(a){if(a.effect&&a.effect.target===g)a.cancel()});g.animate([{transform:"translateX(0)"},{transform:"translateX(-3px)"},{transform:"translateX(3px)"},{transform:"translateX(-2px)"},{transform:"translateX(0)"}],{duration:320,easing:"cubic-bezier(.36,.07,.19,.97)"});return}g.classList.remove("shake");setTimeout(function(){g.classList.add("shake")},0)}
@@ -516,7 +516,7 @@ function submitTyped(){var inp=typed;var v=inp.value.trim().toLowerCase();
  inp.value="";
  if(v.length===1){guess(v);return}
  if(v===word){word.split("").forEach(function(c){if(!guessed[c]){guessed[c]=true;var k=document.getElementById("k"+c);k.disabled=true;k.className="ok"}});render();finish(true)}
- else{wrong++;render();statusEl.textContent="Нет, это не «"+v+"» (−попытка)";statusEl.style.color="var(--bad)";if(wrong>=MAX_WRONG)finish(false)}
+ else if(wrongWords[v]){statusEl.textContent="Это слово уже проверяли — попробуйте другое";statusEl.style.color="var(--bad)"}else{wrongWords[v]=true;wrong++;render();statusEl.textContent="Нет, это не «"+v+"» (−попытка)";statusEl.style.color="var(--bad)";if(wrong>=MAX_WRONG)finish(false)}
 }
 function clearTimer(){if(timerId){clearInterval(timerId);timerId=null}}
 function drawClock(){var c=document.getElementById("clock");c.textContent=timerId?"⏱ "+tleft+" с":"";c.style.color=tleft<=10?"var(--bad)":""}
@@ -532,7 +532,7 @@ function renderReview(){var r=document.getElementById("review");r.textContent=""
   var b=document.createElement("button");b.type="button";b.textContent="Тренировать самые сложные";b.onclick=function(){practice=true;start()};r.appendChild(b);
  }
 }
-try{var sv=localStorage.getItem("hm-stats");if(sv)stats=JSON.parse(sv)}catch(err){}
+try{var sv=localStorage.getItem("hm-stats"),parsed=sv?JSON.parse(sv):null;if(parsed&&typeof parsed==="object"&&!Array.isArray(parsed)){["w","l","s","b"].forEach(function(k){var n=Number(parsed[k]);stats[k]=Number.isFinite(n)&&n>=0?Math.floor(n):0})}}catch(err){stats={w:0,l:0,s:0,b:0}}
 function saveStats(){try{localStorage.setItem("hm-stats",JSON.stringify(stats))}catch(err){}}
 function showStats(){var el=document.getElementById("stats");el.textContent="";
  [["Победы",stats.w,"win"],["Поражения",stats.l,"loss"],["Серия",stats.s,"streak"],["Рекорд",stats.b,"best"]].forEach(function(c){
@@ -552,7 +552,7 @@ var kb=document.getElementById("kb"),wordEl=document.getElementById("word"),stat
 function start(){
  var P=pool(),i;var fresh=P.filter(function(w){return !usedWords[w[0]]});if(!fresh.length){P.forEach(function(w){delete usedWords[w[0]]});fresh=P.slice()}
  var pick=fresh[Math.floor(Math.random()*fresh.length)];i=P.indexOf(pick);usedWords[pick[0]]=1;last=pick[0];
- var e=P[i];cur=e;word=e[0];hint=document.getElementById("hintmode").value==="en"?"Hint: "+e[2]:"Подсказка: "+e[1];guessed={};wrong=0;over=false;
+ var e=P[i];cur=e;word=e[0];hint=document.getElementById("hintmode").value==="en"?"Hint: "+e[2]:"Подсказка: "+e[1];guessed={};wrong=0;wrongWords={};over=false;
  document.getElementById("hint").textContent=hint;
  kb.innerHTML="";
  "qwertyuiopasdfghjklzxcvbnm".split("").forEach(function(c){
