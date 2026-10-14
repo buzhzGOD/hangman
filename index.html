@@ -358,6 +358,17 @@ main{width:100%;max-width:760px;min-width:0;margin-inline:auto;padding:clamp(8px
 @media(min-width:700px){main{max-width:980px;padding:24px 28px 48px}.topbar{flex-wrap:nowrap;justify-content:space-between}#stats{flex:1 1 auto;width:auto;grid-template-columns:repeat(4,minmax(0,1fr))}#themebtn{flex:0 0 auto}.card{padding:clamp(16px,2vw,28px)}#gallows{max-height:42vh;width:min(100%,620px)}#kb{max-width:620px;margin-inline:auto}#kb button{height:clamp(42px,5vw,54px);font-size:1rem}}
 @media(max-width:380px){main{padding-inline:6px}.topbar{gap:5px}.st{padding:4px 1px}.st span{font-size:.46rem}#hint{max-width:100%;white-space:normal}}
 
+/* Gboard-inspired consistent key legends */
+#kb button{
+  font-family:Roboto,"Arial",sans-serif!important;
+  font-size:18px!important;
+  font-weight:500!important;
+  line-height:1!important;
+  font-variant-ligatures:none;
+  text-transform:uppercase;
+}
+@media(max-width:360px){#kb button{font-size:16px!important}}
+
 /* Uniform on-screen keyboard typography */
 #kb button{
   font-family:inherit;
