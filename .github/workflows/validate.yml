@@ -22,3 +22,5 @@ jobs:
           node-version: 20
       - name: Run smoke tests
         run: node scripts/smoke-test.mjs
+      - name: Run static mobile audit
+        run: node scripts/mobile-audit.mjs
