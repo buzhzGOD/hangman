@@ -451,6 +451,15 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
  #kb button{height:36px;border-radius:9px}
 }
 
+/* Mobile tap-target safety: keep keyboard keys comfortably tappable on narrow phones. */
+@media(max-width:380px){
+ #kb button{height:44px;min-height:44px;border-radius:10px}
+ #kb .krow{gap:4px}
+}
+@media(max-width:360px){
+ #kb button{height:44px;min-height:44px;font-size:16px!important}
+}
+
 </style>
 </head>
 <body>
