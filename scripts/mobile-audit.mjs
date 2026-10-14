@@ -3,7 +3,7 @@ import fs from "node:fs";
 const html = fs.readFileSync("index.html", "utf8");
 const fail = (message) => { console.error(`FAIL: ${message}`); process.exitCode = 1; };
 const pass = (message) => console.log(`PASS: ${message}`);
-const requireMatch = (label, pattern) => pattern.test(html) ? pass(label) : fail(label);
+const requireMatch = (label, pattern) => (typeof pattern === "boolean" ? pattern : pattern.test(html)) ? pass(label) : fail(label);
 
 requireMatch("Viewport allows device-width and initial scale", /<meta\s+name=["']viewport["'][^>]*width=device-width[^>]*initial-scale=1/i);
 requireMatch("Viewport does not disable user zoom", !/<meta\s+name=["']viewport["'][^>]*(?:user-scalable\s*=\s*no|maximum-scale\s*=\s*[0-4](?:\.\d+)?)/i);
