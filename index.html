@@ -288,6 +288,9 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 :root[data-theme="light"] .acts button,:root[data-theme="light"] #review button{color:var(--accent)}
 :root[data-theme="light"] #sndbtn,:root[data-theme="light"] #resetbtn{color:var(--fg);background:var(--card);border-color:var(--line);opacity:1}
 :root[data-theme="light"] #sndbtn:disabled{color:#64748b;background:rgba(255,255,255,.55);border-color:#cbd5e1;opacity:1}
+/* Keep utility button labels readable even when the control is disabled. */
+html[data-theme="light"] body #sndbtn,html[data-theme="light"] body #resetbtn{color:#172033!important;background:#fff!important;border:1px solid #aeb8d0!important;opacity:1!important;text-shadow:none!important}
+html[data-theme="light"] body #sndbtn:disabled{color:#475569!important;background:#f1f5f9!important;border-color:#aeb8d0!important;opacity:1!important}
 .top-actions{display:flex;align-items:center;gap:8px}
 #themebtn{padding:9px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--fg);font:700 .82rem system-ui,-apple-system,"Segoe UI",sans-serif;cursor:pointer;white-space:nowrap}
 #themebtn:active{transform:translateY(1px)}
