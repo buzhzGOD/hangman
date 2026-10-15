@@ -6,7 +6,7 @@ const pass = (message) => console.log(`PASS: ${message}`);
 const requireMatch = (label, pattern) => (typeof pattern === "boolean" ? pattern : pattern.test(html)) ? pass(label) : fail(label);
 
 requireMatch("Viewport allows device-width and initial scale", /<meta\s+name=["']viewport["'][^>]*width=device-width[^>]*initial-scale=1/i);
-requireMatch("Viewport does not disable user zoom", !/<meta\s+name=["']viewport["'][^>]*content=["'][^"']*(?:user-scalable\s*=\s*no|maximum-scale\s*=\s*[0-4](?:\.\d+)?)/i);
+requireMatch("Viewport does not disable user zoom", (() => { const viewport = html.match(/<meta\\s+name=["']viewport["'][^>]*content=["']([^"']*)/i)?.[1] ?? ""; return !/(?:user-scalable\\s*=\\s*no|maximum-scale\\s*=\\s*[0-4](?:\\.\\d+)?)/i.test(viewport); })());
 requireMatch("Safe-area viewport support", /viewport-fit=cover/i);
 requireMatch("Horizontal overflow is guarded", /html,body\s*\{[^}]*overflow-x:\s*(?:clip|hidden)/s);
 requireMatch("Responsive small-phone breakpoint exists", /@media\s*\(max-width:\s*360px\)/);
