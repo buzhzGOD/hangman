@@ -482,6 +482,49 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
  #gallows{max-height:38vh}
  #review{margin-top:6px}
 }
+
+/* Compact landscape play: keep the game board and controls in one viewport. */
+@media (orientation: landscape) and (max-height: 500px) and (max-width: 900px) {
+  main{max-width:100%;padding:6px 12px 10px}
+  .topbar{justify-content:space-between;flex-wrap:nowrap;gap:10px;margin-bottom:6px}
+  #stats{flex:1 1 auto;width:auto;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+  .st{padding:3px 4px}
+  .st b{font-size:.9rem}
+  .st span{font-size:.48rem}
+  .top-actions{flex:0 0 auto;display:flex;gap:6px;align-items:center}
+  #themebtn{min-height:38px;padding:6px 9px;font-size:.78rem}
+  #setbtn{width:40px;height:40px;min-width:40px;min-height:40px}
+  .ctl:not([hidden]){grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-bottom:6px}
+  .ctl .sel select{min-height:38px;padding:17px 18px 4px 8px;font-size:.72rem}
+  .sel span{top:5px;left:8px;font-size:.52rem}
+  #sndbtn,#resetbtn{min-height:38px;padding:5px 8px;font-size:.68rem}
+  .card{
+    display:grid;
+    grid-template-columns:minmax(120px,.72fr) minmax(0,1.28fr);
+    grid-template-rows:auto auto auto auto auto auto;
+    align-items:center;
+    column-gap:12px;
+    row-gap:4px;
+    padding:8px 10px;
+    margin-bottom:6px;
+  }
+  #gallows{grid-column:1;grid-row:1 / span 4;width:auto;height:auto;max-height:30vh;max-width:100%;aspect-ratio:250 / 176}
+  #word{grid-column:2;grid-row:1;margin:0;min-height:1.8rem;gap:3px}
+  .tile{width:clamp(16px,3.4vw,25px);height:1.8rem;line-height:1.8rem;font-size:1rem}
+  #hint{grid-column:2;grid-row:2;margin:0;padding:4px 8px;font-size:.72rem;max-width:100%}
+  #status{grid-column:2;grid-row:3;font-size:.8rem}
+  #attempts{grid-column:2;grid-row:4;font-size:.7rem}
+  .typebox{grid-column:2;grid-row:5;margin:0;gap:5px}
+  .typebox input{padding:7px 10px;min-height:38px}
+  .typebox button{height:38px;min-height:38px;flex-basis:38px;min-width:38px}
+  #kb{grid-column:1 / -1;grid-row:6;display:flex;flex-direction:column;gap:3px;max-width:100%;margin:2px 0 0}
+  #kb .krow{gap:4px}
+  #kb button{height:clamp(30px,6.2vh,38px);min-height:30px;font-size:clamp(14px,2.2vh,17px)}
+  #again{grid-column:1 / -1;grid-row:7;min-height:40px;padding:8px;margin-top:3px}
+  #info{grid-column:1 / -1;grid-row:8;margin-top:3px;padding:5px 8px;font-size:.72rem}
+  #review{margin-top:5px;padding:6px 8px}
+}
+
 </style>
 </head>
 <body>
