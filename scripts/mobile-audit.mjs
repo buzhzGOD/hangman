@@ -13,6 +13,7 @@ requireMatch("Responsive small-phone breakpoint exists", /@media\s*\(max-width:\
 requireMatch("Phone and tablet breakpoint exists", /@media\s*\(min-width:\s*600px\)/);
 requireMatch("Desktop breakpoint exists", /@media\s*\(min-width:\s*900px\)/);
 requireMatch("Landscape short-screen layout exists", /@media\s*\(orientation:\s*landscape\)\s*and\s*\(max-height:\s*500px\)/);
+requireMatch("Landscape layout uses a compact two-column game view", /@media\s*\(orientation:\s*landscape\)[\s\S]*?main\s*\{[^}]*display:\s*grid[\s\S]*?\.card\s*\{[^}]*grid-column:\s*1/s);
 requireMatch("Reduced-motion preference is respected", /prefers-reduced-motion:\s*reduce/);
 requireMatch("Visible keyboard focus styles exist", /button:focus-visible,select:focus-visible,input:focus-visible\s*\{[^}]*outline/s);
 requireMatch("On-screen keyboard touch action is optimized", /#kb button\s*\{[^}]*touch-action:\s*manipulation/s);
