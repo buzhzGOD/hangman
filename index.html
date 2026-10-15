@@ -236,14 +236,10 @@ button{white-space:nowrap}
 #gallows.win #man{animation:none;transform:rotate(0);transition:transform .35s ease-out}
 #gallows.win #confetti rect{animation-iteration-count:1;animation-timing-function:cubic-bezier(.22,.61,.36,1)}
 #gallows.win #crowd .cp{animation-iteration-count:3;animation-timing-function:ease-in-out}
-/* On desktop keep the illustration completely stable: SVG transforms can look like jerky sprites on some graphics drivers. */
+/* Keep desktop effects enabled; reduced-motion preferences are handled separately. */
 @media (min-width:900px){
  body{background-attachment:scroll}
  .card,.typebox input{-webkit-backdrop-filter:none;backdrop-filter:none}
- #gallows,#gallows *{animation:none!important}
- #gallows .part,#gallows #exec,#gallows #exarm,#gallows .noose{transition:opacity .2s ease-out!important}
- #gallows.lost #body,#gallows.lost #rope,#gallows.lost #lever,#gallows.lost #exarm,#gallows.lost #trapdoor,#gallows.lost #p5,#gallows.lost #p6,#gallows.win #rope,#gallows.win #p3,#gallows.win #p4{transform:none!important}
- #gallows.win #confetti{display:none}
 }
 @media (prefers-reduced-motion:reduce){#gallows *,#gallows{animation:none!important;transition:none!important}#gallows.lost #body{transform:translateY(18px)}#gallows.lost #rope{transform:scaleY(2.125)}#gallows.win #rope{transform:scaleY(.35)}#gallows.win #confetti{display:none}}
 @media (min-width:900px){
@@ -741,7 +737,7 @@ function pool0(){if(practice){var m=WORDS.filter(function(w){return missed[w[0]]
 var MAX_WRONG=3,word,hint,guessed,wrong,over,last=-1,cur,wrongWords={},stats={w:0,l:0,s:0,b:0};
 var timerId=null,tleft=0,practice=false,missed={},resetArmed=false;
 try{var storedMissed=JSON.parse(localStorage.getItem("hm-missed")||"{}");if(Array.isArray(storedMissed)){storedMissed.forEach(function(w){if(typeof w==="string")missed[w]={attempts:1}})}else if(storedMissed&&typeof storedMissed==="object"){Object.keys(storedMissed).forEach(function(w){var item=storedMissed[w],count=item&&Number(item.attempts);if(Number.isFinite(count)&&count>0)missed[w]={attempts:Math.floor(count)}})}}catch(err){missed={}}
-function shake(){if(window.matchMedia&&(matchMedia("(prefers-reduced-motion: reduce)").matches||matchMedia("(min-width:900px)").matches))return;var g=document.getElementById("gallows");if(g.animate){g.getAnimations().forEach(function(a){if(a.effect&&a.effect.target===g)a.cancel()});g.animate([{transform:"translateX(0)"},{transform:"translateX(-3px)"},{transform:"translateX(3px)"},{transform:"translateX(-2px)"},{transform:"translateX(0)"}],{duration:320,easing:"cubic-bezier(.36,.07,.19,.97)"});return}g.classList.remove("shake");setTimeout(function(){g.classList.add("shake")},0)}
+function shake(){if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return;var g=document.getElementById("gallows");if(g.animate){g.getAnimations().forEach(function(a){if(a.effect&&a.effect.target===g)a.cancel()});g.animate([{transform:"translateX(0)"},{transform:"translateX(-3px)"},{transform:"translateX(3px)"},{transform:"translateX(-2px)"},{transform:"translateX(0)"}],{duration:320,easing:"cubic-bezier(.36,.07,.19,.97)"});return}g.classList.remove("shake");setTimeout(function(){g.classList.add("shake")},0)}
 var usedWords={},soundOn=true,AC=null;
 try{soundOn=localStorage.getItem("hm-snd")!=="0"}catch(err){}
 function tone(f,t0,d,type,vol){var n=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();o.type=type||"sine";o.frequency.value=f;g.gain.setValueAtTime(0.0001,n+t0);g.gain.linearRampToValueAtTime(vol||.15,n+t0+.01);g.gain.exponentialRampToValueAtTime(.0001,n+t0+d);o.connect(g);g.connect(AC.destination);o.start(n+t0);o.stop(n+t0+d+.02)}
