@@ -6,7 +6,7 @@ const pass = (message) => console.log(`PASS: ${message}`);
 const requireMatch = (label, pattern) => (typeof pattern === "boolean" ? pattern : pattern.test(html)) ? pass(label) : fail(label);
 
 requireMatch("Viewport allows device-width and initial scale", /<meta\s+name=["']viewport["'][^>]*width=device-width[^>]*initial-scale=1/i);
-requireMatch("Viewport does not disable user zoom", (() => { const viewport = html.match(/<meta\\s+name=["']viewport["'][^>]*content=["']([^"']*)/i)?.[1] ?? ""; return !/(?:user-scalable\\s*=\\s*no|maximum-scale\\s*=\\s*[0-4](?:\\.\\d+)?)/i.test(viewport); })());
+requireMatch("Viewport does not disable user zoom", (() => { const viewport = html.match(/<meta\s+name=["']viewport["'][^>]*content=["']([^"']*)/i)?.[1] ?? ""; return !/(?:user-scalable\s*=\s*no|maximum-scale\s*=\s*[0-4](?:\.\d+)?)/i.test(viewport); })());
 requireMatch("Safe-area viewport support", /viewport-fit=cover/i);
 requireMatch("Horizontal overflow is guarded", /html,body\s*\{[^}]*overflow-x:\s*(?:clip|hidden)/s);
 requireMatch("Responsive small-phone breakpoint exists", /@media\s*\(max-width:\s*360px\)/);
@@ -24,7 +24,7 @@ requireMatch("Select controls have 44px phone target", /@media\s*\(max-width:\s*
 requireMatch("Typing action controls have 44px phone target", /@media\s*\(max-width:\s*600px\)[\s\S]*?\.typebox button\s*\{[^}]*min-height:\s*44px/s);
 requireMatch("Restart action has 48px phone target", /@media\s*\(max-width:\s*600px\)[\s\S]*?#again\s*\{[^}]*min-height:\s*48px/s);
 requireMatch("Text entry retains mobile-friendly 16px font", /\.typebox input\s*\{[^}]*font-size:\s*16px/s);
-requireMatch("Theme and keyboard controls have accessible names", /id=["']themebtn["'][^>]*aria-label=/i && /id=["']setbtn["'][^>]*aria-label=/i);
+requireMatch("Theme and keyboard controls have accessible names", /id=["\']themebtn["\'][^>]*aria-label=/i.test(html) && /id=["\']setbtn["\'][^>]*aria-label=/i.test(html));
 
 if (process.exitCode) process.exit(1);
 console.log("Static mobile audit checks passed. These checks inspect source; they do not replace browser/device testing.");
