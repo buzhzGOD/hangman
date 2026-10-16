@@ -112,6 +112,15 @@ for (const [label, pattern] of responsiveChecks) {
   else fail(`Responsive UI check missing: ${label}`);
 }
 
+
+/* Game-logic guardrails: keep hint availability tied to the configured attempt limit. */
+const gameScript = scriptBlocks.join("\n");
+if (/var\s+MAX_WRONG\s*=\s*\d+/.test(gameScript) && /if\(over\s*\|\|\s*wrong\s*>=\s*MAX_WRONG\s*-\s*1\)\s*return/.test(gameScript)) {
+  pass("Hint action respects configured attempt limit");
+} else {
+  fail("Hint action must respect configured attempt limit");
+}
+
 if (process.exitCode) {
   console.error("Smoke tests failed.");
   process.exit(1);
