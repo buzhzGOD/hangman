@@ -382,6 +382,77 @@ main{width:100%;max-width:760px;min-width:0;margin-inline:auto;padding:clamp(8px
   #kb button{font-size:15px}
 }
 
+
+/* Liquid-glass interaction layer: preserve the existing theme colors. */
+button{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  -webkit-backdrop-filter:blur(14px) saturate(135%);
+  backdrop-filter:blur(14px) saturate(135%);
+  transition:transform .18s cubic-bezier(.2,.8,.2,1),
+    box-shadow .22s ease,border-color .22s ease,filter .22s ease,
+    background-color .22s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+#kb button,.typebox button,#again,.acts button,#review button,
+#themebtn,#setbtn,#sndbtn,#resetbtn{
+  border:1px solid rgba(255,255,255,.2);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.3),
+    inset 0 -1px 0 rgba(0,0,0,.08),0 5px 14px rgba(0,0,0,.12);
+}
+#kb button::before,.typebox button::before,#again::before,
+.acts button::before,#review button::before,#themebtn::before,
+#setbtn::before,#sndbtn::before,#resetbtn::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.22),transparent 48%,rgba(255,255,255,.035));
+  opacity:.8;
+  transition:opacity .2s ease;
+}
+#kb button:hover:not(:disabled),.typebox button:hover:not(:disabled),
+#again:hover:not(:disabled),.acts button:hover:not(:disabled),
+#review button:hover:not(:disabled),#themebtn:hover:not(:disabled),
+#setbtn:hover:not(:disabled),#sndbtn:hover:not(:disabled),
+#resetbtn:hover:not(:disabled){
+  transform:translateY(-2px);
+  filter:brightness(1.045);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.38),
+    0 9px 22px rgba(0,0,0,.16);
+}
+#kb button:active:not(:disabled),.typebox button:active:not(:disabled),
+#again:active:not(:disabled),.acts button:active:not(:disabled),
+#review button:active:not(:disabled),#themebtn:active:not(:disabled),
+#setbtn:active:not(:disabled),#sndbtn:active:not(:disabled),
+#resetbtn:active:not(:disabled){
+  transform:translateY(1px) scale(.975);
+  filter:brightness(.98);
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.12);
+  transition-duration:.08s;
+}
+button:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+}
+button:disabled{filter:saturate(.7);box-shadow:none}
+#kb button.ok{box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 4px 12px rgba(0,0,0,.12)}
+#kb button.bad{box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+.typebox button,#again{border-color:rgba(255,255,255,.34)}
+#setbtn{display:inline-grid;place-items:center;width:auto;min-width:40px;padding:0 12px;font-size:.82rem;font-weight:700}
+#submitguess{flex:0 0 auto;min-width:78px}
+#hintbtn,#speak{flex:0 0 auto;padding:0 12px;font-size:.82rem;font-weight:700}
+@media (prefers-reduced-motion:reduce){
+  button,button::before{transition:none!important}
+  #kb button:hover:not(:disabled),.typebox button:hover:not(:disabled),
+  #again:hover:not(:disabled),.acts button:hover:not(:disabled),
+  #review button:hover:not(:disabled),#themebtn:hover:not(:disabled),
+  #setbtn:hover:not(:disabled),#sndbtn:hover:not(:disabled),
+  #resetbtn:hover:not(:disabled){transform:none}
+}
+
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -515,13 +586,13 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 <main>
 
 
-<div class="topbar"><div id="stats"></div><div class="top-actions"><button id="themebtn" type="button" aria-label="Включить светлую тему" title="Переключить тему">☀️ Светлая тема</button><button id="setbtn" type="button" aria-label="Настройки" title="Настройки">⚙️</button></div></div>
+<div class="topbar"><div id="stats"></div><div class="top-actions"><button id="themebtn" type="button" aria-label="Включить светлую тему" title="Переключить тему">Светлая тема</button><button id="setbtn" type="button" aria-label="Настройки" title="Настройки">Настройки</button></div></div>
 <div class="ctl" id="settings" hidden>
 <label class="sel"><span>Сложность</span><select id="level" aria-label="Уровень"><option value="all">Все</option><option value="easy">Лёгкий</option><option value="mid">Средний</option><option value="hard">Сложный</option></select></label>
 <label class="sel"><span>Таймер</span><select id="timer" aria-label="Режим"><option value="off">Выкл</option><option value="60">60 сек</option><option value="30">30 сек</option></select></label>
 <label class="sel wide"><span>Тема</span><select id="topic" aria-label="Тема"><option value="all">Все темы</option><option value="film">🎬 Кино</option><option value="series">📺 Сериалы</option><option value="music">🎵 Музыка</option><option value="travel">✈️ Путешествия</option><option value="food">🍕 Еда</option><option value="tech">💻 Технологии</option><option value="nature">🌿 Природа</option><option value="sport">⚽ Спорт</option><option value="work">🎓 Работа и учёба</option><option value="medieval">🏰 Средневековье</option><option value="home">🏠 Дом и быт</option><option value="body">🩺 Тело и здоровье</option><option value="clothes">👕 Одежда</option><option value="city">🏙️ Город и транспорт</option><option value="feel">💭 Чувства и характер</option><option value="animals">🐾 Животные</option><option value="jobs">💼 Профессии</option><option value="party">🎉 Праздники</option><option value="weather">🌦️ Погода</option><option value="hobby">🎨 Хобби и досуг</option><option value="speech">🔤 Английский и речь</option><option value="verbs">🏃 Глаголы</option><option value="adj">🌈 Цвета и качества</option></select></label>
 <label class="sel"><span>Подсказка</span><select id="hintmode" aria-label="Подсказка"><option value="ru">По-русски</option><option value="en">English</option></select></label>
-<button id="sndbtn" type="button">🔊 Звук: вкл</button>
+<button id="sndbtn" type="button">Звук: вкл</button>
 <button id="resetbtn" type="button">Сбросить статистику</button>
 </div>
 <div class="card">
@@ -656,7 +727,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 
 </div>
 
-<div class="typebox"><input id="typed" type="text" autocomplete="off" enterkeyhint="go" autocapitalize="off" spellcheck="false" aria-label="Введите букву или слово"><button id="submitguess" type="button" title="Проверить слово" aria-label="Проверить введённое слово">↵</button><button id="hintbtn" type="button" title="Открыть букву (−1 попытка)" aria-label="Открыть букву">💡</button><button id="speak" type="button" hidden title="Послушать слово" aria-label="Послушать слово">🔊</button></div>
+<div class="typebox"><input id="typed" type="text" autocomplete="off" enterkeyhint="go" autocapitalize="off" spellcheck="false" aria-label="Введите букву или слово"><button id="submitguess" type="button" title="Проверить слово" aria-label="Проверить введённое слово">Проверить</button><button id="hintbtn" type="button" title="Открыть букву (−1 попытка)" aria-label="Открыть букву">Подсказка</button><button id="speak" type="button" hidden title="Послушать слово" aria-label="Послушать слово">Слушать</button></div>
 <div id="kb"></div>
 
 <button id="again" hidden>Продолжить</button>
@@ -668,7 +739,7 @@ var themeBtn=document.getElementById("themebtn");
 function applyTheme(theme){
  var chosen=theme==="light"?"light":"dark";
  document.documentElement.setAttribute("data-theme",chosen);
- themeBtn.textContent=chosen==="dark"?"☀️ Светлая тема":"🌙 Тёмная тема";
+ themeBtn.textContent=chosen==="dark"?"Светлая тема":"Тёмная тема";
  themeBtn.setAttribute("aria-label",chosen==="dark"?"Включить светлую тему":"Включить тёмную тему");
  themeBtn.title=chosen==="dark"?"Переключить на светлую тему":"Переключить на тёмную тему";
  try{localStorage.setItem("hm-theme",chosen)}catch(err){}
@@ -833,7 +904,7 @@ document.addEventListener("keydown",function(e){
 });
 again.onclick=start;
 if(window.matchMedia&&matchMedia("(min-width:900px)").matches)document.getElementById("settings").hidden=false;
-var sb=document.getElementById("sndbtn");function updSnd(){sb.textContent=soundOn?"🔊 Звук: вкл":"🔇 Звук: выкл"}updSnd();
+var sb=document.getElementById("sndbtn");function updSnd(){sb.textContent=soundOn?"Звук: вкл":"Звук: выкл"}updSnd();
 sb.onclick=function(){soundOn=!soundOn;try{localStorage.setItem("hm-snd",soundOn?"1":"0")}catch(err){}updSnd();if(soundOn)sfx("ok")};
 try{var sv2=JSON.parse(localStorage.getItem("hm-set")||"{}");SET_IDS.forEach(function(id){var el=document.getElementById(id);if(sv2[id]&&[].some.call(el.options,function(op){return op.value===sv2[id]}))el.value=sv2[id]})}catch(err){}
 document.getElementById("hintbtn").onclick=function(){
