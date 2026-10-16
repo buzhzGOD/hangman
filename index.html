@@ -837,7 +837,7 @@ var sb=document.getElementById("sndbtn");function updSnd(){sb.textContent=soundO
 sb.onclick=function(){soundOn=!soundOn;try{localStorage.setItem("hm-snd",soundOn?"1":"0")}catch(err){}updSnd();if(soundOn)sfx("ok")};
 try{var sv2=JSON.parse(localStorage.getItem("hm-set")||"{}");SET_IDS.forEach(function(id){var el=document.getElementById(id);if(sv2[id]&&[].some.call(el.options,function(op){return op.value===sv2[id]}))el.value=sv2[id]})}catch(err){}
 document.getElementById("hintbtn").onclick=function(){
- if(over||wrong>=5)return;
+ if(over||wrong>=MAX_WRONG-1)return;
  var left=word.split("").filter(function(c){return !guessed[c]});
  if(!left.length)return;
  var c=left[Math.floor(Math.random()*left.length)];
