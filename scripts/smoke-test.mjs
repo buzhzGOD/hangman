@@ -121,6 +121,24 @@ if (/var\s+MAX_WRONG\s*=\s*\d+/.test(gameScript) && /if\(over\s*\|\|\s*wrong\s*>
   fail("Hint action must respect configured attempt limit");
 }
 
+
+/* Regression checks for game state, persistence, and desktop animations. */
+const css = html.match(/<style\b[^>]*>([\s\S]*?)<\/style/i)?.[1] ?? "";
+const gameChecks = [
+  ["wrong guesses are tracked and capped", /wrong\+\+[\s\S]{0,180}wrong>=MAX_WRONG/.test(gameScript)],
+  ["duplicate wrong words do not consume another attempt", /wrongWords\[v\][\s\S]{0,160}wrong\+\+/.test(gameScript)],
+  ["game completion clears the timer", /function finish\(won\)[\s\S]{0,1200}clearTimer\(\)/.test(gameScript)],
+  ["statistics are persisted", /function saveStats\(\)[\s\S]{0,180}localStorage\.setItem\(["\x27]hm-stats["\x27]/.test(gameScript)],
+  ["missed words are persisted", /function updateMissed\(won\)[\s\S]{0,300}localStorage\.setItem\(["\x27]hm-missed["\x27]/.test(gameScript)],
+  ["desktop animations are not globally disabled", !/@media\s*\(min-width:\s*900px\)\s*\{[^}]*#gallows\s*,\s*#gallows\s*\*/s.test(css)],
+  ["win animation includes confetti", /#gallows\.win\s+#confetti\s+rect\s*\{[^}]*animation:/s.test(css)],
+  ["loss animation includes body drop", /#gallows\.lost\s+#body\s*\{[^}]*animation:/s.test(css)],
+];
+for (const [label, ok] of gameChecks) {
+  if (ok) pass(`Game regression: ${label}`);
+  else fail(`Game regression check failed: ${label}`);
+}
+
 if (process.exitCode) {
   console.error("Smoke tests failed.");
   process.exit(1);
