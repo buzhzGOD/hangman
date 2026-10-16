@@ -24,7 +24,7 @@ requireMatch("Select controls have 44px phone target", /@media\s*\(max-width:\s*
 requireMatch("Typing action controls have 44px phone target", /@media\s*\(max-width:\s*600px\)[\s\S]*?\.typebox button\s*\{[^}]*min-height:\s*44px/s);
 requireMatch("Restart action has 48px phone target", /@media\s*\(max-width:\s*600px\)[\s\S]*?#again\s*\{[^}]*min-height:\s*48px/s);
 requireMatch("Text entry retains mobile-friendly 16px font", /\.typebox input\s*\{[^}]*font-size:\s*16px/s);
-requireMatch("Theme and keyboard controls have accessible names", /id=["']themebtn["'][^>]*aria-label=/i && /id=["']setbtn["'][^>]*aria-label=/i);
+requireMatch("Theme and keyboard controls have accessible names", /id=["\']themebtn["\'][^>]*aria-label=/i.test(html) && /id=["\']setbtn["\'][^>]*aria-label=/i.test(html));
 
 if (process.exitCode) process.exit(1);
 console.log("Static mobile audit checks passed. These checks inspect source; they do not replace browser/device testing.");
